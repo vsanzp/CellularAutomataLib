@@ -1,0 +1,17 @@
+eqmodel
+diffeqmodel
+HPPSIR
+FHPSIR
+FHPOutputS
+FHPOutputI
+FHPOutputR
+HPPOutputS
+HPPOutputI
+HPPOutputR
+TaskA
+FHPSIRfull
+FHPSIRhalf
+FHPSIRborder
+TaskB
+FHPSIRRearrange
+TaskC
