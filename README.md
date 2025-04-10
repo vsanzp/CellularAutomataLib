@@ -79,4 +79,4 @@ These models can serve to validate any modification performed to the library, ei
 
 If you'd like to contribute, please fork the repository and use a feature branch. Pull requests are warmly welcome.
 
-Please, do not hesitate to contact me for any question regarding the library ([vsanz@dia.uned.es](vsanz@dia.uned.es).
+Please, do not hesitate to contact me for any question regarding the library ([vsanz@dia.uned.es](mailto:vsanz@dia.uned.es)).
