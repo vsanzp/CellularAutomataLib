@@ -17,9 +17,9 @@ Juan del Rosal, 16
 
 Spain
 
-Email: [vsanz@dia.uned.es](vsanz@dia.unes.es)
+Email: [vsanz@dia.uned.es](mailto:vsanz@dia.unes.es)
 
-Website: [www.euclides.dia.uned.es/vsanz](www.euclides.dia.uned.es/vsanz) 
+Website: [www.euclides.dia.uned.es/vsanz](http://www.euclides.dia.uned.es/vsanz) 
 
 ## Licensing:
 
