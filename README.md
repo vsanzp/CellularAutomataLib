@@ -34,11 +34,11 @@ You have received a copy of the GNU Lesser General Public License along with thi
 
 ## Installation:
 
-*CellularAutomataLib* is an autonomous Modelica library that has been tested under Dymola and OpenModelica. The functionality included in the library to generate graphical animations and save them as H264 videos depends on [Raylib](www.raylib.com) and [FFMPEG](www.ffmpeg.org), that need to be installed together with the library. Both are freely distributed under the *zlib/libpng* and *LGPL* licenses, respectively.
+*CellularAutomataLib* is an autonomous Modelica library that has been tested under Dymola and OpenModelica. The functionality included in the library to generate graphical animations and save them as H264 videos depends on [Raylib](https://www.raylib.com) and [FFMPEG](https://www.ffmpeg.org), that need to be installed together with the library. Both are freely distributed under the *zlib/libpng* and *LGPL* licenses, respectively.
 
 #### Raylib:
 
-The installation of [Raylib](www.raylib.com) depends on the platform you are working. Please, consult [Raylib Wiki](https://github.com/raysan5/raylib/wiki) for detailed and updated instructions.
+The installation of [Raylib](https://www.raylib.com) depends on the platform you are working. Please, consult [Raylib Wiki](https://github.com/raysan5/raylib/wiki) for detailed and updated instructions.
 
 Briefly:
 
@@ -50,7 +50,7 @@ Briefly:
 
 *CellularAutomataLib* depends on the `libavformat`, `libavcodec`, `libavutil` and `libswscale`libraries (not the FFMPEG command line program). However, these libraries are distributed together with the ffmpeg program.
 
-Analogous to Raylib, the [FFMPEG download website](www.ffmpeg.org/download.html) includes detailed and updated installation instructions.
+Analogous to Raylib, the [FFMPEG download website](https://www.ffmpeg.org/download.html) includes detailed and updated installation instructions.
 Currently, FFMPEG supports [Linux](https://ffmpeg.org/download.html#build-linux),  [Windows](https://ffmpeg.org/download.html#build-windows) and [MacOS](https://ffmpeg.org/download.html#build-mac).
 
 #### CellularAutomataLib:
