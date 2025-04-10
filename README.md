@@ -55,7 +55,7 @@ Currently, FFMPEG supports [Linux](https://ffmpeg.org/download.html#build-linux)
 
 #### CellularAutomataLib:
 
-[Download](https://github.com/vsanzp/CellularAutomataLib/archive/refs/heads/main.zip) or [clone](https://github.com/vsanzp/CellularAutomataLib.git)) this repository.
+[Download](https://github.com/vsanzp/CellularAutomataLib/archive/refs/heads/main.zip) or [clone](https://github.com/vsanzp/CellularAutomataLib.git) this repository.
 
 The library is composed of multiple `.mo` files and directories, that contain the Modelica code, and the `Resources` directory, that contains the C code used to perform the simulations and to describe the models. 
 In order to install the library, all these files and directories need to be located inside a single directory (e.g., `CellularAutomataLib/`) in your local workspace. No further installation is required.
