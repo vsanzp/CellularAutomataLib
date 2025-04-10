@@ -8,11 +8,17 @@ It also includes interface models to combine cellular automata with other Modeli
 ## Author:
 
 Victorino Sanz
+
 Dpto. Informática y Automática, UNED
+
 Juan del Rosal, 16
+
 28040, Madrid
+
 Spain
+
 Email: [vsanz@dia.uned.es](vsanz@dia.unes.es)
+
 Website: [www.euclides.dia.uned.es/vsanz](www.euclides.dia.uned.es/vsanz) 
 
 ## Licensing:
