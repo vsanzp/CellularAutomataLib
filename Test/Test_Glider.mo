@@ -1,0 +1,42 @@
+within CellularAutomataLib.Test;
+model Test_Glider
+  Examples.CS_2D.GameOfLife.CSGol_glider cSGol_glider(
+    X=5,
+    Y=5,
+    initial_step=1,
+    init_cells=[1,2; 2,3; 3,1; 3,2; 3,3])
+    annotation (Placement(transformation(extent={{-58,-20},{-38,0}})));
+  Components.OutputRegionM O(
+    XFromRange={2,4},
+    YFromRange={2,4},
+    output_rate=1,
+    redeclare function ExtOutput = GOLOutput)
+    annotation (Placement(transformation(extent={{-56,18},{-36,38}})));
+  constant Integer result[3,3] = [0,1,0; 0,0,1; 1,1,1]; // at step 4
+  Boolean fail( start = false);
+algorithm
+  when terminal() then
+    for i in 1:3 loop
+      for j in 1:3 loop
+        if result[i,j] <> integer(O.yM[i,j,1]) then
+          Modelica.Utilities.Streams.print( "******* -- TEST FAILED on cell["+String(i+O.XFromRange[1]-1)+","+String(j+O.YFromRange[1]-1)+"]: is "+String(O.yM[i,j,1])+" instead of "+String(result[i,j]));
+          fail := true;
+        end if;
+      end for;
+    end for;
+    if not fail then
+        Modelica.Utilities.Streams.print("*******************");
+        Modelica.Utilities.Streams.print("******* -- TEST OK!");
+        Modelica.Utilities.Streams.print("*******************");
+    end if;
+  end when;
+equation
+  connect(cSGol_glider.Space, O.FROM) annotation (Line(points={{-47,1},{-48,1},{
+          -48,14},{-46,14},{-46,28}}, color={0,0,0}));
+  annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
+        coordinateSystem(preserveAspectRatio=false)),
+    Documentation(info="<html>
+<p>This model includes a CSGol_glider model combined with the Animation model in order to generate the graphical animation during the simulation.</p>
+</html>"),
+    experiment(StopTime=4, __Dymola_Algorithm="Dassl"));
+end Test_Glider;

@@ -243,5 +243,13 @@ void RSetInput(void* Fspace, int Fx, int Fy, int Fz, void* Tspace, int Tx, int T
     return;
 }
 
+// returns the state of cell x
+double ROutput(void* space, int x, int y, int z){
+    RState* state;
+
+
+    state = (RState *)CS_GetState(space,x,y,z);
+        return (double) state->v;
+}
 
 #endif

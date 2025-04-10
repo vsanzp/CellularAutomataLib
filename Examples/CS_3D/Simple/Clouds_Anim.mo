@@ -1,11 +1,15 @@
 within CellularAutomataLib.Examples.CS_3D.Simple;
 model Clouds_Anim
-  Clouds1 clouds1_1( X=100,Y=100,Z=100)
+  parameter Integer X= 100;
+  parameter Integer Y= 100;
+  parameter Integer Z= 100;
+
+  Clouds1 clouds1_1( X=X,Y=Y,Z=Z)
     annotation (Placement(transformation(extent={{-40,-20},{-20,0}})));
   Components.Animation animation(
-    WindowX=100,
-    WindowY=100,
-    WindowZ=100,
+    WindowX=X,
+    WindowY=Y,
+    WindowZ=Z,
     redeclare function SetDisplayFunction = CloudsDisplay,
     name="Clouds")
     annotation (Placement(transformation(extent={{2,-20},{22,0}})));

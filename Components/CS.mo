@@ -16,7 +16,7 @@ class CS
   external "C" s = CS_Create(X, Y, Z, hex, neighborhood, n1, n2, n_inputs, wrapped_borders);
     annotation (
       Include = "#include <CellularAutomataLib.c>",
-      Library = "raylib",
+      Library = {"raylib","avformat","avcodec","avutil","swscale"},
       Documentation(info="<html>
 <p>CS constructor function</p>
 </html>"));

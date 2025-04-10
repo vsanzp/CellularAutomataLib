@@ -5,7 +5,9 @@ model Random_Animation
   Components.Animation animation(
     WindowX=100,
     WindowY=100,
-    displayDelay=0,               redeclare function SetDisplayFunction =
+    displayDelay=0,
+    name="GOL_random",
+    save_video=true,              redeclare function SetDisplayFunction =
         GOLSetDisplay)
     annotation (Placement(transformation(extent={{-22,-10},{-2,10}})));
 equation

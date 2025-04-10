@@ -11,7 +11,9 @@ model LBM_Unsteady_Animation
   Components.Animation animation(
     WindowX=X,
     WindowY=Y,
-    displayDelay=10000,                                  redeclare function
+    displayDelay=10000,
+    name="Unsteady",
+    save_video=true,                                     redeclare function
       SetDisplayFunction =                                                                          LBMDisplay)
     annotation (Placement(transformation(extent={{-2,-20},{18,0}})));
 equation

@@ -1,12 +1,12 @@
 within CellularAutomataLib.Examples.CS_1D;
 model CSR30_Animation
-  CSR30 cSR30_1(initial_step=0)
+  CSR30 cSR30_1(initial_step=1)
     annotation (Placement(transformation(extent={{-60,0},{-40,20}})));
   Components.Animation animation(
     initial_step=0,
     WindowX=100,
     WindowY=100,
-    name="Wolfram R30",
+    name="WolframR30",
   redeclare function SetDisplayFunction = RSetDisplay)
     annotation (Placement(transformation(extent={{-20,0},{0,20}})));
 equation

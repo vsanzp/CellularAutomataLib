@@ -1,0 +1,13 @@
+# ignore simulation files and logs
+buildlog.txt
+dsfinal.txt
+dsin.txt
+dslog.txt
+dsmodel.c
+dymosim
+
+# ignore output files (.mat)
+*.mat
+
+# ignore saved videos
+*.mp4

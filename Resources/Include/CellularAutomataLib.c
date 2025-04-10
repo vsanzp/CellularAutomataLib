@@ -27,6 +27,9 @@ program. If not, see <https://www.gnu.org/licenses/>.
 #define CELLULARAUTOMATALIB
 
 #define OFFSET 10
+#define STREAM_FRAME_RATE 30
+#define STREAM_PIX_FMT  AV_PIX_FMT_YUV420P /* default pix_fmt */
+#define SCALE_FLAGS SWS_BICUBIC
 
 #include <unistd.h>
 #include <stdio.h>
@@ -34,11 +37,20 @@ program. If not, see <https://www.gnu.org/licenses/>.
 #include <sys/time.h>
 #include <raylib.h>
 
+//#include <string.h>
+
+#include <libavformat/avformat.h>
+#include <libavcodec/avcodec.h>
+#include <libavutil/opt.h>
+#include <libavutil/imgutils.h>
+#include <libswscale/swscale.h>
+
+#include <libavutil/timestamp.h>
 
 
-#ifdef _WIN32
-      #include <windows.h>
-#endif
+//#ifdef _WIN32
+//      #include <windows.h>
+//#endif
 
 int mod (int a, int b){
   int ret;
@@ -62,6 +74,27 @@ int mod (int a, int b){
 // ****************************************************
 
 /* data types */
+
+// a wrapper around a single output AVStream
+typedef struct OutputStream {
+    AVStream *st;
+    AVCodecContext *enc;
+    
+    /* pts of the next frame that will be generated */
+    int64_t next_pts;
+    int samples_count;
+    
+    AVFrame *frame;
+    //    AVFrame *tmp_frame;
+    
+    AVPacket *tmp_pkt;
+    
+    float t;
+    //tincr, tincr2;
+    
+    struct SwsContext *sws_ctx;
+    //    struct SwrContext *swr_ctx;
+} OutputStream;
 
 typedef struct Cell{
     void* cellstate; // state of the cell
@@ -95,6 +128,7 @@ typedef struct CS{
     int n_inputs; // number of inputs
     int plot_animation; // boolean flag to display graphical animation or not
     int plot_vector; // boolean flag to generate a vector space instead of scalar
+    int save_video; // boolean flag to save animation in video using ffmpeg and libx264
     double sq; // square size for the raylib animation
     int wX,wY,wZ; // number of cells in each dimension of the animation window
     int wrapped_borders; // space boundary configuration (like bitwise mask but using int: hundred for X, tens for Y and unit for Z)
@@ -102,7 +136,13 @@ typedef struct CS{
     double (*display)(void*,int,int,int,double*,double*,double*,double*); // COLOR display(space,x,y,z,vectormodule,coord_x,coord_y,coord_z), returns COLOR and double* params as VECTOR_MODULE, VECTOR_COORD_X, VECTOR_COORD_Y, VECTOR_COORD_Z for cell[x][y][z]
     Camera2D camera2; // camera for 2D animations
     Camera3D camera3; // camera for 3D animations
-    FILE * gp; // gnuplot terminal file descriptor
+    //FILE * gp; // gnuplot terminal file descriptor
+    
+    int pts;
+    OutputStream video_st;
+    const AVCodec *video_codec;
+    AVFormatContext *oc;
+    const AVOutputFormat *fmt;
 }CellSpace;
 
 
@@ -283,10 +323,18 @@ void* CS_Create(int X, int Y, int Z, int hex, int *neighborhood, size_t n1, size
     s->storehistory = 0;
     s->hist = NULL;
     s->n_hist = 0;
-    s->plot_animation = 0; 
-
+    s->plot_animation = 0;
+    //video initalization
+    s->save_video = 0;
+    s->oc = NULL;
+    s->video_codec = NULL;
+    s->fmt = NULL;
+    s->video_st.sws_ctx = NULL;
+    s->video_st.next_pts = 0;
+    
+    
     // CONFIGURE SPACE BOUNDARIES
-    ModelicaFormatMessage("wrapped_borders = %d \n",wrapped_borders);
+    //ModelicaFormatMessage("wrapped_borders = %d \n",wrapped_borders);
     wrapped = wrapped_borders; // wrapped_borders defines a binary mask for wrapping XYZ
     // 000 nothing wrapped
     // 100 X wrapped
@@ -301,19 +349,19 @@ void* CS_Create(int X, int Y, int Z, int hex, int *neighborhood, size_t n1, size
 	res = wrapped%10;
 	s->wrapz = res == 0 ? 0 : 1; // wrap Z?
 	wrapped = wrapped/10;
-	ModelicaFormatMessage("WRAP Z = %d\n",s->wrapz);
+	//ModelicaFormatMessage("WRAP Z = %d\n",s->wrapz);
     }
     if (Y > 1){
 	//res = div(wrapped,10);
 	res = wrapped%10;
 	s->wrapy = res == 0 ? 0 : 1; // wrap Y?
 	wrapped = wrapped/10;
-	ModelicaFormatMessage("WRAP Y = %d\n",s->wrapy);
+	//ModelicaFormatMessage("WRAP Y = %d\n",s->wrapy);
     }
     //res = div(wrapped,10);
     res = wrapped%10;
     s->wrapx = res == 0 ? 0 : 1; // wrap X?
-    ModelicaFormatMessage("WRAP X = %d\n",s->wrapx);
+    //ModelicaFormatMessage("WRAP X = %d\n",s->wrapx);
     
     // populate space with new cells
     s->M = (Cell ****)malloc(X*sizeof(Cell***));
@@ -335,11 +383,131 @@ void* CS_Create(int X, int Y, int Z, int hex, int *neighborhood, size_t n1, size
 	}
     }
 
-    ModelicaFormatMessage("END CREATE\n");
+    //ModelicaFormatMessage("END CREATE\n");
     return (void *)s;
 }
 
-int CS_InitAnimation(void* space, int winWidth, int winHeight, int wX, int wY, int wZ, int vector, int displayDelay, const char *name){
+/* Add an output stream. */
+static void add_stream(OutputStream *ost, AVFormatContext *oc,
+                       const AVCodec **codec,
+                       enum AVCodecID codec_id, int width, int height)
+{
+    AVCodecContext *c;
+    int i;
+
+    /* find the encoder */
+    *codec = avcodec_find_encoder(codec_id);
+    if (!(*codec)) {
+        fprintf(stderr, "Could not find encoder for '%s'\n",
+                avcodec_get_name(codec_id));
+        exit(1);
+    }
+
+    ost->tmp_pkt = av_packet_alloc();
+    if (!ost->tmp_pkt) {
+        fprintf(stderr, "Could not allocate AVPacket\n");
+        exit(1);
+    }
+
+    ost->st = avformat_new_stream(oc, NULL);
+    if (!ost->st) {
+        fprintf(stderr, "Could not allocate stream\n");
+        exit(1);
+    }
+    ost->st->id = oc->nb_streams-1;
+    c = avcodec_alloc_context3(*codec);
+    if (!c) {
+        fprintf(stderr, "Could not alloc an encoding context\n");
+        exit(1);
+    }
+    ost->enc = c;
+    
+    c->codec_id = codec_id;
+    c->bit_rate = 400000;
+    /* Resolution must be a multiple of two. */
+    c->width    = width;
+    c->height   = height;
+    /* timebase: This is the fundamental unit of time (in seconds) in terms
+     * of which frame timestamps are represented. For fixed-fps content,
+     * timebase should be 1/framerate and timestamp increments should be
+     * identical to 1. */
+    ost->st->time_base = (AVRational){ 1, STREAM_FRAME_RATE };
+    c->time_base       = ost->st->time_base;
+    
+    c->gop_size      = 12; /* emit one intra frame every twelve frames at most */
+    c->pix_fmt       = STREAM_PIX_FMT;
+    if (c->codec_id == AV_CODEC_ID_MPEG2VIDEO) {
+	/* just for testing, we also add B-frames */
+	c->max_b_frames = 2;
+    }
+    if (c->codec_id == AV_CODEC_ID_MPEG1VIDEO) {
+	/* Needed to avoid using macroblocks in which some coeffs overflow.
+	 * This does not happen with normal video, it just happens here as
+	 * the motion of the chroma plane does not match the luma plane. */
+	c->mb_decision = 2;
+    }
+    
+    /* Some formats want stream headers to be separate. */
+    if (oc->oformat->flags & AVFMT_GLOBALHEADER)
+        c->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
+}
+
+static AVFrame *alloc_frame(enum AVPixelFormat pix_fmt, int width, int height)
+{
+    AVFrame *frame;
+    int ret;
+    
+    frame = av_frame_alloc();
+    if (!frame)
+        return NULL;
+    
+    frame->format = pix_fmt;
+    frame->width  = width;
+    frame->height = height;
+    
+    /* allocate the buffers for the frame data */
+    ret = av_frame_get_buffer(frame, 0);
+    if (ret < 0) {
+        fprintf(stderr, "Could not allocate frame data.\n");
+        exit(1);
+    }
+    
+    return frame;
+}
+
+static void open_video(AVFormatContext *oc, const AVCodec *codec,
+                       OutputStream *ost, AVDictionary *opt_arg)
+{
+    int ret;
+    AVCodecContext *c = ost->enc;
+    AVDictionary *opt = NULL;
+
+    av_dict_copy(&opt, opt_arg, 0);
+
+    /* open the codec */
+    ret = avcodec_open2(c, codec, &opt);
+    av_dict_free(&opt);
+    if (ret < 0) {
+        fprintf(stderr, "Could not open video codec: %s\n", av_err2str(ret));
+        exit(1);
+    }
+
+    /* allocate and init a re-usable frame */
+    ost->frame = alloc_frame(c->pix_fmt, c->width, c->height);
+    if (!ost->frame) {
+        fprintf(stderr, "Could not allocate video frame\n");
+        exit(1);
+    }
+
+    /* copy the stream parameters to the muxer */
+    ret = avcodec_parameters_from_context(ost->st->codecpar, c);
+    if (ret < 0) {
+        fprintf(stderr, "Could not copy the stream parameters\n");
+        exit(1);
+    }
+}
+
+int CS_InitAnimation(void* space, int winWidth, int winHeight, int wX, int wY, int wZ, int vector, int displayDelay, const char *name, int save_video){
     CellSpace* s;
     //int screenWidth, screenHeight;
     int cellsize;
@@ -370,21 +538,73 @@ int CS_InitAnimation(void* space, int winWidth, int winHeight, int wX, int wY, i
 	InitWindow(winWidth, winHeight,name);
 	//SetTargetFPS(60);                   // Set our game to run at 60 frames-per-second	
     }else if (s->ndims == 3){
-	//	s->squaresize = 1.0f;//((WIDTH-(2*OFFSET)))/(double)X;
-	s->sq = 0.1f; //(((WIDTH-(2*OFFSET)))/(double)X)/10;
-	//printf("SQ = %lf\n",((WIDTH-(2*OFFSET)))/(double)X);
+	s->sq = (winWidth/wX)/50.0f;
+	//ModelicaFormatMessage("SQ = %lf\n",s->sq);
 	//screenWidth = winMaxWidth;
 	//screenHeight = winMaxHeight;
 	InitWindow(winWidth, winHeight,name);
 	// s->camera3.position = (Vector3){s->squaresize*10, s->squaresize*10, s->squaresize*10 }; // Camera3 position
-	s->camera3.position = (Vector3){wX, wY, wZ}; // Camera3 position
+	s->camera3.position = (Vector3){2*wX, 2*wY, 2*wZ}; // Camera3 position
 	//	s->camera3.position = (Vector3){ 10.0f, 10.0f, 10.0f }; // Camera3 position
 	s->camera3.target = (Vector3){ 0.0, 0.0, 0.0 };      // Camera3 looking at point
-	s->camera3.up = (Vector3){ 0.0, s->sq*10, 0.0 };          // Camera3 up vector (rotation towards target)
+	s->camera3.up = (Vector3){ 0.0, s->sq, 0.0 };          // Camera3 up vector (rotation towards target)
 	s->camera3.fovy = 45.0;                                // Camera3 field-of-view Y
 	s->camera3.projection = CAMERA_ORTHOGRAPHIC;//CAMERA_PERSPECTIVE;             // Camera3 projection type
 	DisableCursor();                    // Limit cursor to relative movement inside the window
 	//SetTargetFPS(60);                   // Set our game to run at 60 frames-per-second	
+    }
+
+    // INITIALIZE VIDEO RECORDING
+    if (save_video){
+	s->save_video = 1;
+	int ret;
+	int i;
+    
+	AVDictionary *opt = NULL;
+	 
+	char filename[256];
+       	sprintf(filename,"%s_video_%ld.mp4",name,time(NULL));
+	ModelicaFormatMessage("VIDEO FILENAME = %s\n",filename);
+
+	 /* allocate the output media context */
+	avformat_alloc_output_context2(&s->oc, NULL, NULL, filename);
+	if (!s->oc) {
+	    printf("Could not deduce output format from file extension: using MPEG.\n");
+	    avformat_alloc_output_context2(&s->oc, NULL, "mpeg", filename);
+	}
+	if (!s->oc)
+	    return 1;
+
+	s->fmt = s->oc->oformat;
+	/* Add video stream using the default format codecs
+	 * and initialize the codecs. */
+	if (s->fmt->video_codec != AV_CODEC_ID_NONE) {
+	    add_stream(&s->video_st, s->oc, &s->video_codec, s->fmt->video_codec,winWidth,winHeight);
+	    /* Now that all the parameters are set, we can open the audio and
+	     * video codecs and allocate the necessary encode buffers. */
+	    open_video(s->oc, s->video_codec, &s->video_st, opt);
+	}
+
+	av_dump_format(s->oc, 0, filename, 1);
+
+	/* open the output file, if needed */
+	if (!(s->fmt->flags & AVFMT_NOFILE)) {
+	    ret = avio_open(&s->oc->pb, filename, AVIO_FLAG_WRITE);
+	    if (ret < 0) {
+		fprintf(stderr, "Could not open '%s': %s\n", filename,
+			av_err2str(ret));
+		return 1;
+	    }
+	}
+
+	/* Write the stream header, if any. */
+	ret = avformat_write_header(s->oc, &opt);
+	if (ret < 0) {
+	    fprintf(stderr, "Error occurred when opening output file: %s\n",
+		    av_err2str(ret));
+	    return 1;
+	}
+
     }
     ModelicaFormatMessage("END INIT ANIMATION\n");
 }
@@ -481,6 +701,97 @@ int DrawVectoreven(double sq, double x, double y, double vx, double vy, double c
     return 0;
 }
 
+static void log_packet(const AVFormatContext *fmt_ctx, const AVPacket *pkt)
+{
+    AVRational *time_base = &fmt_ctx->streams[pkt->stream_index]->time_base;
+
+    printf("pts:%s pts_time:%s dts:%s dts_time:%s duration:%s duration_time:%s stream_index:%d\n",
+           av_ts2str(pkt->pts), av_ts2timestr(pkt->pts, time_base),
+           av_ts2str(pkt->dts), av_ts2timestr(pkt->dts, time_base),
+           av_ts2str(pkt->duration), av_ts2timestr(pkt->duration, time_base),
+           pkt->stream_index);
+}
+
+static int write_frame(AVFormatContext *fmt_ctx, AVCodecContext *c, AVStream *st, AVFrame *frame, AVPacket *pkt)
+{
+    int ret;
+
+    //printf("WRITE FRAME\n");
+    
+    // send the frame to the encoder
+    ret = avcodec_send_frame(c, frame);
+    if (ret < 0) {
+	fprintf(stderr, "Error sending a frame to the encoder: %s\n",
+                av_err2str(ret));
+        exit(1);
+    }
+    while (ret >= 0) {
+        ret = avcodec_receive_packet(c, pkt);
+        if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF){
+	    break;
+        }else if (ret < 0) {
+            fprintf(stderr, "Error encoding a frame: %s\n", av_err2str(ret));
+            exit(1);
+        }
+	/* rescale output packet timestamp values from codec to stream timebase */
+	av_packet_rescale_ts(pkt, c->time_base, st->time_base);
+	pkt->stream_index = st->index;
+	
+	/* Write the compressed frame to the media file. */
+	//log_packet(fmt_ctx, pkt);
+	ret = av_interleaved_write_frame(fmt_ctx, pkt);
+	/* pkt is now blank (av_interleaved_write_frame() takes ownership of
+	 * its contents and resets pkt), so that no unreferencing is necessary.
+	 * This would be different if one used av_write_frame(). */
+	if (ret < 0) {
+	    fprintf(stderr, "Error while writing output packet: %s\n", av_err2str(ret));
+	    exit(1);
+	}
+    }
+    
+    return ret == AVERROR_EOF ? 1 : 0;
+}
+
+
+static AVFrame *get_video_frame(OutputStream *ost)
+{
+    AVCodecContext *c = ost->enc;
+    Image sc = LoadImageFromScreen(); // take screenshot
+    //const uint8_t * const inData[1] = { sc.data }; // RGBA data from Image
+    int inLinesize[1] = { 4*sc.width }; // RGBA stride
+    
+    //printf("GET VIDEO FRAME\n");
+    
+    /* check if we want to generate more frames */
+    //if (av_compare_ts(ost->next_pts, c->time_base, SIM_TIME, (AVRational){ 1, 1 }) > 0)
+    //    return NULL;
+    
+    /* when we pass a frame to the encoder, it may keep a reference to it
+     * internally; make sure we do not overwrite it here */
+    if (av_frame_make_writable(ost->frame) < 0)
+        exit(1);
+    
+    // Convert from RGBA to YUV420P
+    if (!ost->sws_ctx) {
+	ost->sws_ctx = sws_getContext(c->width, c->height, AV_PIX_FMT_RGBA,
+				      c->width, c->height, AV_PIX_FMT_YUV420P,
+				      0 , NULL, NULL, NULL);
+	if (!ost->sws_ctx) {
+	    fprintf(stderr,
+		    "Could not initialize the conversion context\n");
+	    exit(1);
+	}
+    }
+    sws_scale(ost->sws_ctx, (const uint8_t * const *) &(sc.data),
+          inLinesize, 0, c->height, ost->frame->data,
+    	      ost->frame->linesize);
+    
+
+    
+    ost->frame->pts = ost->next_pts++;
+
+    return ost->frame;
+}
 
 // double COLOR display (void* space, int x,int y, int z, double* SCALARVALUE, double* VECTOR_X, double* VECTOR_Y, double* VECTOR_Z)
 int CS_Plot(void* space){
@@ -493,7 +804,7 @@ int CS_Plot(void* space){
     double COLOR;
     double VX,VY,VZ;
     
-    // ModelicaFormatMessage("PLOT\n");
+    //ModelicaFormatMessage("PLOT\n");
     
     s = (CellSpace*) space;
     // 1D - plot animation for new states
@@ -617,51 +928,89 @@ int CS_Plot(void* space){
 	EndDrawing();
     }
 
-    //ModelicaFormatMessage("END PLOT\n");
+    // RECORD ANIMATION VIDEO
+    if (s->save_video){
+	WaitTime(0.0001);
+	
+	//int encode_video = 1;
+	//while (encode_video) {
+	    /* select the stream to encode */
+	//printf("VIDEO_ST ENC = %p\n",s->video_st.st);
+	write_frame(s->oc, s->video_st.enc, s->video_st.st, get_video_frame(&s->video_st), s->video_st.tmp_pkt);
+	//}
+    }
+    
+    //    ModelicaFormatMessage("END PLOT\n");
     return 1;
 }
 
-
-
-int CS_Delete(void* space){
-  CellSpace *s;
-  Cell *cell;
-  int i,j,k;
-  
-  s =(CellSpace *)space;
-
-  ModelicaFormatMessage("CS_Delete\n");
-
-  s->storehistory = 0;
-  // Wait for animation window to close
-  if(s->plot_animation){
-      while(!WindowShouldClose())
-	  CS_Plot(space);
-      CloseWindow();
-  }
-  
-  // free memory
-  for(i=0;i<s->X;i++){
-      for(j=0;j<s->Y;j++){
-	  for(k=0;k<s->Z;k++){
-	      cell = s->M[i][j][k];
-	      s->M[i][j][k] = NULL;
-	      free(cell);
-	  }
-	  free(s->M[i][j]);
-      }
-      free(s->M[i]);
-  }
-  free(s->M);
-  free(s->A);
-  free(s->neighborhood);
-  if(s->hex)
-      free(s->oddneighborhood);
-  free(s);
-  return 1;
+static void close_stream(AVFormatContext *oc, OutputStream *ost)
+{
+    avcodec_free_context(&ost->enc);
+    av_frame_free(&ost->frame);
+    //av_frame_free(&ost->tmp_frame);
+    av_packet_free(&ost->tmp_pkt);
+    sws_freeContext(ost->sws_ctx);
+    //  swr_free(&ost->swr_ctx);
 }
 
-void* CS_CellState(void* space, int modx, int mody, int modz){
+int CS_Delete(void* space){
+    CellSpace *s;
+    Cell *cell;
+    int i,j,k;
+    //uint8_t endcode[] = { 0, 0, 1, 0xb7 };
+    
+    s =(CellSpace *)space;
+    
+    //ModelicaFormatMessage("CS_Delete\n");
+    
+    // flush encoder if save_video and end video
+    if (s->save_video){
+	// wait codec to return all frames
+	while (!write_frame(s->oc, s->video_st.enc, s->video_st.st, NULL, s->video_st.tmp_pkt));
+	
+	av_write_trailer(s->oc);
+	//      encode(s->c,NULL,s->pkt,s->f);
+	//      if (s->codec->id == AV_CODEC_ID_MPEG1VIDEO || s->codec->id == AV_CODEC_ID_MPEG2VIDEO)
+	//	  fwrite(endcode, 1, sizeof(endcode), s->f);
+	//fclose(s->f);
+	close_stream(s->oc, &s->video_st);
+	avio_closep(&s->oc->pb);
+	/* free the stream */
+	avformat_free_context(s->oc);
+	s->save_video = 0;
+    }    
+    s->storehistory = 0;
+    
+    // Wait for animation window to close
+    if(s->plot_animation){
+	while(!WindowShouldClose())
+	    CS_Plot(space);
+	CloseWindow();
+    }
+    
+    // free memory
+    for(i=0;i<s->X;i++){
+	for(j=0;j<s->Y;j++){
+	    for(k=0;k<s->Z;k++){
+		cell = s->M[i][j][k];
+		s->M[i][j][k] = NULL;
+		free(cell);
+	    }
+	    free(s->M[i][j]);
+	}
+	free(s->M[i]);
+    }
+    free(s->M);
+    free(s->A);
+    free(s->neighborhood);
+    if(s->hex)
+	free(s->oddneighborhood);
+    free(s);
+    return 1;
+}
+
+/*void* CS_CellState(void* space, int modx, int mody, int modz){
   CellSpace *s;
   Cell *cell;
   int x = modx-1;
@@ -673,9 +1022,9 @@ void* CS_CellState(void* space, int modx, int mody, int modz){
       return s->M[x][y][z]->cellstate;
   else
       return NULL;
-}
+      }*/
 
-void CS_InsertCell(void* space, Cell* cell, int modx, int mody, int modz){
+/*void CS_InsertCell(void* space, Cell* cell, int modx, int mody, int modz){
   CellSpace *s;
   int x = modx-1;
   int y = mody-1;
@@ -689,7 +1038,7 @@ void CS_InsertCell(void* space, Cell* cell, int modx, int mody, int modz){
   if (s->M[x][y][z] != NULL)
       free(s->M[x][y][z]);
   s->M[x][y][z] = cell;
-}
+  }*/
 
 Cell* CS_ActiveCell(void *space, Cell* cell){
   CellSpace *s;
@@ -731,9 +1080,9 @@ Cell* CS_Init(void* space, int modx, int mody, int modz, void (*initialState)(vo
       initialState(cell->cellstate);
   }else
       cell = NULL;
-    CS_ActiveCell(space,cell);
-
-    //printf("end init\n");
+  CS_ActiveCell(space,cell);
+  
+  //printf("end init\n");
   return cell;
 }
 

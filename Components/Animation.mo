@@ -11,6 +11,7 @@ model Animation
   parameter Integer Vector = 0 "0 scalar, 1 vector";
   parameter Real displayDelay = 0 "Animation update delay (in microseconds)";
   parameter String name = "CA_Animation";
+  parameter Boolean save_video = false "save animation as a H264 video file?";
   CAport Space annotation (Placement(transformation(extent={{-10,100},{10,120}}),
         iconTransformation(extent={{-10,100},{10,120}})));
   Integer step( start= 0);
@@ -35,12 +36,13 @@ model Animation
     input Integer vector;
     input Real displayDelay;
     input String name;
-    external "C" CS_InitAnimation(s,WindowWidth,WindowHeight,wX,wY,wZ,vector,displayDelay,name);
+    input Boolean save_video;
+    external "C" CS_InitAnimation(s,WindowWidth,WindowHeight,wX,wY,wZ,vector,displayDelay,name,save_video);
     annotation (Include = "#include <CellularAutomataLib.c>");
   end InitAnimation;
 
 initial algorithm
-    InitAnimation(Space.space,WindowWidth,WindowHeight,WindowX,WindowY,WindowZ,Vector,displayDelay,name);
+    InitAnimation(Space.space,WindowWidth,WindowHeight,WindowX,WindowY,WindowZ,Vector,displayDelay,name,save_video);
     SetDisplayFunction(Space.space);
 algorithm
   when sample(initial_step, Tstep) and pre(step) < max_step then

@@ -19,7 +19,7 @@ package CellularAutomataLib
 <p style=\"margin-left: 30px;\">Copyright 2024, Victorino Sanz.</p>
 <p style=\"margin-left: 30px;\">This program is free software: you can redistribute it and/or modify it under the terms of the GNU Leaser General Public License as published by the Free Software Foundation, either version 3 of the License, or any later version.</p>
 <p style=\"margin-left: 30px;\">This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Leaser General Public License for more details.</p>
-<p style=\"margin-left: 30px;\">You should have received a copy of the GNU Leaser General Public License along with this program (LICENSE.txt). If not, see &lt;https://www.gnu.org/licenses/&gt;. Since LGPL is a set of additional permissions on top of the GPL, we also include a copy of the GNU General Public License (LICENSE-GPL.txt).</p>
+<p style=\"margin-left: 30px;\">You should have received a copy of the GNU Leaser General Public License along with this program (LICENSE.txt file). If not, see &lt;https://www.gnu.org/licenses/&gt;. Since LGPL is a set of additional permissions on top of the GPL, we also include a copy of the GNU General Public License (at the end of the LICENSE.txt file).</p>
 </html>"),
     uses(Modelica(version="4.0.0")));
 end CellularAutomataLib;

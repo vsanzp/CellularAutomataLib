@@ -1,14 +1,15 @@
 within CellularAutomataLib.Examples.CS_3D.Simple;
 model Rule445
+  parameter Integer midpos = integer(X/2);
   import CellularAutomataLib.Components.*;
-  extends CellSpace( X = 100, Y = 100, Z = 100,
-  init_cells = [50,50,50; 49,50,50; 50,49,50; 49,49,50;
-                50,50,49; 49,50,49; 50,49,49; 49,49,49;
-                50,50,51; 49,50,51; 50,49,51; 49,49,51],
+  extends CellSpace( X = 20, Y = 20, Z = 20,
+  init_cells = [midpos,midpos,midpos; midpos-1,midpos,midpos; midpos,midpos-1,midpos; midpos-1,midpos-1,midpos;
+                midpos,midpos,midpos-1; midpos-1,midpos,midpos-1; midpos,midpos-1,midpos-1; midpos-1,midpos-1,midpos-1;
+                midpos,midpos,midpos+1;midpos-1,midpos,midpos+1;midpos,midpos-1,midpos+1;midpos-1,midpos-1,midpos+1],
      redeclare function Default = S3Default,
     redeclare function Initial = S3Init,
     redeclare function Rule = S3445Step);
-
+//[50,50,50; 49,50,50; 50,49,50; 49,49,50; 50,50,49; 49,50,49; 50,49,49; 49,49,49; 50,50,51; 49,50,51; 50,49,51; 49,49,51]
     function S3Default
     input CS space;
     output Integer out;

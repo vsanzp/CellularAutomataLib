@@ -47,7 +47,7 @@ algorithm
   //CROSS UP
 algorithm
   when (Input_type == 2 or Input_type == 4) and (u > q_t) and time > 0 and pre(below) then
-    Modelica.Utilities.Streams.print("Cross UP: u " + String(u));
+    //Modelica.Utilities.Streams.print("Cross UP: u " + String(u));
     below := false;
     for i in XToRange[1]:XToRange[2] loop
       for j in YToRange[1]:YToRange[2] loop
@@ -80,6 +80,7 @@ equation
   // TIME SAMPLER
 algorithm
   when (Input_type == 5 and sample(start_sample,q_t)) then
+    //Modelica.Utilities.Streams.print("SAMPLE: u "+String(u)+" id "+String(input_id));
     for i in XToRange[1]:XToRange[2] loop
       for j in YToRange[1]:YToRange[2] loop
         for k in ZToRange[1]:ZToRange[2] loop

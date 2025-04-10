@@ -1,0 +1,97 @@
+﻿anyfail := {false,false,false,false,false,false,false,false,false};
+translate := false;
+
+// TEST 1
+i := 1;
+if translate then translateModel("CellularAutomataLib.Test.Test_CSR110"); end if;
+simulateModel( "CellularAutomataLib.Test.Test_CSR110", stopTime=13, resultFile="Test_CSR110");
+f := readTrajectory("Test_CSR110.mat",{"fail"},integer(readTrajectorySize("Test_CSR110.mat")));
+if (f[1,size(f,2)] == 1.0) then 
+  anyfail[i] := true; 
+end if;
+i := i + 1;
+
+// TEST 2
+if translate then translateModel("CellularAutomataLib.Test.Test_CSR30");end if;
+simulateModel( "CellularAutomataLib.Test.Test_CSR30", stopTime=13, resultFile="Test_CSR30");
+f := readTrajectory("Test_CSR30.mat",{"fail"},integer(readTrajectorySize("Test_CSR30.mat")));
+if (f[1,size(f,2)] == 1.0) then 
+  anyfail[i] := true; 
+end if;
+i := i + 1;
+  
+// TEST 3
+if translate then translateModel("CellularAutomataLib.Test.Test_Input");end if;
+simulateModel(  "CellularAutomataLib.Test.Test_Input",  stopTime=7,  resultFile="Test_Input");
+f := readTrajectory("Test_Input.mat",{"fail"},integer(readTrajectorySize("Test_Input.mat")));
+if (f[1,size(f,2)] == 1.0) then 
+  anyfail[i] := true; 
+end if;
+i := i + 1;
+
+// TEST 4
+if translate then translateModel("CellularAutomataLib.Test.Test_Glider");end if;
+simulateModel("CellularAutomataLib.Test.Test_Glider", stopTime=4, resultFile="Test_Glider");
+f := readTrajectory("Test_Glider.mat",{"fail"},integer(readTrajectorySize("Test_Glider.mat")));
+if (f[1,size(f,2)] == 1.0) then 
+  anyfail[i] := true; 
+end if;
+i := i + 1;
+
+// TEST 5
+if translate then translateModel("CellularAutomataLib.Test.Test_Glider2Rules");end if;
+simulateModel("CellularAutomataLib.Test.Test_Glider2Rules", stopTime=8, resultFile="Test_Glider2Rules");
+f := readTrajectory("Test_Glider2Rules.mat",{"fail"},integer(readTrajectorySize("Test_Glider2Rules.mat")));
+if (f[1,size(f,2)] == 1.0) then 
+  anyfail[i] := true; 
+end if;
+i := i + 1;
+
+// TEST 6
+if translate then translateModel("CellularAutomataLib.Test.Test_Row"); end if;
+simulateModel("CellularAutomataLib.Test.Test_Row", stopTime=15, resultFile="Test_Row");
+f := readTrajectory("Test_Row.mat",{"fail"},integer(readTrajectorySize("Test_Row.mat")));
+if (f[1,size(f,2)] == 1.0) then 
+  anyfail[i] := true; 
+end if;
+i := i + 1;
+
+// TEST 7
+if translate then translateModel("CellularAutomataLib.Test.Test_RowExtInit");end if;
+simulateModel("CellularAutomataLib.Test.Test_RowExtInit", stopTime=15, resultFile="Test_RowExtInit");
+f := readTrajectory("Test_RowExtInit.mat",{"fail"},integer(readTrajectorySize("Test_RowExtInit.mat")));
+if (f[1,size(f,2)] == 1.0) then 
+  anyfail[i] := true; 
+end if;
+i := i + 1;
+
+// TEST 8
+if translate then translateModel("CellularAutomataLib.Test.Test_GliderExtInput"); end if;
+simulateModel("CellularAutomataLib.Test.Test_GliderExtInput", stopTime=54,resultFile="Test_GliderExtInput");
+f := readTrajectory("Test_GliderExtInput.mat",{"fail"},integer(readTrajectorySize("Test_GliderExtInput.mat")));
+if (f[1,size(f,2)] == 1.0) then 
+  anyfail[i] := true; 
+end if;
+i := i + 1;
+
+// TEST 9
+if translate then translateModel("CellularAutomataLib.Test.Test_Rule445");end if;
+simulateModel("CellularAutomataLib.Test.Test_Rule445",stopTime=4,resultFile="Test_Rule445");
+f := readTrajectory("Test_Rule445.mat",{"fail"},integer(readTrajectorySize("Test_Rule445.mat")));
+if (f[1,size(f,2)] == 1.0) then 
+  anyfail[i] := true; 
+end if;
+i := i + 1;
+
+// END
+  messageBox("FAILED TESTS: 
+  [1] := "+String(anyfail[1])+
+  ", [2] := "+String(anyfail[2])+
+  ", [3] := "+String(anyfail[3])+
+  ", [4] := "+String(anyfail[4])+
+  ", [5] := "+String(anyfail[5])+
+  ", [6] := "+String(anyfail[6])+
+  ", [7] := "+String(anyfail[7])+
+  ", [8] := "+String(anyfail[8])+
+  ", [9] := "+String(anyfail[9]));
+

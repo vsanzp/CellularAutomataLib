@@ -6,7 +6,8 @@ model CSR110_Animation
     initial_step=0,
     WindowX=100,
     WindowY=100,
-    name="Wolfram R110",
+    name="WolframR110",
+    save_video=true,
   redeclare function SetDisplayFunction = RSetDisplay)
     annotation (Placement(transformation(extent={{-18,-2},{2,18}})));
 equation

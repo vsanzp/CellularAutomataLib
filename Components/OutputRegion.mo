@@ -7,7 +7,7 @@ model OutputRegion
   parameter Integer Output_type = 1 "Output observation method" annotation (
     choices(choice = 1 "Average", choice = 2 "Max", choice = 3 "Min", choice = 4 "Sum"));
   parameter Real output_rate "Output sampling interval";
-  parameter String name "output";
+  //parameter String name "output";
 
   replaceable function ExtOutput "External output function"
     input CS space;
@@ -79,7 +79,7 @@ algorithm
           end for;
         end for;
       end for;
-      Modelica.Utilities.Streams.print(String(time)+" : "+name+" sum = "+String(sum/6));
+      //Modelica.Utilities.Streams.print(String(time)+" : "+name+" sum = "+String(sum/6));
       y := sum;
     end if;
   end when;

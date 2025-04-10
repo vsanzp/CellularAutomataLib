@@ -11,7 +11,9 @@ model LBM_SimpleWave_Animation
   Components.Animation animation(
     WindowX=X,
     WindowY=Y,
-    displayDelay=100000,                                  redeclare function
+    displayDelay=100000,
+    name="SimpleWave",
+    save_video=true,                                      redeclare function
       SetDisplayFunction =                                                                          LBMDisplay)
     annotation (Placement(transformation(extent={{-2,-20},{18,0}})));
 equation

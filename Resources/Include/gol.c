@@ -117,8 +117,19 @@ void* gol(void* cellstate, int x, int y, int z, void** neighbor_states, int n_ne
     else if (cs->v && (sum < 2 || sum > 3 ) )
         out->v = 0;
     
-    if(cs->v == out->v)
-	return NULL;
+    // external inputs
+
+    if (out->v == 0 && n_inputs > 0 && (inputs_rcv[0] || inputs_rcv[1] || inputs_rcv[2])){
+	for(int i=0;i<n_inputs;i++){
+	    if(inputs_rcv[i])
+		out->v += in[i]->v;
+	}
+    }
+    out->v = fmin(out->v,1.0); // limit v to 1
+    
+    
+	if(cs->v == out->v)
+	    return NULL;
     else
 	return (void *)out;
 }
@@ -156,5 +167,35 @@ int GOLSetDisplay(void *space){
     CS_SetDisplay(space, &GOLDisplay);   
     return 1;
 }
+
+
+//*********************************************************************************+
+// returns the state of cell x
+double GOLOutput(void* space, int modx, int mody, int modz){
+    GOLState* state;
+    
+    state = (GOLState *)CS_GetState(space,modx,mody,modz);
+    return (double) state->v;
+}
+
+
+void GOLExtInit(void* space, int modx, int mody, int modz, double value){
+    GOLState* state;
+    
+    state = (GOLState *)CS_GetState(space,modx, mody, modz);
+    state->v = value;
+    CS_SetState(space,modx,mody,modz,state);
+    return;
+}
+
+void GOLExtInput(void* space, int modx, int mody, int modz, double value,int input_id){
+    GOLState* inp;
+
+    inp = (GOLState *)malloc(sizeof(GOLState));
+    inp->v = value;
+    CS_SetInput(space,modx,mody,modz,(void*)inp,input_id);
+    return;
+}
+
 
 #endif
