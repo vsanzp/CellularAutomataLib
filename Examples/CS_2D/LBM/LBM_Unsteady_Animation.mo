@@ -9,6 +9,8 @@ model LBM_Unsteady_Animation
     wrapped_borders=10)
     annotation (Placement(transformation(extent={{-40,-18},{-20,2}})));
   Components.Animation animation(
+    WindowWidth=1000,
+    WindowHeight=200,
     WindowX=X,
     WindowY=Y,
     displayDelay=10000,

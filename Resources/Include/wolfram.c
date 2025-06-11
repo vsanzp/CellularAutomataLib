@@ -66,40 +66,6 @@ void RInit(void* space, int x, int y, int z){
     CS_Init(space, x, y, z, initialState);
 }
 
-//*********************************************************
-// DISPLAY FUNCTION
-
-// Function that returns the value to display in the graphical animation
-// double COLOR display (void* space, int x,int y, int z, double* VECTOR_MODULE, double* VECTOR_X, double* VECTOR_Y, double* VECTOR_Z)
-double RDisplay(void *space,int x, int y, int z, double* vmodule, double* vx, double* vy, double* vz){
-    CellSpace *s;
-    Cell *cell;
-    RState *cs;
-
-    s = (CellSpace*)space;
-    if (vx != NULL) *vx = 0;
-    if (vy != NULL) *vy = 0;
-    if (vz != NULL) *vz = 0;
-    cell = s->M[x][y][z];
-
-    if(cell == NULL)
-	return (double)ColorToInt(BLANK); // transparent	;
-    else{
-	cs = (RState *)cell->cellstate;
-	if (cs->v)
-	    return(double)ColorToInt(YELLOW); //  yellow for alive cells
-	else
-	    return(double)ColorToInt(BLACK); // black for dead cells
-    }
-}
-
-int RSetDisplay(void* space){
-    double (*display)(void*,int,int,int,double*,double*,double*,double*) = &RDisplay;
-    CS_SetDisplay(space,display);
-    return 1;
-}
-
-
 
 //********************************************************
 // RULE FUNCTIONS

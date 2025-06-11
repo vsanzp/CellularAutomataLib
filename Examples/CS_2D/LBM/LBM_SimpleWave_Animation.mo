@@ -15,10 +15,10 @@ model LBM_SimpleWave_Animation
     name="SimpleWave",
     save_video=true,                                      redeclare function
       SetDisplayFunction =                                                                          LBMDisplay)
-    annotation (Placement(transformation(extent={{-2,-20},{18,0}})));
+    annotation (Placement(transformation(extent={{-4,-20},{16,0}})));
 equation
   connect(simpleDiffusion.Space, animation.Space)
-    annotation (Line(points={{-29,3},{-29,14},{8,14},{8,1}},  color={0,0,0}));
+    annotation (Line(points={{-29,3},{-29,14},{6,14},{6,1}},  color={0,0,0}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(StopTime=200, __Dymola_Algorithm="Dassl"),

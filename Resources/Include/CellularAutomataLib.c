@@ -26,26 +26,22 @@ program. If not, see <https://www.gnu.org/licenses/>.
 #ifndef CELLULARAUTOMATALIB
 #define CELLULARAUTOMATALIB
 
-#define OFFSET 10
-#define STREAM_FRAME_RATE 30
-#define STREAM_PIX_FMT  AV_PIX_FMT_YUV420P /* default pix_fmt */
-#define SCALE_FLAGS SWS_BICUBIC
 
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
-#include <raylib.h>
 
-//#include <string.h>
 
-#include <libavformat/avformat.h>
-#include <libavcodec/avcodec.h>
-#include <libavutil/opt.h>
-#include <libavutil/imgutils.h>
-#include <libswscale/swscale.h>
+////#include <raylib.h>
 
-#include <libavutil/timestamp.h>
+///#include <libavformat/avformat.h>
+///#include <libavcodec/avcodec.h>
+///#include <libavutil/opt.h>
+///#include <libavutil/imgutils.h>
+///#include <libswscale/swscale.h>
+///
+///#include <libavutil/timestamp.h>
 
 
 //#ifdef _WIN32
@@ -75,26 +71,26 @@ int mod (int a, int b){
 
 /* data types */
 
-// a wrapper around a single output AVStream
-typedef struct OutputStream {
-    AVStream *st;
-    AVCodecContext *enc;
-    
-    /* pts of the next frame that will be generated */
-    int64_t next_pts;
-    int samples_count;
-    
-    AVFrame *frame;
-    //    AVFrame *tmp_frame;
-    
-    AVPacket *tmp_pkt;
-    
-    float t;
-    //tincr, tincr2;
-    
-    struct SwsContext *sws_ctx;
-    //    struct SwrContext *swr_ctx;
-} OutputStream;
+////// a wrapper around a single output AVStream
+////typedef struct OutputStream {
+////    AVStream *st;
+////    AVCodecContext *enc;
+////    
+////    /* pts of the next frame that will be generated */
+////    int64_t next_pts;
+////    int samples_count;
+////    
+////    AVFrame *frame;
+////    //    AVFrame *tmp_frame;
+////    
+////    AVPacket *tmp_pkt;
+////    
+////    float t;
+////    //tincr, tincr2;
+////    
+////    struct SwsContext *sws_ctx;
+////    //    struct SwrContext *swr_ctx;
+////} OutputStream;
 
 typedef struct Cell{
     void* cellstate; // state of the cell
@@ -118,31 +114,31 @@ typedef struct CS{
     int Z; // Z size
     int hex; // hexagonal 2D space
     int ndims; // number of dimensions of the space
-    int storehistory; // flag to store and plot history
-    double **hist; // 1D history of states
-    int n_hist; // number of steps recorded in the history
-    int displayDelay; // delay to display animation in gnuplot
+    //int storehistory; // flag to store and plot history
+    //double **hist; // 1D history of states
+    //int n_hist; // number of steps recorded in the history
+    //int displayDelay; // delay to display animation in gnuplot
     int **neighborhood; // topology of the neighborhood  (even neighborhood for hex spaces)
     int **oddneighborhood; // for hex space
     int n_neighbors; // number of neighbors
     int n_inputs; // number of inputs
-    int plot_animation; // boolean flag to display graphical animation or not
-    int plot_vector; // boolean flag to generate a vector space instead of scalar
-    int save_video; // boolean flag to save animation in video using ffmpeg and libx264
-    double sq; // square size for the raylib animation
-    int wX,wY,wZ; // number of cells in each dimension of the animation window
+    //int plot_animation; // boolean flag to display graphical animation or not
+    //int plot_vector; // boolean flag to generate a vector space instead of scalar
+    //int save_video; // boolean flag to save animation in video using ffmpeg and libx264
+    //double sq; // square size for the raylib animation
+    //int wX,wY,wZ; // number of cells in each dimension of the animation window
     int wrapped_borders; // space boundary configuration (like bitwise mask but using int: hundred for X, tens for Y and unit for Z)
     int wrapx, wrapy,wrapz;
-    double (*display)(void*,int,int,int,double*,double*,double*,double*); // COLOR display(space,x,y,z,vectormodule,coord_x,coord_y,coord_z), returns COLOR and double* params as VECTOR_MODULE, VECTOR_COORD_X, VECTOR_COORD_Y, VECTOR_COORD_Z for cell[x][y][z]
-    Camera2D camera2; // camera for 2D animations
-    Camera3D camera3; // camera for 3D animations
-    //FILE * gp; // gnuplot terminal file descriptor
-    
-    int pts;
-    OutputStream video_st;
-    const AVCodec *video_codec;
-    AVFormatContext *oc;
-    const AVOutputFormat *fmt;
+///    double (*display)(void*,int,int,int,double*,double*,double*,double*); // COLOR display(space,x,y,z,vectormodule,coord_x,coord_y,coord_z), returns COLOR and double* params as VECTOR_MODULE, VECTOR_COORD_X, VECTOR_COORD_Y, VECTOR_COORD_Z for cell[x][y][z]
+///    Camera2D camera2; // camera for 2D animations
+///    Camera3D camera3; // camera for 3D animations
+///    //FILE * gp; // gnuplot terminal file descriptor
+///    
+///    int pts;
+///    OutputStream video_st;
+///    const AVCodec *video_codec;
+///    AVFormatContext *oc;
+///    const AVOutputFormat *fmt;
 }CellSpace;
 
 
@@ -261,7 +257,7 @@ void* CS_Create(int X, int Y, int Z, int hex, int *neighborhood, size_t n1, size
     s->Z = Z;
     s->hex = hex;
     s->ndims = 0;
-    s->display = NULL;
+    //s->display = NULL;
     if (X>1) s->ndims++;
     if (Y>1) s->ndims++;
     if (Z>1) s->ndims++;
@@ -320,17 +316,17 @@ void* CS_Create(int X, int Y, int Z, int hex, int *neighborhood, size_t n1, size
 	    }*/
     }
  
-    s->storehistory = 0;
-    s->hist = NULL;
-    s->n_hist = 0;
-    s->plot_animation = 0;
+    //s->storehistory = 0;
+    //s->hist = NULL;
+    //s->n_hist = 0;
+    //s->plot_animation = 0;
     //video initalization
-    s->save_video = 0;
-    s->oc = NULL;
-    s->video_codec = NULL;
-    s->fmt = NULL;
-    s->video_st.sws_ctx = NULL;
-    s->video_st.next_pts = 0;
+    //s->save_video = 0;
+    //s->oc = NULL;
+    //s->video_codec = NULL;
+    //s->fmt = NULL;
+    //s->video_st.sws_ctx = NULL;
+    //s->video_st.next_pts = 0;
     
     
     // CONFIGURE SPACE BOUNDARIES
@@ -387,572 +383,572 @@ void* CS_Create(int X, int Y, int Z, int hex, int *neighborhood, size_t n1, size
     return (void *)s;
 }
 
-/* Add an output stream. */
-static void add_stream(OutputStream *ost, AVFormatContext *oc,
-                       const AVCodec **codec,
-                       enum AVCodecID codec_id, int width, int height)
-{
-    AVCodecContext *c;
-    int i;
+////* Add an output stream. */
+///static void add_stream(OutputStream *ost, AVFormatContext *oc,
+///                       const AVCodec **codec,
+///                       enum AVCodecID codec_id, int width, int height)
+///{
+///    AVCodecContext *c;
+///    int i;
+///
+///    /* find the encoder */
+///    *codec = avcodec_find_encoder(codec_id);
+///    if (!(*codec)) {
+///        fprintf(stderr, "Could not find encoder for '%s'\n",
+///                avcodec_get_name(codec_id));
+///        exit(1);
+///    }
+///
+///    ost->tmp_pkt = av_packet_alloc();
+///    if (!ost->tmp_pkt) {
+///        fprintf(stderr, "Could not allocate AVPacket\n");
+///        exit(1);
+///    }
+///
+///    ost->st = avformat_new_stream(oc, NULL);
+///    if (!ost->st) {
+///        fprintf(stderr, "Could not allocate stream\n");
+///        exit(1);
+///    }
+///    ost->st->id = oc->nb_streams-1;
+///    c = avcodec_alloc_context3(*codec);
+///    if (!c) {
+///        fprintf(stderr, "Could not alloc an encoding context\n");
+///        exit(1);
+///    }
+///    ost->enc = c;
+///    
+///    c->codec_id = codec_id;
+///    c->bit_rate = 400000;
+///    /* Resolution must be a multiple of two. */
+///    c->width    = width;
+///    c->height   = height;
+///    /* timebase: This is the fundamental unit of time (in seconds) in terms
+///     * of which frame timestamps are represented. For fixed-fps content,
+///     * timebase should be 1/framerate and timestamp increments should be
+///     * identical to 1. */
+///    ost->st->time_base = (AVRational){ 1, STREAM_FRAME_RATE };
+///    c->time_base       = ost->st->time_base;
+///    
+///    c->gop_size      = 12; /* emit one intra frame every twelve frames at most */
+///    c->pix_fmt       = STREAM_PIX_FMT;
+///    if (c->codec_id == AV_CODEC_ID_MPEG2VIDEO) {
+///	/* just for testing, we also add B-frames */
+///	c->max_b_frames = 2;
+///    }
+///    if (c->codec_id == AV_CODEC_ID_MPEG1VIDEO) {
+///	/* Needed to avoid using macroblocks in which some coeffs overflow.
+///	 * This does not happen with normal video, it just happens here as
+///	 * the motion of the chroma plane does not match the luma plane. */
+///	c->mb_decision = 2;
+///    }
+///    
+///    /* Some formats want stream headers to be separate. */
+///    if (oc->oformat->flags & AVFMT_GLOBALHEADER)
+///        c->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
+///}
 
-    /* find the encoder */
-    *codec = avcodec_find_encoder(codec_id);
-    if (!(*codec)) {
-        fprintf(stderr, "Could not find encoder for '%s'\n",
-                avcodec_get_name(codec_id));
-        exit(1);
-    }
+///static AVFrame *alloc_frame(enum AVPixelFormat pix_fmt, int width, int height)
+///{
+///    AVFrame *frame;
+///    int ret;
+///    
+///    frame = av_frame_alloc();
+///    if (!frame)
+///        return NULL;
+///    
+///    frame->format = pix_fmt;
+///    frame->width  = width;
+///    frame->height = height;
+///    
+///    /* allocate the buffers for the frame data */
+///    ret = av_frame_get_buffer(frame, 0);
+///    if (ret < 0) {
+///        fprintf(stderr, "Could not allocate frame data.\n");
+///        exit(1);
+///    }
+///    
+///    return frame;
+///}
 
-    ost->tmp_pkt = av_packet_alloc();
-    if (!ost->tmp_pkt) {
-        fprintf(stderr, "Could not allocate AVPacket\n");
-        exit(1);
-    }
+///static void open_video(AVFormatContext *oc, const AVCodec *codec,
+///                       OutputStream *ost, AVDictionary *opt_arg)
+///{
+///    int ret;
+///    AVCodecContext *c = ost->enc;
+///    AVDictionary *opt = NULL;
+///
+///    av_dict_copy(&opt, opt_arg, 0);
+///
+///    /* open the codec */
+///    ret = avcodec_open2(c, codec, &opt);
+///    av_dict_free(&opt);
+///    if (ret < 0) {
+///        fprintf(stderr, "Could not open video codec: %s\n", av_err2str(ret));
+///        exit(1);
+///    }
+///
+///    /* allocate and init a re-usable frame */
+///    ost->frame = alloc_frame(c->pix_fmt, c->width, c->height);
+///    if (!ost->frame) {
+///        fprintf(stderr, "Could not allocate video frame\n");
+///        exit(1);
+///    }
+///
+///    /* copy the stream parameters to the muxer */
+///    ret = avcodec_parameters_from_context(ost->st->codecpar, c);
+///    if (ret < 0) {
+///        fprintf(stderr, "Could not copy the stream parameters\n");
+///        exit(1);
+///    }
+///}
 
-    ost->st = avformat_new_stream(oc, NULL);
-    if (!ost->st) {
-        fprintf(stderr, "Could not allocate stream\n");
-        exit(1);
-    }
-    ost->st->id = oc->nb_streams-1;
-    c = avcodec_alloc_context3(*codec);
-    if (!c) {
-        fprintf(stderr, "Could not alloc an encoding context\n");
-        exit(1);
-    }
-    ost->enc = c;
-    
-    c->codec_id = codec_id;
-    c->bit_rate = 400000;
-    /* Resolution must be a multiple of two. */
-    c->width    = width;
-    c->height   = height;
-    /* timebase: This is the fundamental unit of time (in seconds) in terms
-     * of which frame timestamps are represented. For fixed-fps content,
-     * timebase should be 1/framerate and timestamp increments should be
-     * identical to 1. */
-    ost->st->time_base = (AVRational){ 1, STREAM_FRAME_RATE };
-    c->time_base       = ost->st->time_base;
-    
-    c->gop_size      = 12; /* emit one intra frame every twelve frames at most */
-    c->pix_fmt       = STREAM_PIX_FMT;
-    if (c->codec_id == AV_CODEC_ID_MPEG2VIDEO) {
-	/* just for testing, we also add B-frames */
-	c->max_b_frames = 2;
-    }
-    if (c->codec_id == AV_CODEC_ID_MPEG1VIDEO) {
-	/* Needed to avoid using macroblocks in which some coeffs overflow.
-	 * This does not happen with normal video, it just happens here as
-	 * the motion of the chroma plane does not match the luma plane. */
-	c->mb_decision = 2;
-    }
-    
-    /* Some formats want stream headers to be separate. */
-    if (oc->oformat->flags & AVFMT_GLOBALHEADER)
-        c->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
-}
+///int CS_InitAnimation(void* space, int winWidth, int winHeight, int wX, int wY, int wZ, int vector, int displayDelay, const char *name, int save_video){
+///    CellSpace* s;
+///    //int screenWidth, screenHeight;
+///    int cellsize;
+///    
+///    //printf("CS_plot\n");
+///
+///    ModelicaFormatMessage("INIT ANIMATION\n");
+///    
+///    s = (CellSpace*) space;
+///
+///    s->plot_vector = vector;
+///    s->wX = wX;
+///    s->wY = wY;
+///    s->wZ = wZ;
+///
+///    s->displayDelay = displayDelay;
+///    s->plot_animation = 1;
+///    s->storehistory = wY > 0;
+///    
+///    if (s->ndims == 1 || s->ndims == 2){ // 1D or 2D animation using raylib
+///	//screenWidth = fmin((wX*SQUARESIZE)+2*OFFSET,winMaxWidth);
+///	//screenHeight = fmin((wY*SQUARESIZE)+2*OFFSET,winMaxHeight); 
+///	s->sq = (winWidth-(2*OFFSET))/(double)wX;
+///	s->camera2.target = (Vector2){0.0,0.0};
+///	s->camera2.offset = (Vector2){0,winHeight};
+///	s->camera2.rotation = 0.0;
+///	s->camera2.zoom = 1.0;
+///	InitWindow(winWidth, winHeight,name);
+///	//SetTargetFPS(60);                   // Set our game to run at 60 frames-per-second	
+///    }else if (s->ndims == 3){
+///	s->sq = (winWidth/wX)/50.0f;
+///	//ModelicaFormatMessage("SQ = %lf\n",s->sq);
+///	//screenWidth = winMaxWidth;
+///	//screenHeight = winMaxHeight;
+///	InitWindow(winWidth, winHeight,name);
+///	// s->camera3.position = (Vector3){s->squaresize*10, s->squaresize*10, s->squaresize*10 }; // Camera3 position
+///	s->camera3.position = (Vector3){2*wX, 2*wY, 2*wZ}; // Camera3 position
+///	//	s->camera3.position = (Vector3){ 10.0f, 10.0f, 10.0f }; // Camera3 position
+///	s->camera3.target = (Vector3){ 0.0, 0.0, 0.0 };      // Camera3 looking at point
+///	s->camera3.up = (Vector3){ 0.0, s->sq, 0.0 };          // Camera3 up vector (rotation towards target)
+///	s->camera3.fovy = 45.0;                                // Camera3 field-of-view Y
+///	s->camera3.projection = CAMERA_ORTHOGRAPHIC;//CAMERA_PERSPECTIVE;             // Camera3 projection type
+///	DisableCursor();                    // Limit cursor to relative movement inside the window
+///	//SetTargetFPS(60);                   // Set our game to run at 60 frames-per-second	
+///    }
+///
+///    // INITIALIZE VIDEO RECORDING
+///    if (save_video){
+///	s->save_video = 1;
+///	int ret;
+///	int i;
+///    
+///	AVDictionary *opt = NULL;
+///	 
+///	char filename[256];
+///       	sprintf(filename,"%s_video_%ld.mp4",name,time(NULL));
+///	ModelicaFormatMessage("VIDEO FILENAME = %s\n",filename);
+///
+///	 /* allocate the output media context */
+///	avformat_alloc_output_context2(&s->oc, NULL, NULL, filename);
+///	if (!s->oc) {
+///	    printf("Could not deduce output format from file extension: using MPEG.\n");
+///	    avformat_alloc_output_context2(&s->oc, NULL, "mpeg", filename);
+///	}
+///	if (!s->oc)
+///	    return 1;
+///
+///	s->fmt = s->oc->oformat;
+///	/* Add video stream using the default format codecs
+///	 * and initialize the codecs. */
+///	if (s->fmt->video_codec != AV_CODEC_ID_NONE) {
+///	    add_stream(&s->video_st, s->oc, &s->video_codec, s->fmt->video_codec,winWidth,winHeight);
+///	    /* Now that all the parameters are set, we can open the audio and
+///	     * video codecs and allocate the necessary encode buffers. */
+///	    open_video(s->oc, s->video_codec, &s->video_st, opt);
+///	}
+///
+///	av_dump_format(s->oc, 0, filename, 1);
+///
+///	/* open the output file, if needed */
+///	if (!(s->fmt->flags & AVFMT_NOFILE)) {
+///	    ret = avio_open(&s->oc->pb, filename, AVIO_FLAG_WRITE);
+///	    if (ret < 0) {
+///		fprintf(stderr, "Could not open '%s': %s\n", filename,
+///			av_err2str(ret));
+///		return 1;
+///	    }
+///	}
+///
+///	/* Write the stream header, if any. */
+///	ret = avformat_write_header(s->oc, &opt);
+///	if (ret < 0) {
+///	    fprintf(stderr, "Error occurred when opening output file: %s\n",
+///		    av_err2str(ret));
+///	    return 1;
+///	}
+///
+///    }
+///    ModelicaFormatMessage("END INIT ANIMATION\n");
+///}
 
-static AVFrame *alloc_frame(enum AVPixelFormat pix_fmt, int width, int height)
-{
-    AVFrame *frame;
-    int ret;
-    
-    frame = av_frame_alloc();
-    if (!frame)
-        return NULL;
-    
-    frame->format = pix_fmt;
-    frame->width  = width;
-    frame->height = height;
-    
-    /* allocate the buffers for the frame data */
-    ret = av_frame_get_buffer(frame, 0);
-    if (ret < 0) {
-        fprintf(stderr, "Could not allocate frame data.\n");
-        exit(1);
-    }
-    
-    return frame;
-}
+///// double COLOR display (void* space, int x,int y, int z, double* VMODULE, double* VECTOR_X, double* VECTOR_Y, double* VECTOR_Z)
+///int CS_SetDisplay(void* space, double (*display)(void*,int,int,int,double*,double*,double*,double*)){
+///    CellSpace* s;
+///
+///    ModelicaFormatMessage("SET DISPLAY\n");
+///    
+///    s = (CellSpace*) space;
+///    s->display = display;
+///    
+///    ModelicaFormatMessage("END SET DISPLAY\n");
+///
+///    return 0;
+///}
 
-static void open_video(AVFormatContext *oc, const AVCodec *codec,
-                       OutputStream *ost, AVDictionary *opt_arg)
-{
-    int ret;
-    AVCodecContext *c = ost->enc;
-    AVDictionary *opt = NULL;
+///// OriginBottomLeft: transform (x,y) coordinates from the space into raylib Vector2 coordinates with origin in the bottom-left part of the window (instead of the top-left, as default) 
+///Vector2 OBLrec(double sq, double x, double y){ 
+///    return (Vector2){(x*sq),-1*(sq+(y*sq))};
+///}
 
-    av_dict_copy(&opt, opt_arg, 0);
+///Vector2 OBLhexodd(double sq, double x, double y){
+///    double ap =  sq-(sqrt(3)/2)*sq; // apothem for hex grids
+///    return (Vector2){sq/2+(x*sq),-1*(sq/2+(y*(sq-ap)))};
+///}
 
-    /* open the codec */
-    ret = avcodec_open2(c, codec, &opt);
-    av_dict_free(&opt);
-    if (ret < 0) {
-        fprintf(stderr, "Could not open video codec: %s\n", av_err2str(ret));
-        exit(1);
-    }
+///Vector2 OBLhexeven(double sq, double x, double y){
+///    double ap =  sq-(sqrt(3)/2)*sq; // apothem for hex grids
+///    return (Vector2){sq/2+(x*sq)+sq/2,-1*(sq/2+(y*(sq-ap)))};
+///}
 
-    /* allocate and init a re-usable frame */
-    ost->frame = alloc_frame(c->pix_fmt, c->width, c->height);
-    if (!ost->frame) {
-        fprintf(stderr, "Could not allocate video frame\n");
-        exit(1);
-    }
-
-    /* copy the stream parameters to the muxer */
-    ret = avcodec_parameters_from_context(ost->st->codecpar, c);
-    if (ret < 0) {
-        fprintf(stderr, "Could not copy the stream parameters\n");
-        exit(1);
-    }
-}
-
-int CS_InitAnimation(void* space, int winWidth, int winHeight, int wX, int wY, int wZ, int vector, int displayDelay, const char *name, int save_video){
-    CellSpace* s;
-    //int screenWidth, screenHeight;
-    int cellsize;
-    
-    //printf("CS_plot\n");
-
-    ModelicaFormatMessage("INIT ANIMATION\n");
-    
-    s = (CellSpace*) space;
-
-    s->plot_vector = vector;
-    s->wX = wX;
-    s->wY = wY;
-    s->wZ = wZ;
-
-    s->displayDelay = displayDelay;
-    s->plot_animation = 1;
-    s->storehistory = wY > 0;
-    
-    if (s->ndims == 1 || s->ndims == 2){ // 1D or 2D animation using raylib
-	//screenWidth = fmin((wX*SQUARESIZE)+2*OFFSET,winMaxWidth);
-	//screenHeight = fmin((wY*SQUARESIZE)+2*OFFSET,winMaxHeight); 
-	s->sq = (winWidth-(2*OFFSET))/(double)wX;
-	s->camera2.target = (Vector2){0.0,0.0};
-	s->camera2.offset = (Vector2){0,winHeight};
-	s->camera2.rotation = 0.0;
-	s->camera2.zoom = 1.0;
-	InitWindow(winWidth, winHeight,name);
-	//SetTargetFPS(60);                   // Set our game to run at 60 frames-per-second	
-    }else if (s->ndims == 3){
-	s->sq = (winWidth/wX)/50.0f;
-	//ModelicaFormatMessage("SQ = %lf\n",s->sq);
-	//screenWidth = winMaxWidth;
-	//screenHeight = winMaxHeight;
-	InitWindow(winWidth, winHeight,name);
-	// s->camera3.position = (Vector3){s->squaresize*10, s->squaresize*10, s->squaresize*10 }; // Camera3 position
-	s->camera3.position = (Vector3){2*wX, 2*wY, 2*wZ}; // Camera3 position
-	//	s->camera3.position = (Vector3){ 10.0f, 10.0f, 10.0f }; // Camera3 position
-	s->camera3.target = (Vector3){ 0.0, 0.0, 0.0 };      // Camera3 looking at point
-	s->camera3.up = (Vector3){ 0.0, s->sq, 0.0 };          // Camera3 up vector (rotation towards target)
-	s->camera3.fovy = 45.0;                                // Camera3 field-of-view Y
-	s->camera3.projection = CAMERA_ORTHOGRAPHIC;//CAMERA_PERSPECTIVE;             // Camera3 projection type
-	DisableCursor();                    // Limit cursor to relative movement inside the window
-	//SetTargetFPS(60);                   // Set our game to run at 60 frames-per-second	
-    }
-
-    // INITIALIZE VIDEO RECORDING
-    if (save_video){
-	s->save_video = 1;
-	int ret;
-	int i;
-    
-	AVDictionary *opt = NULL;
-	 
-	char filename[256];
-       	sprintf(filename,"%s_video_%ld.mp4",name,time(NULL));
-	ModelicaFormatMessage("VIDEO FILENAME = %s\n",filename);
-
-	 /* allocate the output media context */
-	avformat_alloc_output_context2(&s->oc, NULL, NULL, filename);
-	if (!s->oc) {
-	    printf("Could not deduce output format from file extension: using MPEG.\n");
-	    avformat_alloc_output_context2(&s->oc, NULL, "mpeg", filename);
-	}
-	if (!s->oc)
-	    return 1;
-
-	s->fmt = s->oc->oformat;
-	/* Add video stream using the default format codecs
-	 * and initialize the codecs. */
-	if (s->fmt->video_codec != AV_CODEC_ID_NONE) {
-	    add_stream(&s->video_st, s->oc, &s->video_codec, s->fmt->video_codec,winWidth,winHeight);
-	    /* Now that all the parameters are set, we can open the audio and
-	     * video codecs and allocate the necessary encode buffers. */
-	    open_video(s->oc, s->video_codec, &s->video_st, opt);
-	}
-
-	av_dump_format(s->oc, 0, filename, 1);
-
-	/* open the output file, if needed */
-	if (!(s->fmt->flags & AVFMT_NOFILE)) {
-	    ret = avio_open(&s->oc->pb, filename, AVIO_FLAG_WRITE);
-	    if (ret < 0) {
-		fprintf(stderr, "Could not open '%s': %s\n", filename,
-			av_err2str(ret));
-		return 1;
-	    }
-	}
-
-	/* Write the stream header, if any. */
-	ret = avformat_write_header(s->oc, &opt);
-	if (ret < 0) {
-	    fprintf(stderr, "Error occurred when opening output file: %s\n",
-		    av_err2str(ret));
-	    return 1;
-	}
-
-    }
-    ModelicaFormatMessage("END INIT ANIMATION\n");
-}
-
-// double COLOR display (void* space, int x,int y, int z, double* VMODULE, double* VECTOR_X, double* VECTOR_Y, double* VECTOR_Z)
-int CS_SetDisplay(void* space, double (*display)(void*,int,int,int,double*,double*,double*,double*)){
-    CellSpace* s;
-
-    ModelicaFormatMessage("SET DISPLAY\n");
-    
-    s = (CellSpace*) space;
-    s->display = display;
-    
-    ModelicaFormatMessage("END SET DISPLAY\n");
-
-    return 0;
-}
-
-// OriginBottomLeft: transform (x,y) coordinates from the space into raylib Vector2 coordinates with origin in the bottom-left part of the window (instead of the top-left, as default) 
-Vector2 OBLrec(double sq, double x, double y){ 
-    return (Vector2){(x*sq),-1*(sq+(y*sq))};
-}
-
-Vector2 OBLhexodd(double sq, double x, double y){
-    double ap =  sq-(sqrt(3)/2)*sq; // apothem for hex grids
-    return (Vector2){sq/2+(x*sq),-1*(sq/2+(y*(sq-ap)))};
-}
-
-Vector2 OBLhexeven(double sq, double x, double y){
-    double ap =  sq-(sqrt(3)/2)*sq; // apothem for hex grids
-    return (Vector2){sq/2+(x*sq)+sq/2,-1*(sq/2+(y*(sq-ap)))};
-}
-
-int DrawVectorodd(double sq, double x, double y, double vx, double vy, double color){
-    double ap =  sq-(sqrt(3)/2)*sq; // apothem for hex grids
-    double vm = sqrt(vx*vx+vy*vy);
-    double vecx = vx;
-    double vecy = vy;
-
-    if (vm > 1){ // limit vector to squaresize
-	vecy = (vecy/vm);
-	vecx = (vecx/vm);
-    }
-
-    vecx = (vx/vm);
-    vecy = (vy/vm);
-
-    vm = (sq/25)*vm;
-    
-    /*DrawLineEx((Vector2){(x*sq)+sq/2,-1*(y*(sq-ap)+sq/2)},
-	       (Vector2){sq/2+(x*sq)+(vecy*(sq/2)),-1*(sq/2+(y*(sq-ap))+(vecx*(sq/2)))},
-	       vm*2,
-	       GetColor((int)color));*/
-
-    DrawLineEx((Vector2){(x*sq)+sq/2,-1*(y*(sq-ap)+sq/2)},
-	       (Vector2){(x*sq)+sq/2+(vecx*(sq/2)),-1*(sq/2+(y*(sq-ap))+(vecy*(sq/2)))},
-	       vm*4,
-	       GetColor((int)color));
-    
-
-    //DrawCircle(s->sq/2+(i*s->sq)+(vy*(s->sq/2)),-1*(s->sq/2+(j*(s->sq-ap))+(vx*(s->sq/2))),(vm*4)/s->sq,GetColor((int)vcolor));
-
-    return 0;
-}
-
-
-int DrawVectoreven(double sq, double x, double y, double vx, double vy, double color){
-    double ap =  sq-(sqrt(3)/2)*sq; // apothem for hex grids
-    double vm = sqrt(vx*vx+vy*vy);
-    double vecx = vx;
-    double vecy = vy;
-
-    if (vm > 1){ // limit vector to squaresize
-	vecy = (vecy/vm);
-	vecx = (vecx/vm);
-    }
-    vm = (sq/25)*vm;
-
-    vecx = (vx/vm);
-    vecy = (vy/vm);
-    
-    /*DrawLineEx((Vector2){sq/2+(sq/2)+(x*sq),-1*(sq/2+(y*(sq-ap)))},
-	       (Vector2){sq/2+(sq/2)+(x*sq)+(vecy*(sq/2)),-1*(sq/2+(y*(sq-ap))+(vecx*(sq/2)))},
-	       vm*2,GetColor((int)color));
-    */
-    DrawLineEx((Vector2){sq/2+(sq/2)+(x*sq),-1*(sq/2+(y*(sq-ap)))},
-	       (Vector2){sq/2+(sq/2)+(x*sq)+(vecx*(sq/2)),-1*(sq/2+(y*(sq-ap))+(vecy*(sq/2)))},
-	       vm*4,
-	       GetColor((int)color));
-
-    
-    //DrawCircle(s->sq/2+(s->sq/2)+(i*s->sq)+(vy*(s->sq/2)),-1*(s->sq/2+(j*(s->sq-ap))+(vx*(s->sq/2))),(vm*4)/s->sq,GetColor((int)vcolor));
-
-    return 0;
-}
-
-static void log_packet(const AVFormatContext *fmt_ctx, const AVPacket *pkt)
-{
-    AVRational *time_base = &fmt_ctx->streams[pkt->stream_index]->time_base;
-
-    printf("pts:%s pts_time:%s dts:%s dts_time:%s duration:%s duration_time:%s stream_index:%d\n",
-           av_ts2str(pkt->pts), av_ts2timestr(pkt->pts, time_base),
-           av_ts2str(pkt->dts), av_ts2timestr(pkt->dts, time_base),
-           av_ts2str(pkt->duration), av_ts2timestr(pkt->duration, time_base),
-           pkt->stream_index);
-}
-
-static int write_frame(AVFormatContext *fmt_ctx, AVCodecContext *c, AVStream *st, AVFrame *frame, AVPacket *pkt)
-{
-    int ret;
-
-    //printf("WRITE FRAME\n");
-    
-    // send the frame to the encoder
-    ret = avcodec_send_frame(c, frame);
-    if (ret < 0) {
-	fprintf(stderr, "Error sending a frame to the encoder: %s\n",
-                av_err2str(ret));
-        exit(1);
-    }
-    while (ret >= 0) {
-        ret = avcodec_receive_packet(c, pkt);
-        if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF){
-	    break;
-        }else if (ret < 0) {
-            fprintf(stderr, "Error encoding a frame: %s\n", av_err2str(ret));
-            exit(1);
-        }
-	/* rescale output packet timestamp values from codec to stream timebase */
-	av_packet_rescale_ts(pkt, c->time_base, st->time_base);
-	pkt->stream_index = st->index;
-	
-	/* Write the compressed frame to the media file. */
-	//log_packet(fmt_ctx, pkt);
-	ret = av_interleaved_write_frame(fmt_ctx, pkt);
-	/* pkt is now blank (av_interleaved_write_frame() takes ownership of
-	 * its contents and resets pkt), so that no unreferencing is necessary.
-	 * This would be different if one used av_write_frame(). */
-	if (ret < 0) {
-	    fprintf(stderr, "Error while writing output packet: %s\n", av_err2str(ret));
-	    exit(1);
-	}
-    }
-    
-    return ret == AVERROR_EOF ? 1 : 0;
-}
+///int DrawVectorodd(double sq, double x, double y, double vx, double vy, double color){
+///    double ap =  sq-(sqrt(3)/2)*sq; // apothem for hex grids
+///    double vm = sqrt(vx*vx+vy*vy);
+///    double vecx = vx;
+///    double vecy = vy;
+///
+///    if (vm > 1){ // limit vector to squaresize
+///	vecy = (vecy/vm);
+///	vecx = (vecx/vm);
+///    }
+///
+///    vecx = (vx/vm);
+///    vecy = (vy/vm);
+///
+///    vm = (sq/25)*vm;
+///    
+///    /*DrawLineEx((Vector2){(x*sq)+sq/2,-1*(y*(sq-ap)+sq/2)},
+///	       (Vector2){sq/2+(x*sq)+(vecy*(sq/2)),-1*(sq/2+(y*(sq-ap))+(vecx*(sq/2)))},
+///	       vm*2,
+///	       GetColor((int)color));*/
+///
+///    DrawLineEx((Vector2){(x*sq)+sq/2,-1*(y*(sq-ap)+sq/2)},
+///	       (Vector2){(x*sq)+sq/2+(vecx*(sq/2)),-1*(sq/2+(y*(sq-ap))+(vecy*(sq/2)))},
+///	       vm*4,
+///	       GetColor((int)color));
+///    
+///
+///    //DrawCircle(s->sq/2+(i*s->sq)+(vy*(s->sq/2)),-1*(s->sq/2+(j*(s->sq-ap))+(vx*(s->sq/2))),(vm*4)/s->sq,GetColor((int)vcolor));
+///
+///    return 0;
+///}
 
 
-static AVFrame *get_video_frame(OutputStream *ost)
-{
-    AVCodecContext *c = ost->enc;
-    Image sc = LoadImageFromScreen(); // take screenshot
-    //const uint8_t * const inData[1] = { sc.data }; // RGBA data from Image
-    int inLinesize[1] = { 4*sc.width }; // RGBA stride
-    
-    //printf("GET VIDEO FRAME\n");
-    
-    /* check if we want to generate more frames */
-    //if (av_compare_ts(ost->next_pts, c->time_base, SIM_TIME, (AVRational){ 1, 1 }) > 0)
-    //    return NULL;
-    
-    /* when we pass a frame to the encoder, it may keep a reference to it
-     * internally; make sure we do not overwrite it here */
-    if (av_frame_make_writable(ost->frame) < 0)
-        exit(1);
-    
-    // Convert from RGBA to YUV420P
-    if (!ost->sws_ctx) {
-	ost->sws_ctx = sws_getContext(c->width, c->height, AV_PIX_FMT_RGBA,
-				      c->width, c->height, AV_PIX_FMT_YUV420P,
-				      0 , NULL, NULL, NULL);
-	if (!ost->sws_ctx) {
-	    fprintf(stderr,
-		    "Could not initialize the conversion context\n");
-	    exit(1);
-	}
-    }
-    sws_scale(ost->sws_ctx, (const uint8_t * const *) &(sc.data),
-          inLinesize, 0, c->height, ost->frame->data,
-    	      ost->frame->linesize);
-    
+///int DrawVectoreven(double sq, double x, double y, double vx, double vy, double color){
+///    double ap =  sq-(sqrt(3)/2)*sq; // apothem for hex grids
+///    double vm = sqrt(vx*vx+vy*vy);
+///    double vecx = vx;
+///    double vecy = vy;
+///
+///    if (vm > 1){ // limit vector to squaresize
+///	vecy = (vecy/vm);
+///	vecx = (vecx/vm);
+///    }
+///    vm = (sq/25)*vm;
+///
+///    vecx = (vx/vm);
+///    vecy = (vy/vm);
+///    
+///    /*DrawLineEx((Vector2){sq/2+(sq/2)+(x*sq),-1*(sq/2+(y*(sq-ap)))},
+///	       (Vector2){sq/2+(sq/2)+(x*sq)+(vecy*(sq/2)),-1*(sq/2+(y*(sq-ap))+(vecx*(sq/2)))},
+///	       vm*2,GetColor((int)color));
+///    */
+///    DrawLineEx((Vector2){sq/2+(sq/2)+(x*sq),-1*(sq/2+(y*(sq-ap)))},
+///	       (Vector2){sq/2+(sq/2)+(x*sq)+(vecx*(sq/2)),-1*(sq/2+(y*(sq-ap))+(vecy*(sq/2)))},
+///	       vm*4,
+///	       GetColor((int)color));
+///
+///    
+///    //DrawCircle(s->sq/2+(s->sq/2)+(i*s->sq)+(vy*(s->sq/2)),-1*(s->sq/2+(j*(s->sq-ap))+(vx*(s->sq/2))),(vm*4)/s->sq,GetColor((int)vcolor));
+///
+///    return 0;
+///}
 
-    
-    ost->frame->pts = ost->next_pts++;
+///static void log_packet(const AVFormatContext *fmt_ctx, const AVPacket *pkt)
+///{
+///    AVRational *time_base = &fmt_ctx->streams[pkt->stream_index]->time_base;
+///
+///    printf("pts:%s pts_time:%s dts:%s dts_time:%s duration:%s duration_time:%s stream_index:%d\n",
+///           av_ts2str(pkt->pts), av_ts2timestr(pkt->pts, time_base),
+///           av_ts2str(pkt->dts), av_ts2timestr(pkt->dts, time_base),
+///           av_ts2str(pkt->duration), av_ts2timestr(pkt->duration, time_base),
+///           pkt->stream_index);
+///}
 
-    return ost->frame;
-}
+///static int write_frame(AVFormatContext *fmt_ctx, AVCodecContext *c, AVStream *st, AVFrame *frame, AVPacket *pkt)
+///{
+///    int ret;
+///
+///    //printf("WRITE FRAME\n");
+///    
+///    // send the frame to the encoder
+///    ret = avcodec_send_frame(c, frame);
+///    if (ret < 0) {
+///	fprintf(stderr, "Error sending a frame to the encoder: %s\n",
+///                av_err2str(ret));
+///        exit(1);
+///    }
+///    while (ret >= 0) {
+///        ret = avcodec_receive_packet(c, pkt);
+///        if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF){
+///	    break;
+///        }else if (ret < 0) {
+///            fprintf(stderr, "Error encoding a frame: %s\n", av_err2str(ret));
+///            exit(1);
+///        }
+///	/* rescale output packet timestamp values from codec to stream timebase */
+///	av_packet_rescale_ts(pkt, c->time_base, st->time_base);
+///	pkt->stream_index = st->index;
+///	
+///	/* Write the compressed frame to the media file. */
+///	//log_packet(fmt_ctx, pkt);
+///	ret = av_interleaved_write_frame(fmt_ctx, pkt);
+///	/* pkt is now blank (av_interleaved_write_frame() takes ownership of
+///	 * its contents and resets pkt), so that no unreferencing is necessary.
+///	 * This would be different if one used av_write_frame(). */
+///	if (ret < 0) {
+///	    fprintf(stderr, "Error while writing output packet: %s\n", av_err2str(ret));
+///	    exit(1);
+///	}
+///    }
+///    
+///    return ret == AVERROR_EOF ? 1 : 0;
+///}
 
-// double COLOR display (void* space, int x,int y, int z, double* SCALARVALUE, double* VECTOR_X, double* VECTOR_Y, double* VECTOR_Z)
-int CS_Plot(void* space){
-    CellSpace* s;
-    Cell *cell;
-    int i,j,k;
-    double vm,vcolor;
-    double ap;
-    double VAL;
-    double COLOR;
-    double VX,VY,VZ;
-    
-    //ModelicaFormatMessage("PLOT\n");
-    
-    s = (CellSpace*) space;
-    // 1D - plot animation for new states
-    //printf("NDIMS = %d\n",s->ndims);
 
-    if(s->display == NULL){
-	ModelicaFormatMessage("PLOT ERROR: Display function not found\n");
-	exit(-2);
-    }
-    
-    if(s->ndims == 1){
-	BeginDrawing();
-	ClearBackground(RAYWHITE);
-	BeginMode2D(s->camera2);
-	if(s->storehistory){
-	    s->n_hist++;
-	    s->hist = (double**)realloc((double**)s->hist,sizeof(double*)*s->n_hist);
-	    s->hist[s->n_hist-1] = (double*)malloc(sizeof(double)*s->X);
-	    if (s->hist == NULL) exit(-1);
-	    // store current states in history    
-	    for (i=0;i<s->wX;i++){
-		COLOR = s->display(space,i,0,0,&VAL,&VX,&VY,&VZ);
-		s->hist[s->n_hist-1][i] = COLOR;
-	    }
-	}
-	// PLOT history, including current state
-	for(i=0;i<s->n_hist-1;i++){
-	    for(j=0;j<s->wX;j++){
-		DrawRectangleV(OBLrec(s->sq,j,i), (Vector2){s->sq,s->sq}, GetColor((int)s->hist[i][j]));
-	    }
-	}
-	EndMode2D();
-	EndDrawing();
-    }
-    // 2D - plot animation for new states
-    if(s->ndims == 2){
-	BeginDrawing();
-	ClearBackground(RAYWHITE);
-	BeginMode2D(s->camera2);
-	//	  ModelicaFormatMessage("[");
-	ap = s->sq-(sqrt(3)/2)*s->sq; // apothem for hex grids
-	for (i=0;i<s->wX;i++){
-	    for(j=0;j<s->wY;j++){
-		cell = s->M[i][j][s->wZ-1];
-		if (cell != NULL){
-		    // cell present in space, draw state.
-		    COLOR = s->display(space,i,j,0,&VAL,&VX,&VY,&VZ);
-		    if (s->hex){ // hexagonal lattice
-			if(s->plot_vector){ // vector field
-			    if(!(j%2)){ //odd rows
-				DrawPoly(OBLhexodd(s->sq,i,j), 6, (s->sq/2), 0, WHITE);
-				DrawVectorodd(s->sq,i,j,VX,VY,COLOR);
-			    }else{ // even rows
-				DrawPoly(OBLhexeven(s->sq,i,j), 6, (s->sq/2) , 0,WHITE);
-				DrawVectoreven(s->sq,i,j,VX,VY,COLOR);
-			    }
-			}else{
-			    if(!(j%2))
-				DrawPoly(OBLhexodd(s->sq,i,j), 6, (s->sq/2), 0, GetColor((int)COLOR));
-			    else
-				DrawPoly(OBLhexeven(s->sq,i,j), 6, (s->sq/2) , 0, GetColor((int)COLOR));
-			}
-		    }else{ // square lattice
-			if(s->plot_vector){
-			    DrawVectorodd(s->sq,i,j,VX,VY,COLOR);
-			}else{
-			    DrawRectangleV(OBLrec(s->sq,i,j), (Vector2){s->sq,s->sq}, GetColor((int)COLOR));
-			}
-		    }
-		}else{// cell not present, print default
-		    if(s->hex)
-			if(!(j%2))
-			    DrawPoly(OBLhexodd(s->sq,i,j), 6, (s->sq/2), 0, BLANK);
-			else
-			    DrawPoly(OBLhexeven(s->sq,i,j), 6, (s->sq/2), 0, BLANK);
-		    else
-			DrawRectangleV(OBLrec(s->sq,i,j), (Vector2){s->sq,s->sq}, BLANK);
-		}
-	    }
-	}
-	usleep(s->displayDelay);
-	EndMode2D();
-	EndDrawing();
-    }
-    
-    // 3D - plot animation for new states
-    if(s->ndims == 3){
-	// Update
-	//----------------------------------------------------------------------------------
-	UpdateCamera(&s->camera3, CAMERA_THIRD_PERSON);
-	
-	if (IsKeyDown('Z')) s->camera3.target = (Vector3){ 0.0f, 0.0f, 0.0f };
-	//----------------------------------------------------------------------------------
-	
-	// Draw
-	//----------------------------------------------------------------------------------
-	BeginDrawing();
-	
-	ClearBackground(RAYWHITE);
-	
-	BeginMode3D(s->camera3);
-	
-	// Paint 3D Matrix
-	for(i=0;i<s->wX;i++){
-	    for(j=0;j<s->wY;j++){
-		for(k=0;k<s->wZ;k++){
-		    cell = s->M[i][j][k];
-		    COLOR = s->display(space,i,j,k,&VAL,&VX,&VY,&VZ);
-		    if (cell != NULL){
-			// cell present in space, print state.
-			DrawCubeV((Vector3){i*s->sq,j*s->sq,k*s->sq},(Vector3){s->sq,s->sq,s->sq},GetColor((int)COLOR));
-		    }else{// cell not present, print default
-			DrawCubeV((Vector3){i*s->sq,j*s->sq,k*s->sq},(Vector3){s->sq,s->sq,s->sq},BLANK);
-			
-		    }
-		}
-	    }
-	}
-	EndMode3D();
-	usleep(s->displayDelay);
-	EndDrawing();
-    }
+///static AVFrame *get_video_frame(OutputStream *ost)
+///{
+///    AVCodecContext *c = ost->enc;
+///    Image sc = LoadImageFromScreen(); // take screenshot
+///    //const uint8_t * const inData[1] = { sc.data }; // RGBA data from Image
+///    int inLinesize[1] = { 4*sc.width }; // RGBA stride
+///    
+///    //printf("GET VIDEO FRAME\n");
+///    
+///    /* check if we want to generate more frames */
+///    //if (av_compare_ts(ost->next_pts, c->time_base, SIM_TIME, (AVRational){ 1, 1 }) > 0)
+///    //    return NULL;
+///    
+///    /* when we pass a frame to the encoder, it may keep a reference to it
+///     * internally; make sure we do not overwrite it here */
+///    if (av_frame_make_writable(ost->frame) < 0)
+///        exit(1);
+///    
+///    // Convert from RGBA to YUV420P
+///    if (!ost->sws_ctx) {
+///	ost->sws_ctx = sws_getContext(c->width, c->height, AV_PIX_FMT_RGBA,
+///				      c->width, c->height, AV_PIX_FMT_YUV420P,
+///				      0 , NULL, NULL, NULL);
+///	if (!ost->sws_ctx) {
+///	    fprintf(stderr,
+///		    "Could not initialize the conversion context\n");
+///	    exit(1);
+///	}
+///    }
+///    sws_scale(ost->sws_ctx, (const uint8_t * const *) &(sc.data),
+///          inLinesize, 0, c->height, ost->frame->data,
+///    	      ost->frame->linesize);
+///    
+///
+///    
+///    ost->frame->pts = ost->next_pts++;
+///
+///    return ost->frame;
+///}
 
-    // RECORD ANIMATION VIDEO
-    if (s->save_video){
-	WaitTime(0.0001);
-	
-	//int encode_video = 1;
-	//while (encode_video) {
-	    /* select the stream to encode */
-	//printf("VIDEO_ST ENC = %p\n",s->video_st.st);
-	write_frame(s->oc, s->video_st.enc, s->video_st.st, get_video_frame(&s->video_st), s->video_st.tmp_pkt);
-	//}
-    }
-    
-    //    ModelicaFormatMessage("END PLOT\n");
-    return 1;
-}
+///// double COLOR display (void* space, int x,int y, int z, double* SCALARVALUE, double* VECTOR_X, double* VECTOR_Y, double* VECTOR_Z)
+///int CS_Plot(void* space){
+///    CellSpace* s;
+///    Cell *cell;
+///    int i,j,k;
+///    double vm,vcolor;
+///    double ap;
+///    double VAL;
+///    double COLOR;
+///    double VX,VY,VZ;
+///    
+///    //ModelicaFormatMessage("PLOT\n");
+///    
+///    s = (CellSpace*) space;
+///    // 1D - plot animation for new states
+///    //printf("NDIMS = %d\n",s->ndims);
+///
+///    if(s->display == NULL){
+///	ModelicaFormatMessage("PLOT ERROR: Display function not found\n");
+///	exit(-2);
+///    }
+///    
+///    if(s->ndims == 1){
+///	BeginDrawing();
+///	ClearBackground(RAYWHITE);
+///	BeginMode2D(s->camera2);
+///	if(s->storehistory){
+///	    s->n_hist++;
+///	    s->hist = (double**)realloc((double**)s->hist,sizeof(double*)*s->n_hist);
+///	    s->hist[s->n_hist-1] = (double*)malloc(sizeof(double)*s->X);
+///	    if (s->hist == NULL) exit(-1);
+///	    // store current states in history    
+///	    for (i=0;i<s->wX;i++){
+///		COLOR = s->display(space,i,0,0,&VAL,&VX,&VY,&VZ);
+///		s->hist[s->n_hist-1][i] = COLOR;
+///	    }
+///	}
+///	// PLOT history, including current state
+///	for(i=0;i<s->n_hist-1;i++){
+///	    for(j=0;j<s->wX;j++){
+///		DrawRectangleV(OBLrec(s->sq,j,i), (Vector2){s->sq,s->sq}, GetColor((int)s->hist[i][j]));
+///	    }
+///	}
+///	EndMode2D();
+///	EndDrawing();
+///    }
+///    // 2D - plot animation for new states
+///    if(s->ndims == 2){
+///	BeginDrawing();
+///	ClearBackground(RAYWHITE);
+///	BeginMode2D(s->camera2);
+///	//	  ModelicaFormatMessage("[");
+///	ap = s->sq-(sqrt(3)/2)*s->sq; // apothem for hex grids
+///	for (i=0;i<s->wX;i++){
+///	    for(j=0;j<s->wY;j++){
+///		cell = s->M[i][j][s->wZ-1];
+///		if (cell != NULL){
+///		    // cell present in space, draw state.
+///		    COLOR = s->display(space,i,j,0,&VAL,&VX,&VY,&VZ);
+///		    if (s->hex){ // hexagonal lattice
+///			if(s->plot_vector){ // vector field
+///			    if(!(j%2)){ //odd rows
+///				DrawPoly(OBLhexodd(s->sq,i,j), 6, (s->sq/2), 0, WHITE);
+///				DrawVectorodd(s->sq,i,j,VX,VY,COLOR);
+///			    }else{ // even rows
+///				DrawPoly(OBLhexeven(s->sq,i,j), 6, (s->sq/2) , 0,WHITE);
+///				DrawVectoreven(s->sq,i,j,VX,VY,COLOR);
+///			    }
+///			}else{
+///			    if(!(j%2))
+///				DrawPoly(OBLhexodd(s->sq,i,j), 6, (s->sq/2), 0, GetColor((int)COLOR));
+///			    else
+///				DrawPoly(OBLhexeven(s->sq,i,j), 6, (s->sq/2) , 0, GetColor((int)COLOR));
+///			}
+///		    }else{ // square lattice
+///			if(s->plot_vector){
+///			    DrawVectorodd(s->sq,i,j,VX,VY,COLOR);
+///			}else{
+///			    DrawRectangleV(OBLrec(s->sq,i,j), (Vector2){s->sq,s->sq}, GetColor((int)COLOR));
+///			}
+///		    }
+///		}else{// cell not present, print default
+///		    if(s->hex)
+///			if(!(j%2))
+///			    DrawPoly(OBLhexodd(s->sq,i,j), 6, (s->sq/2), 0, BLANK);
+///			else
+///			    DrawPoly(OBLhexeven(s->sq,i,j), 6, (s->sq/2), 0, BLANK);
+///		    else
+///			DrawRectangleV(OBLrec(s->sq,i,j), (Vector2){s->sq,s->sq}, BLANK);
+///		}
+///	    }
+///	}
+///	usleep(s->displayDelay);
+///	EndMode2D();
+///	EndDrawing();
+///    }
+///    
+///    // 3D - plot animation for new states
+///    if(s->ndims == 3){
+///	// Update
+///	//----------------------------------------------------------------------------------
+///	UpdateCamera(&s->camera3, CAMERA_THIRD_PERSON);
+///	
+///	if (IsKeyDown('Z')) s->camera3.target = (Vector3){ 0.0f, 0.0f, 0.0f };
+///	//----------------------------------------------------------------------------------
+///	
+///	// Draw
+///	//----------------------------------------------------------------------------------
+///	BeginDrawing();
+///	
+///	ClearBackground(RAYWHITE);
+///	
+///	BeginMode3D(s->camera3);
+///	
+///	// Paint 3D Matrix
+///	for(i=0;i<s->wX;i++){
+///	    for(j=0;j<s->wY;j++){
+///		for(k=0;k<s->wZ;k++){
+///		    cell = s->M[i][j][k];
+///		    COLOR = s->display(space,i,j,k,&VAL,&VX,&VY,&VZ);
+///		    if (cell != NULL){
+///			// cell present in space, print state.
+///			DrawCubeV((Vector3){i*s->sq,j*s->sq,k*s->sq},(Vector3){s->sq,s->sq,s->sq},GetColor((int)COLOR));
+///		    }else{// cell not present, print default
+///			DrawCubeV((Vector3){i*s->sq,j*s->sq,k*s->sq},(Vector3){s->sq,s->sq,s->sq},BLANK);
+///			
+///		    }
+///		}
+///	    }
+///	}
+///	EndMode3D();
+///	usleep(s->displayDelay);
+///	EndDrawing();
+///    }
+///
+///    // RECORD ANIMATION VIDEO
+///    if (s->save_video){
+///	WaitTime(0.0001);
+///	
+///	//int encode_video = 1;
+///	//while (encode_video) {
+///	    /* select the stream to encode */
+///	//printf("VIDEO_ST ENC = %p\n",s->video_st.st);
+///	write_frame(s->oc, s->video_st.enc, s->video_st.st, get_video_frame(&s->video_st), s->video_st.tmp_pkt);
+///	//}
+///    }
+///    
+///    //    ModelicaFormatMessage("END PLOT\n");
+///    return 1;
+///}
 
-static void close_stream(AVFormatContext *oc, OutputStream *ost)
-{
-    avcodec_free_context(&ost->enc);
-    av_frame_free(&ost->frame);
-    //av_frame_free(&ost->tmp_frame);
-    av_packet_free(&ost->tmp_pkt);
-    sws_freeContext(ost->sws_ctx);
-    //  swr_free(&ost->swr_ctx);
-}
+///static void close_stream(AVFormatContext *oc, OutputStream *ost)
+///{
+///    avcodec_free_context(&ost->enc);
+///    av_frame_free(&ost->frame);
+///    //av_frame_free(&ost->tmp_frame);
+///    av_packet_free(&ost->tmp_pkt);
+///    sws_freeContext(ost->sws_ctx);
+///    //  swr_free(&ost->swr_ctx);
+///}
 
 int CS_Delete(void* space){
     CellSpace *s;
@@ -965,30 +961,30 @@ int CS_Delete(void* space){
     //ModelicaFormatMessage("CS_Delete\n");
     
     // flush encoder if save_video and end video
-    if (s->save_video){
-	// wait codec to return all frames
-	while (!write_frame(s->oc, s->video_st.enc, s->video_st.st, NULL, s->video_st.tmp_pkt));
-	
-	av_write_trailer(s->oc);
-	//      encode(s->c,NULL,s->pkt,s->f);
-	//      if (s->codec->id == AV_CODEC_ID_MPEG1VIDEO || s->codec->id == AV_CODEC_ID_MPEG2VIDEO)
-	//	  fwrite(endcode, 1, sizeof(endcode), s->f);
-	//fclose(s->f);
-	close_stream(s->oc, &s->video_st);
-	avio_closep(&s->oc->pb);
-	/* free the stream */
-	avformat_free_context(s->oc);
-	s->save_video = 0;
-    }    
-    s->storehistory = 0;
-    
-    // Wait for animation window to close
-    if(s->plot_animation){
-	while(!WindowShouldClose())
-	    CS_Plot(space);
-	CloseWindow();
-    }
-    
+///    if (s->save_video){
+///	// wait codec to return all frames
+///	while (!write_frame(s->oc, s->video_st.enc, s->video_st.st, NULL, s->video_st.tmp_pkt));
+///	
+///	av_write_trailer(s->oc);
+///	//      encode(s->c,NULL,s->pkt,s->f);
+///	//      if (s->codec->id == AV_CODEC_ID_MPEG1VIDEO || s->codec->id == AV_CODEC_ID_MPEG2VIDEO)
+///	//	  fwrite(endcode, 1, sizeof(endcode), s->f);
+///	//fclose(s->f);
+///	close_stream(s->oc, &s->video_st);
+///	avio_closep(&s->oc->pb);
+///	/* free the stream */
+///	avformat_free_context(s->oc);
+///	s->save_video = 0;
+///    }    
+///    s->storehistory = 0;
+///    
+///    // Wait for animation window to close
+///    if(s->plot_animation){
+///	while(!WindowShouldClose())
+///	    CS_Plot(space);
+///	CloseWindow();
+///    }
+///    
     // free memory
     for(i=0;i<s->X;i++){
 	for(j=0;j<s->Y;j++){

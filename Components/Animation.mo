@@ -10,44 +10,31 @@ model Animation
   parameter Integer WindowZ = 1 "number of animation cells in the Z axis";
   parameter Integer Vector = 0 "0 scalar, 1 vector";
   parameter Real displayDelay = 0 "Animation update delay (in microseconds)";
-  parameter String name = "CA_Animation";
   parameter Boolean save_video = false "save animation as a H264 video file?";
+  parameter String name = "CA_Animation";
   CAport Space annotation (Placement(transformation(extent={{-10,100},{10,120}}),
         iconTransformation(extent={{-10,100},{10,120}})));
   Integer step( start= 0);
+  Anim a = Anim(WindowWidth,WindowHeight,WindowX,WindowY,WindowZ,displayDelay,Vector,save_video,name);
 
   replaceable function SetDisplayFunction
+    input Anim animation;
     input CS space;
   end SetDisplayFunction;
 
   function StepPlot "Display function"
-    input CS space;
-    external "C" CS_Plot(space);
-    annotation (Include = "#include <CellularAutomataLib.c>");
+    input Anim animation;
+    external "C" CS_Plot(animation);
+    annotation (Include = "#include <CellularAutomataLib-animation.c>");
   end StepPlot;
 
-  function InitAnimation
-    input CS s;
-    input Integer WindowWidth;
-    input Integer WindowHeight;
-    input Integer wX;
-    input Integer wY;
-    input Integer wZ;
-    input Integer vector;
-    input Real displayDelay;
-    input String name;
-    input Boolean save_video;
-    external "C" CS_InitAnimation(s,WindowWidth,WindowHeight,wX,wY,wZ,vector,displayDelay,name,save_video);
-    annotation (Include = "#include <CellularAutomataLib.c>");
-  end InitAnimation;
 
 initial algorithm
-    InitAnimation(Space.space,WindowWidth,WindowHeight,WindowX,WindowY,WindowZ,Vector,displayDelay,name,save_video);
-    SetDisplayFunction(Space.space);
+    SetDisplayFunction(a,Space.space);
 algorithm
   when sample(initial_step, Tstep) and pre(step) < max_step then
-    StepPlot(Space.space);
-    step :=pre(step) + 1;
+    StepPlot(a);
+    step := pre(step) + 1;
   end when;
   annotation (
     Documentation(info="<html>
