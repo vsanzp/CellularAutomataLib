@@ -27,6 +27,7 @@ program. If not, see <https://www.gnu.org/licenses/>.
 #define S3
 
 #include <CellularAutomataLib.c>
+#include <CellularAutomataLib-animation.c>
 
 /****************************************/
 /* SIMPLE 3D CELLULAR AUTOMATA       */
@@ -115,8 +116,8 @@ double S3DisplayClouds(void *space,int x, int y, int z, double* scalar, double* 
     }
 }
 
-void SetDisplayClouds(void* space){
-    CS_SetDisplay(space, &S3DisplayClouds);
+void SetDisplayClouds(void*animation,void* space){
+    CS_SetDisplay(animation,space, &S3DisplayClouds);
     return;
 }
 
@@ -187,8 +188,8 @@ double S3Display445(void *space,int x, int y, int z, double* scalar, double* vx,
     }
 }
 
-void SetDisplay445(void* space){
-    CS_SetDisplay(space, &S3Display445);
+void SetDisplay445(void*animation,void* space){
+    CS_SetDisplay(animation,space, &S3Display445);
     return;
 }
 

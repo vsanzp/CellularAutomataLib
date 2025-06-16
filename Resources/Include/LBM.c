@@ -27,6 +27,7 @@ program. If not, see <https://www.gnu.org/licenses/>.
 #define LBM
 
 #include <CellularAutomataLib.c>
+#include <CellularAutomataLib-animation.c>
 
 
 /************************************
@@ -253,8 +254,8 @@ double D2Q9Display(void *space, int x, int y, int z, double* scalar, double* vx,
     }
 }
 
-void D2Q9SetDisplay(void * space){
-    CS_SetDisplay(space, &D2Q9Display);   
+void D2Q9SetDisplay(void *animation,void * space){
+    CS_SetDisplay(animation,space, &D2Q9Display);   
     return;
 }
 

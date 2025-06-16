@@ -27,6 +27,7 @@ program. If not, see <https://www.gnu.org/licenses/>.
 #define FURNACE
 
 #include <CellularAutomataLib.c>
+#include <CellularAutomataLib-animation.c>
 
 /****************************************/
 /* FURNACE CELLULAR AUTOMATA       */
@@ -140,8 +141,8 @@ double FURDisplay(void *space,int x, int y, int z, double* scalar, double* vx, d
 	    return (double)ColorToInt((Color){255,255*cs->t,0,255}); // from red to yellow depending on the value of t	
     }
 }
-int FURSetDisplay(void* space){
-    CS_SetDisplay(space,&FURDisplay);
+int FURSetDisplay(void*animation,void* space){
+    CS_SetDisplay(animation,space,&FURDisplay);
     return 1;
 }
 

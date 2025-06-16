@@ -27,6 +27,7 @@ program. If not, see <https://www.gnu.org/licenses/>.
 #define FOREST
 
 #include <CellularAutomataLib.c>
+#include <CellularAutomataLib-animation.c>
 #include <Behave.c>
 
 /****************************************/
@@ -223,8 +224,8 @@ double Display(void *space,int x, int y, int z, double* scalar, double* vx, doub
     }
 }
 
-int SetDisplay(void *space){
-    CS_SetDisplay(space, &Display);   
+int SetDisplay(void*animation,void *space){
+    CS_SetDisplay(animation,space, &Display);   
     return 1;
 }
 

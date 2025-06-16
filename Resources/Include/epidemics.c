@@ -27,6 +27,7 @@ program. If not, see <https://www.gnu.org/licenses/>.
 #define EPIDEMICS
 
 #include <CellularAutomataLib.c>
+#include <CellularAutomataLib.c>
 
 
 /****************************************/
@@ -152,9 +153,9 @@ double Display(void *space,int x, int y, int z, double* scalar, double* vx, doub
 }
 
 
-int SetDisplay(void *space){
+int SetDisplay(void*animation,void *space){
     //double  (*display)(void*,int,int,int,double*,double*,double*,double*) = &CHIPDisplay;
-    CS_SetDisplay(space, &Display);   
+    CS_SetDisplay(animation,space, &Display);   
     return 1;
 }
 

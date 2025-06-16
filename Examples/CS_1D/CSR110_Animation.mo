@@ -7,12 +7,12 @@ model CSR110_Animation
     WindowX=100,
     WindowY=100,
     name="WolframR110",
-    save_video=false,
+    save_video=true,
   redeclare function SetDisplayFunction = RSetDisplay)
     annotation (Placement(transformation(extent={{-18,-2},{2,18}})));
 equation
-  connect(cSR110_1.Space, animation.Space) annotation (Line(points={{-49,21},
-          {-50,21},{-50,28},{-8,28},{-8,19}},
+  connect(cSR110_1.Space, animation.Space) annotation (Line(points={{-49,21},{
+          -50,21},{-50,28},{-8,28},{-8,19}},
                                            color={0,0,0}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),

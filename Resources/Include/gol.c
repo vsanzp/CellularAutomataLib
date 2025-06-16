@@ -27,6 +27,7 @@ program. If not, see <https://www.gnu.org/licenses/>.
 #define GOL
 
 #include <CellularAutomataLib.c>
+#include <CellularAutomataLib-animation.c>
 
 /****************************************/
 /* GAME OF LIFE CELLULAR AUTOMATA       */
@@ -163,8 +164,8 @@ double GOLDisplay(void *space,int x, int y, int z, double* scalar, double* vx, d
 	    return(double)ColorToInt(WHITE);  // dead in wHITE
     }
 }
-int GOLSetDisplay(void *space){
-    CS_SetDisplay(space, &GOLDisplay);   
+int GOLSetDisplay(void*animation,void *space){
+    CS_SetDisplay(animation,space, &GOLDisplay);   
     return 1;
 }
 

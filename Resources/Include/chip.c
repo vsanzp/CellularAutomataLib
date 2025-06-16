@@ -27,6 +27,7 @@ program. If not, see <https://www.gnu.org/licenses/>.
 #define CHIPS
 
 #include <CellularAutomataLib.c>
+#include <CellularAutomataLib-animation.c>
 
 /****************************************/
 /* CHIP CELLULAR AUTOMATA               */
@@ -220,8 +221,8 @@ double CHIPDisplay(void *space,int x, int y, int z, double* scalar, double* vx, 
     }
 }
 
-int CHIPSetDisplay(void *space){
-    CS_SetDisplay(space, &CHIPDisplay);   
+int CHIPSetDisplay(void*animation,void *space){
+    CS_SetDisplay(animation,space, &CHIPDisplay);   
     return 1;
 }
 

@@ -139,7 +139,7 @@ static void add_stream(OutputStream *ost, AVFormatContext *oc,
     ost->enc = c;
     
     c->codec_id = codec_id;
-    c->bit_rate = 400000;
+    //---c->bit_rate = 400000;
     /* Resolution must be a multiple of two. */
     c->width    = width;
     c->height   = height;
@@ -147,10 +147,12 @@ static void add_stream(OutputStream *ost, AVFormatContext *oc,
      * of which frame timestamps are represented. For fixed-fps content,
      * timebase should be 1/framerate and timestamp increments should be
      * identical to 1. */
-    ost->st->time_base = (AVRational){ 1, STREAM_FRAME_RATE };
-    c->time_base       = ost->st->time_base;
+
+    //ost->st->time_base = (AVRational){ 1, STREAM_FRAME_RATE };
+    //c->time_base       = ost->st->time_base;
+    c->time_base       = (AVRational){ 1, STREAM_FRAME_RATE };
     
-    c->gop_size      = 12; /* emit one intra frame every twelve frames at most */
+    //---c->gop_size      = 12; /* emit one intra frame every twelve frames at most */
     c->pix_fmt       = STREAM_PIX_FMT;
     if (c->codec_id == AV_CODEC_ID_MPEG2VIDEO) {
 	/* just for testing, we also add B-frames */
@@ -199,7 +201,8 @@ static void open_video(AVFormatContext *oc, const AVCodec *codec,
     AVDictionary *opt = NULL;
 
     av_dict_copy(&opt, opt_arg, 0);
-
+    //    av_dict_set(&opt, "vprofile", "baseline", 0);
+    
     /* open the codec */
     ret = avcodec_open2(c, codec, &opt);
     av_dict_free(&opt);
@@ -598,7 +601,7 @@ void* CS_CreateAnimation(int winWidth, int winHeight, int WX, int WY, int WZ, do
     a->fmt = NULL;
 
     // CREATE RAYLIB WINDOW
-    if (WZ == 0) {  // 1D or 2D animation
+    if (WZ == 1) {  // 1D or 2D animation
 	a->sq = (winWidth-(2*OFFSET))/(double)WX;
 	a->camera2.target = (Vector2){0.0,0.0};
 	a->camera2.offset = (Vector2){0,winHeight};

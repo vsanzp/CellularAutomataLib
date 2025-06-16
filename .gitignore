@@ -9,5 +9,3 @@ dymosim
 # ignore output files (.mat)
 *.mat
 
-# ignore saved videos
-*.mp4
