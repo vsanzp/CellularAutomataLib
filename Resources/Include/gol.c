@@ -27,7 +27,6 @@ program. If not, see <https://www.gnu.org/licenses/>.
 #define GOL
 
 #include <CellularAutomataLib.c>
-#include <CellularAutomataLib-animation.c>
 
 /****************************************/
 /* GAME OF LIFE CELLULAR AUTOMATA       */
@@ -138,35 +137,6 @@ void* gol(void* cellstate, int x, int y, int z, void** neighbor_states, int n_ne
 int GOLStep(void* space){
     return CS_Step(space,&gol);
     //return 1;
-}
-
-//********************************************************************
-// DISPLAY
-// Function that returns the value to display in the graphical animation
-double GOLDisplay(void *space,int x, int y, int z, double* scalar, double* vx, double* vy, double* vz){
-    CellSpace *s;
-    Cell *cell;
-    GOLState *cs;
-
-    s = (CellSpace*)space;
-    if (vx != NULL) *vx = 0;
-    if (vy != NULL) *vy = 0;
-    if (vz != NULL) *vz = 0;
-    cell = s->M[x][y][z];
-
-    if(cell == NULL)
-	return (double)ColorToInt(BLANK); // transparent	;
-    else{
-	cs = (GOLState *)cell->cellstate;
-	if (cs->v)
-	    return(double)ColorToInt(DARKBLUE); // alive in DARKBLUE
-	else
-	    return(double)ColorToInt(WHITE);  // dead in wHITE
-    }
-}
-int GOLSetDisplay(void*animation,void *space){
-    CS_SetDisplay(animation,space, &GOLDisplay);   
-    return 1;
 }
 
 

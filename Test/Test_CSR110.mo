@@ -1,8 +1,9 @@
 within CellularAutomataLib.Test;
-model Test_CSR110
-  Examples.CS_1D.CSR110 cSR110_1(initial_step=1)
+model Test_CSR110 "Test based on R110 CA model"
+    extends Modelica.Icons.Example;
+  CellularAutomataLib.Examples.CS_1D.CSR110 cSR110_1(initial_step=1)
     annotation (Placement(transformation(extent={{-60,0},{-40,20}})));
-  Components.OutputRegionM O(
+  CellularAutomataLib.Components.Interfaces.OutputRegionM O(
     XFromRange={39,51},
     output_rate=1,
     redeclare function ExtOutput = Test.ROutput)
@@ -26,7 +27,8 @@ algorithm
 
 equation
   connect(cSR110_1.Space, O.FROM)
-    annotation (Line(points={{-49,21},{-50,21},{-50,54}}, color={0,0,0}));
+    annotation (Line(points={{-49,21},{-56.2,21},{-56.2,54}},
+                                                          color={0,0,0}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(StopTime=13, __Dymola_Algorithm="Dassl"),

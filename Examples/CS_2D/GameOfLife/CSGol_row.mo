@@ -1,13 +1,13 @@
 within CellularAutomataLib.Examples.CS_2D.GameOfLife;
 model CSGol_row "GOL model initialized with a row"
-  import CellularAutomataLib.Components.*;
+  import CellularAutomataLib.Components.Basic.*;
   extends CellSpace(X = 20, Y = 20, neighborhood = [-1, -1; -1, 0; -1, 1; 0, -1; 0, 1; 1, -1; 1, 0; 1, 1], wrapped_borders = 00, Tstep = 1, initial_step = 0, name = "Game of Life (row)", init_cells = [10, 5; 10, 6; 10, 7; 10, 8; 10, 9; 10, 10; 10, 11; 10, 12; 10, 13; 10, 14],
     redeclare function Initial = GOLInit,
     redeclare function Default = GOLDefault,
     redeclare function Rule = GOLStep);
 
   function GOLDefault
-    input CS space;
+    input CellularAutomataLib.Components.ExternalObj.CS space;
     output Integer out;
 
     external "C" out = GOLDefault(space);
@@ -18,7 +18,7 @@ model CSGol_row "GOL model initialized with a row"
   end GOLDefault;
 
   function GOLStep
-    input CS space;
+    input CellularAutomataLib.Components.ExternalObj.CS space;
     output Integer out;
 
     external "C" out = GOLStep(space);
@@ -29,7 +29,7 @@ model CSGol_row "GOL model initialized with a row"
   end GOLStep;
 
   function GOLInit
-    input CS space;
+    input CellularAutomataLib.Components.ExternalObj.CS space;
     input Integer x;
     input Integer y;
     input Integer z;

@@ -1,6 +1,7 @@
 within CellularAutomataLib.Examples.CS_2D.LBM;
-model LBM_SimpleWave
-  import CellularAutomataLib.Components.*;
+model LBM_SimpleWave "LBM model of a simple wave"
+  import CellularAutomataLib.Components.Basic.*;
+  import CellularAutomataLib.Components.ExternalObj.*;
   extends CellSpace(X = 10, Y = 10, hex = 0, neighborhood = [-1,-1;-1,0;-1,1;0,1;1,1;1,0;1,-1;0,-1], n_inputs = 0, wrapped_borders = 11, Tstep = 1, initial_step = 0, init_cells = [X, Y], name = "Simple Diffusion",
     redeclare function Rule = LBMRule,
     redeclare function Default = LBMDefault,

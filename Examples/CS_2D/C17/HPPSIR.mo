@@ -1,6 +1,7 @@
 within CellularAutomataLib.Examples.CS_2D.C17;
-model HPPSIR
-  import CellularAutomataLib.Components.*;
+model HPPSIR "Lattice-gas HPP CA model for SIR"
+  import CellularAutomataLib.Components.Basic.*;
+  import CellularAutomataLib.Components.ExternalObj.*;
   extends CellSpace(X = 100, Y = 100, neighborhood = [-1, 0; 0, -1; 0, 1; 1, 0], n_inputs = 0, wrapped_borders = 11, Tstep = 1, initial_step = 0, init_cells = [X, Y], name = "HPPSIR",
    redeclare function Rule = HPPRule,
     redeclare function Default = HPPDefault,

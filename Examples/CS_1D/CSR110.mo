@@ -1,13 +1,13 @@
 within CellularAutomataLib.Examples.CS_1D;
 model CSR110 "Rule 110"
-  import CellularAutomataLib.Components.*;
+  import CellularAutomataLib.Components.Basic.*;
   extends CellSpace(X = 100, neighborhood = [-1; 1], wrapped_borders = 1, Tstep = 1, initial_step = 1, init_cells = [50], name = "Rule 110",
       redeclare function Default = R110Default,
       redeclare function Initial = R110Init,
       redeclare function Rule = R110Step);
 
   function R110Default "Rule 110 default state function"
-    input CS space;
+    input CellularAutomataLib.Components.ExternalObj.CS space;
     output Integer out;
 
     external "C" out = RInitDefault(space);
@@ -16,7 +16,7 @@ model CSR110 "Rule 110"
   end R110Default;
 
   function R110Init "Rule 110 initalization function"
-    input CS space;
+    input CellularAutomataLib.Components.ExternalObj.CS space;
     input Integer x;
     input Integer y;
     input Integer z;
@@ -26,7 +26,7 @@ model CSR110 "Rule 110"
   end R110Init;
 
   function R110Step "Rule 110 transition function"
-    input CS space;
+    input CellularAutomataLib.Components.ExternalObj.CS space;
     output Integer out;
 
     external "C" out = R110Step(space);

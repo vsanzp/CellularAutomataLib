@@ -1,6 +1,8 @@
 within CellularAutomataLib.Examples.CS_2D.Forest;
-model ForestFire500
-  import CellularAutomataLib.Components.*;
+model ForestFire500 "Forest fire model with inputs from the wind, output and animation"
+  extends Modelica.Icons.Example;
+  import CellularAutomataLib.Components.Basic.*;
+  import CellularAutomataLib.Components.Interfaces.*;
   ForestCA Forest(name = "Forest", n_inputs = 3, init_cells = [400, 250], X = 500, Y = 500)                     annotation (
     Placement(transformation(extent = {{-20, -20}, {20, 20}})));
   ExtInputRegion Water(
@@ -27,14 +29,14 @@ model ForestFire500
     XFromRange={1,500},
     YFromRange={1,500}, Output_type = 5, redeclare function ExtOutput =         ExtOutput, output_rate = 1)                         annotation (
     Placement(transformation(extent = {{24, -16}, {56, 16}})));
-  Components.Animation animation(
+  Animation animation(
     WindowX=500,
     WindowY=500,
     redeclare function SetDisplayFunction = SetDisplay)
     annotation (Placement(transformation(extent={{28,36},{48,56}})));
 equation
   connect(Water.TO, Forest.Space) annotation (
-    Line(points={{-33.4,36},{-20,36},{-20,22},{2,22}},                    color = {0, 0, 255}, smooth = Smooth.None));
+    Line(points={{-26.8,36},{-20,36},{-20,22},{2,22}},                    color = {0, 0, 255}, smooth = Smooth.None));
   connect(water.y, Water.u) annotation (
     Line(points = {{-73, 36}, {-57.6, 36}}, color = {0, 0, 127}, smooth = Smooth.None));
   connect(winddir.y, WindDir.u) annotation (
@@ -42,11 +44,11 @@ equation
   connect(windspeed.y, WindSpeed.u) annotation (
     Line(points = {{-73, -36}, {-57.8, -36}}, color = {0, 0, 127}, smooth = Smooth.None));
   connect(WindDir.TO, Forest.Space) annotation (
-    Line(points={{-34.7,0},{-20,0},{-20,22},{2,22}},                    color = {0, 0, 255}, smooth = Smooth.None));
+    Line(points={{-28.4,0},{-20,0},{-20,22},{2,22}},                    color = {0, 0, 255}, smooth = Smooth.None));
   connect(WindSpeed.TO, Forest.Space) annotation (
-    Line(points={{-34.7,-36},{-20,-36},{-20,22},{2,22}},                    color = {0, 0, 255}, smooth = Smooth.None));
+    Line(points={{-28.4,-36},{-20,-36},{-20,22},{2,22}},                    color = {0, 0, 255}, smooth = Smooth.None));
   connect(FireSize.FROM, Forest.Space) annotation (
-    Line(points={{40,4.44089e-16},{40,22},{2,22}},        color = {0, 0, 255}, smooth = Smooth.None));
+    Line(points={{30.08,4.44089e-16},{30.08,22},{2,22}},  color = {0, 0, 255}, smooth = Smooth.None));
   connect(Forest.Space, animation.Space) annotation (Line(points={{2,22},
           {-2,22},{-2,57},{38,57}}, color={0,0,0}));
   annotation (

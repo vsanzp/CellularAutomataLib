@@ -1,12 +1,13 @@
 within CellularAutomataLib.Test;
-model Test_Glider
-  Examples.CS_2D.GameOfLife.CSGol_glider cSGol_glider(
+model Test_Glider "Test based on GOL CA model initialized with a glider"
+  extends Modelica.Icons.Example;
+  CellularAutomataLib.Examples.CS_2D.GameOfLife.CSGol_glider cSGol_glider(
     X=5,
     Y=5,
     initial_step=1,
     init_cells=[1,2; 2,3; 3,1; 3,2; 3,3])
     annotation (Placement(transformation(extent={{-58,-20},{-38,0}})));
-  Components.OutputRegionM O(
+  CellularAutomataLib.Components.Interfaces.OutputRegionM O(
     XFromRange={2,4},
     YFromRange={2,4},
     output_rate=1,
@@ -31,8 +32,9 @@ algorithm
     end if;
   end when;
 equation
-  connect(cSGol_glider.Space, O.FROM) annotation (Line(points={{-47,1},{-48,1},{
-          -48,14},{-46,14},{-46,28}}, color={0,0,0}));
+  connect(cSGol_glider.Space, O.FROM) annotation (Line(points={{-47,1},{-48,1},
+          {-48,14},{-52.2,14},{-52.2,28}},
+                                      color={0,0,0}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(info="<html>

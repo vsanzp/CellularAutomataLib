@@ -1,6 +1,7 @@
 within CellularAutomataLib.Examples.CS_2D.C17;
-model TaskA
-  import CellularAutomataLib.Components.*;
+model TaskA "ARGESIM C17 Task A"
+  extends Modelica.Icons.Example;
+  import CellularAutomataLib.Components.Interfaces.*;
   FHPSIR fHPSIR(name = "FHPSIR") annotation (
     Placement(transformation(extent = {{-60, 40}, {-40, 60}})));
   OutputRegion FHPoutS(
@@ -39,19 +40,19 @@ model TaskA
     Placement(transformation(extent = {{60, 66}, {80, 86}})));
 equation
   connect(fHPSIR.Space, FHPoutI.FROM) annotation (
-    Line(points={{-49,61},{-49,68},{-50,68},{-50,76}},
+    Line(points={{-49,61},{-49,68},{-56.2,68},{-56.2,76}},
                                           color = {0, 0, 255}, smooth = Smooth.None));
   connect(HPPoutS.FROM, hPPSIR.Space) annotation (
-    Line(points={{30,76},{32,76},{32,59},{51,59}},          color = {0, 0, 255}, smooth = Smooth.None));
+    Line(points={{23.8,76},{32,76},{32,59},{51,59}},        color = {0, 0, 255}, smooth = Smooth.None));
   connect(HPPoutI.FROM, hPPSIR.Space) annotation (
-    Line(points={{50,76},{50,59},{51,59}},
+    Line(points={{43.8,76},{43.8,59},{51,59}},
                                         color = {0, 0, 255}, smooth = Smooth.None));
   connect(HPPoutR.FROM, hPPSIR.Space) annotation (
-    Line(points={{70,76},{70,59},{51,59}},        color = {0, 0, 255}, smooth = Smooth.None));
+    Line(points={{63.8,76},{63.8,59},{51,59}},    color = {0, 0, 255}, smooth = Smooth.None));
   connect(FHPoutS.FROM, fHPSIR.Space) annotation (
-    Line(points={{-70,76},{-70,61},{-49,61}},        color = {0, 0, 255}, smooth = Smooth.None));
+    Line(points={{-76.2,76},{-76.2,61},{-49,61}},    color = {0, 0, 255}, smooth = Smooth.None));
   connect(FHPoutR.FROM, fHPSIR.Space) annotation (
-    Line(points={{-30,76},{-30,61},{-49,61}},        color = {0, 0, 255}, smooth = Smooth.None));
+    Line(points={{-36.2,76},{-36.2,61},{-49,61}},    color = {0, 0, 255}, smooth = Smooth.None));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 100}}), graphics),
     experiment(StopTime=100, __Dymola_Algorithm="Dassl"),

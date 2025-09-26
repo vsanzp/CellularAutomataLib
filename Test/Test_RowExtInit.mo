@@ -1,13 +1,14 @@
 within CellularAutomataLib.Test;
-model Test_RowExtInit
-  Examples.CS_2D.GameOfLife.CSGol_row cSGol_row(
+model Test_RowExtInit "Test based on the GOL CA model using external initialization"
+  extends Modelica.Icons.Example;
+  CellularAutomataLib.Examples.CS_2D.GameOfLife.CSGol_row cSGol_row(
     X=10,
     Y=20,
     initial_step=0,
     init_cells=fill(0, 0, 2))
     annotation (Placement(transformation(extent={{-46,-20},{-26,0}})));
 
-  Components.OutputRegionM O(
+  CellularAutomataLib.Components.Interfaces.OutputRegionM O(
     XFromRange={4,6},
     YFromRange={6,13},
     output_rate=1,
@@ -15,7 +16,7 @@ model Test_RowExtInit
     annotation (Placement(transformation(extent={{-46,18},{-26,38}})));
   constant Integer result[3,8] = [1,1,1,1,1,1,1,1; 1,0,1,1,1,1,0,1; 1,1,1,1,1,1,1,1]; // at step 4
   Boolean fail( start = false);
-  Components.ExtInitRegion extInitRegion(XRange={5,5}, YRange={5,14},                                 redeclare
+  CellularAutomataLib.Components.Interfaces.ExtInitRegion extInitRegion(XRange={5,5}, YRange={5,14},                                 redeclare
       function ExtInit =
                 GOLExtInit)
     annotation (Placement(transformation(extent={{-72,-10},{-52,10}})));
@@ -39,9 +40,10 @@ algorithm
   end when;
 equation
   connect(cSGol_row.Space, O.FROM)
-    annotation (Line(points={{-35,1},{-36,1},{-36,28}}, color={0,0,0}));
-  connect(extInitRegion.TO, cSGol_row.Space) annotation (Line(points={{-59,0},
-          {-35,0},{-35,1}},              color={0,0,0}));
+    annotation (Line(points={{-35,1},{-42.2,1},{-42.2,28}},
+                                                        color={0,0,0}));
+  connect(extInitRegion.TO, cSGol_row.Space) annotation (Line(points={{-56,0},{
+          -35,0},{-35,1}},               color={0,0,0}));
   connect(const.y, extInitRegion.u)
     annotation (Line(points={{-77,0},{-70,0}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(

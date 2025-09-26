@@ -1,13 +1,14 @@
 within CellularAutomataLib.Test;
-model Test_GliderExtInput
-  Examples.CS_2D.GameOfLife.CSGol_glider cSGol_glider(
+model Test_GliderExtInput "Test based on the GOL CA model with external inputs"
+  extends Modelica.Icons.Example;
+  CellularAutomataLib.Examples.CS_2D.GameOfLife.CSGol_glider cSGol_glider(
     X=10,
     Y=10,
     n_inputs=3,
     initial_step=1,
     init_cells=[1,2; 2,3; 3,1; 3,2; 3,3])
     annotation (Placement(transformation(extent={{20,-20},{40,0}})));
-  Components.OutputRegionM O(
+  CellularAutomataLib.Components.Interfaces.OutputRegionM O(
     XFromRange={1,7},
     YFromRange={1,6},
     output_rate=1,
@@ -16,7 +17,7 @@ model Test_GliderExtInput
 
   Modelica.Blocks.Sources.Constant const(k=1)
     annotation (Placement(transformation(extent={{-50,-12},{-30,8}})));
-  Components.ExtInputRegion extInputRegion1(
+  CellularAutomataLib.Components.Interfaces.ExtInputRegion extInputRegion1(
     XToRange={1,1},
     YToRange={2,2},
     Input_type=5,
@@ -28,7 +29,7 @@ model Test_GliderExtInput
     annotation (Placement(transformation(extent={{-50,18},{-30,38}})));
   Modelica.Blocks.Sources.Constant const2(k=1)
     annotation (Placement(transformation(extent={{-50,-42},{-30,-22}})));
-  Components.ExtInputRegion extInputRegion3(
+  CellularAutomataLib.Components.Interfaces.ExtInputRegion extInputRegion3(
     input_id=2,
     XToRange={2,2},
     YToRange={3,3},
@@ -37,7 +38,7 @@ model Test_GliderExtInput
     start_sample=13,
                    redeclare function ExtInput = GOLExtInput)
     annotation (Placement(transformation(extent={{-18,-12},{2,8}})));
-  Components.ExtInputRegion extInputRegion2(
+  CellularAutomataLib.Components.Interfaces.ExtInputRegion extInputRegion2(
     input_id=3,
     XToRange={3,3},
     YToRange={1,3},
@@ -66,8 +67,8 @@ algorithm
     end if;
   end when;
 equation
-  connect(cSGol_glider.Space, O.FROM) annotation (Line(points={{31,1},{32,1},{
-          32,30}},                    color={0,0,0}));
+  connect(cSGol_glider.Space, O.FROM) annotation (Line(points={{31,1},{25.8,1},
+          {25.8,30}},                 color={0,0,0}));
   connect(const1.y, extInputRegion1.u)
     annotation (Line(points={{-29,28},{-16,28}}, color={0,0,127}));
   connect(const.y, extInputRegion3.u)
@@ -75,11 +76,11 @@ equation
                                                color={0,0,127}));
   connect(const2.y, extInputRegion2.u)
     annotation (Line(points={{-29,-32},{-16,-32}}, color={0,0,127}));
-  connect(extInputRegion1.TO, cSGol_glider.Space) annotation (Line(points={{-5,28},
+  connect(extInputRegion1.TO, cSGol_glider.Space) annotation (Line(points={{-2,28},
           {14,28},{14,8},{31,8},{31,1}},           color={0,0,0}));
-  connect(extInputRegion3.TO, cSGol_glider.Space) annotation (Line(points={{-5,-2},
+  connect(extInputRegion3.TO, cSGol_glider.Space) annotation (Line(points={{-2,-2},
           {14,-2},{14,8},{31,8},{31,1}},         color={0,0,0}));
-  connect(extInputRegion2.TO, cSGol_glider.Space) annotation (Line(points={{-5,-32},
+  connect(extInputRegion2.TO, cSGol_glider.Space) annotation (Line(points={{-2,-32},
           {14,-32},{14,8},{31,8},{31,1}},                            color={0,0,
           0}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(

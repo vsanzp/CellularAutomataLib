@@ -1,10 +1,10 @@
 within CellularAutomataLib.Test;
 function RSetInput "Input function for Wolfram models"
-  input CellularAutomataLib.Components.CS Fspace;
+  input CellularAutomataLib.Components.ExternalObj.CS Fspace;
   input Integer XF;
   input Integer YF;
   input Integer ZF;
-  input CellularAutomataLib.Components.CS Tspace;
+  input CellularAutomataLib.Components.ExternalObj.CS Tspace;
   input Integer XT;
   input Integer YT;
   input Integer ZT;

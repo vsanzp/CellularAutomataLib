@@ -1,7 +1,7 @@
 within CellularAutomataLib.Examples.CS_2D.CHIPS;
-model Single_chip
-  import CellularAutomataLib.Components.*;
-  extends CellSpace(
+model Single_chip "Chip CA model"
+  import CellularAutomataLib.Components.ExternalObj.*;
+  extends CellularAutomataLib.Components.Basic.CellSpace(
     X=10,
     Y=10,
     neighborhood=[-1,0; 0,-1; 0,1; 1,0],

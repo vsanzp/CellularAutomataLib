@@ -1,6 +1,8 @@
 within CellularAutomataLib.Examples.CS_2D.C17;
-model FHPSIRfull
-  import CellularAutomataLib.Components.*;
+model FHPSIRfull "FHP model with full distribution"
+  import CellularAutomataLib.Components.Basic.*;
+  import CellularAutomataLib.Components.ExternalObj.*;
+
   extends CellSpace(X = 100, Y = 100, neighborhood = [-1, 0; -1, 1; 0, -1; 0, 1; 1, 0; 1, 1], n_inputs = 0, wrapped_borders = 11, Tstep = 1, initial_step = 0,init_cells = [X, Y], name = "FHPSIRfull",
     redeclare function Rule = FHPRule,
     redeclare function Default = FHPDefault,

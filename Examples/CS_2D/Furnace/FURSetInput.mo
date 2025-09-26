@@ -1,11 +1,10 @@
 within CellularAutomataLib.Examples.CS_2D.Furnace;
 function FURSetInput
-  import CellularAutomataLib.Components.*;
-  input CS Fspace;
+  input CellularAutomataLib.Components.ExternalObj.CS Fspace;
   input Integer XF;
   input Integer YF;
   input Integer ZF;
-  input CS Tspace;
+  input CellularAutomataLib.Components.ExternalObj.CS Tspace;
   input Integer XT;
   input Integer YT;
   input Integer ZT;

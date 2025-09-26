@@ -1,5 +1,7 @@
 within CellularAutomataLib.Examples.CS_3D;
-package Simple
+package Simple "Simple Life-like models"
+    extends Modelica.Icons.ExamplesPackage;
+
 
   annotation (Documentation(info="<html>
 <p>Package that contains simple models.</p>

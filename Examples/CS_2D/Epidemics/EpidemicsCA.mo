@@ -1,7 +1,7 @@
 within CellularAutomataLib.Examples.CS_2D.Epidemics;
-model EpidemicsCA
-  import CellularAutomataLib.Components.*;
-  extends CellSpace(X = 50, Y = 50, neighborhood = [-1, -1; -1, 0; -1, 1; 0, -1; 0, 1; 1, -1; 1, 0; 1, 1], n_inputs = 0, wrapped_borders = 0, Tstep = 1, initial_step = 0, init_cells = {{25, 25}}, name = "Chagas", redeclare
+model EpidemicsCA "Epidemic CA model"
+  import CellularAutomataLib.Components.ExternalObj.*;
+  extends CellularAutomataLib.Components.Basic.CellSpace(X = 50, Y = 50, neighborhood = [-1, -1; -1, 0; -1, 1; 0, -1; 0, 1; 1, -1; 1, 0; 1, 1], n_inputs = 0, wrapped_borders = 0, Tstep = 1, initial_step = 0, init_cells = {{25, 25}}, name = "Chagas", redeclare
       function Rule =                                                                                                                                                                                                         ERule, redeclare
       function Default =                                                                                                                                                                                                         EDefault, redeclare
       function Initial =                                                                                                                                                                                                         EInitial);

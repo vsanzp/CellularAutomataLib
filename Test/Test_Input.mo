@@ -1,6 +1,7 @@
 within CellularAutomataLib.Test;
 model Test_Input "Simple input test"
-  Examples.CS_1D.CSR30 cSR30_1(
+  extends Modelica.Icons.Example;
+  CellularAutomataLib.Examples.CS_1D.CSR30 cSR30_1(
     n_inputs=0,
     wrapped_borders=0,
     name="Rule30_FROM",
@@ -8,7 +9,7 @@ model Test_Input "Simple input test"
     init_cells=[3],
     initial_step=1)
     annotation (Placement(transformation(extent={{-94,-10},{-36,30}})));
-  Examples.CS_1D.CSR30 cSR30_2(
+  CellularAutomataLib.Examples.CS_1D.CSR30 cSR30_2(
     n_inputs=1,
     wrapped_borders=0,
     name="Rule30_TO",
@@ -16,12 +17,12 @@ model Test_Input "Simple input test"
     init_cells=[20],
     initial_step=1)
     annotation (Placement(transformation(extent={{24,-10},{82,30}})));
-   CellularAutomataLib.Components.InputRegion inputRegion(
+   CellularAutomataLib.Components.Interfaces.InputRegion inputRegion(
     comm_start=0,
     redeclare function SetInput = Examples.CS_1D.RSetInput,
     XFromRange={3,3},
     XTo=5) annotation (Placement(transformation(extent={{-18,32},{2,52}})));
-  Components.OutputRegionM O(
+  CellularAutomataLib.Components.Interfaces.OutputRegionM O(
     XFromRange={1,30},
     output_rate=1,
     redeclare function ExtOutput = ROutput)
@@ -44,12 +45,12 @@ algorithm
   end when;
 equation
   connect(cSR30_1.Space, inputRegion.FROM) annotation (
-    Line(points={{-62.1,32},{-62.1,42},{-13,42}},
+    Line(points={{-62.1,32},{-62.1,42},{-14,42}},
                                           color = {0, 0, 255}, smooth = Smooth.None));
   connect(inputRegion.TO, cSR30_2.Space) annotation (
-    Line(points={{-3,42},{55.9,42},{55.9,32}},
+    Line(points={{-2,42},{55.9,42},{55.9,32}},
                                         color = {0, 0, 255}, smooth = Smooth.None));
-  connect(O.FROM, cSR30_2.Space) annotation (Line(points={{56,70},{56,42},{
+  connect(O.FROM, cSR30_2.Space) annotation (Line(points={{49.8,70},{49.8,42},{
           55.9,42},{55.9,32}},
                           color={0,0,0}));
   annotation (

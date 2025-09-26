@@ -1,6 +1,7 @@
 within CellularAutomataLib.Examples.CS_2D.Forest;
-model ForestCA
-  import CellularAutomataLib.Components.*;
+model ForestCA "Forest fire CA model"
+  import CellularAutomataLib.Components.Basic.*;
+  import CellularAutomataLib.Components.ExternalObj.*;
   extends CellSpace(X = 30, Y = 30, neighborhood = [-1, -1; -1, 0; -1, 1; 0, 1; 1, 1; 1, 0; 1, -1; 0, -1], n_inputs = 0, wrapped_borders = 0, Tstep = 1, initial_step = 0, init_cells = [X, Y], name = "ForestCA",
     redeclare function Rule = FRule,
     redeclare function Default = FDefault,

@@ -1,7 +1,7 @@
 within CellularAutomataLib.Examples.CS_2D.CHIPS;
-model Cair
-  import CellularAutomataLib.Components.*;
-  extends CellSpace(X = 10, Y = 10, neighborhood = [-1, 0; 0, -1; 0, 1; 1, 0], wrapped_borders = 0, Tstep = 1, initial_step = 0,init_cells = {{1, i} for i in 1:X}, redeclare
+model Cair "Chip surrounding air CA model"
+  import CellularAutomataLib.Components.ExternalObj.*;
+  extends CellularAutomataLib.Components.Basic.CellSpace(X = 10, Y = 10, neighborhood = [-1, 0; 0, -1; 0, 1; 1, 0], wrapped_borders = 0, Tstep = 1, initial_step = 0,init_cells = {{1, i} for i in 1:X}, redeclare
       function Initial =                                                                                                                                                                                                         CHIPInit, redeclare
       function Default =
         CHIPDefault,                                                                                                                                                                                                        redeclare

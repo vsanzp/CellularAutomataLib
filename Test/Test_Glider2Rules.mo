@@ -1,14 +1,15 @@
 within CellularAutomataLib.Test;
-model Test_Glider2Rules
+model Test_Glider2Rules "Test with two rules using the GOL model"
+  extends Modelica.Icons.Example;
 
-  Examples.CS_2D.GameOfLife.CSGol_glider cSGol_glider(
+CellularAutomataLib.Examples.CS_2D.GameOfLife.CSGol_glider cSGol_glider(
     X=6,
     Y=6,
     initial_step=1,
     max_step=4,
     init_cells=[1,2; 2,3; 3,1; 3,2; 3,3])
     annotation (Placement(transformation(extent={{-58,-20},{-38,0}})));
-  Components.OutputRegionM O(
+  CellularAutomataLib.Components.Interfaces.OutputRegionM O(
     XFromRange={3,5},
     YFromRange={3,5},
     output_rate=1,
@@ -35,8 +36,9 @@ algorithm
     end if;
   end when;
 equation
-  connect(cSGol_glider.Space, O.FROM) annotation (Line(points={{-47,1},{-48,1},{
-          -48,14},{-46,14},{-46,28}}, color={0,0,0}));
+  connect(cSGol_glider.Space, O.FROM) annotation (Line(points={{-47,1},{-48,1},
+          {-48,14},{-52.2,14},{-52.2,28}},
+                                      color={0,0,0}));
   connect(cSGol_glider.Space, gliderRule.Space)
     annotation (Line(points={{-47,1},{-47,8},{-10,8},{-10,1}}, color={0,0,0}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(

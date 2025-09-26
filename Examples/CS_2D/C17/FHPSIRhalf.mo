@@ -1,6 +1,8 @@
 within CellularAutomataLib.Examples.CS_2D.C17;
-model FHPSIRhalf
-  import CellularAutomataLib.Components.*;
+model FHPSIRhalf "FHP model with half distribution"
+  import CellularAutomataLib.Components.Basic.*;
+  import CellularAutomataLib.Components.ExternalObj.*;
+
   extends CellSpace(X = 100, Y = 100, neighborhood = [-1, 0; -1, 1; 0, -1; 0, 1; 1, 0; 1, 1], n_inputs = 0, wrapped_borders = 11, Tstep = 1, initial_step = 0,init_cells = [X, Y], name = "FHPSIRhalf",
     redeclare function Rule = FHPRule,
     redeclare function Default = FHPDefault,

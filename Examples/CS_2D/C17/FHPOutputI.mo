@@ -1,6 +1,6 @@
 within CellularAutomataLib.Examples.CS_2D.C17;
-function FHPOutputI
-  import CellularAutomataLib.Components.*;
+function FHPOutputI "FHP output function for I"
+  import CellularAutomataLib.Components.ExternalObj.*;
   input CS space;
   input Integer x;
   input Integer y;

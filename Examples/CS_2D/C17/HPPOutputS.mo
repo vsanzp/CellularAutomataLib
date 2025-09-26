@@ -1,6 +1,6 @@
 within CellularAutomataLib.Examples.CS_2D.C17;
-function HPPOutputS
-  import CellularAutomataLib.Components.*;
+function HPPOutputS "HPP output function for S"
+  import CellularAutomataLib.Components.ExternalObj.*;
   input CS space;
   input Integer x;
   input Integer y;

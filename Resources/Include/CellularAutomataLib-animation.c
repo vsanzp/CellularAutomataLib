@@ -413,7 +413,7 @@ int CS_Plot(void* animation){
     double COLOR;
     double VX,VY,VZ;
     
-    ModelicaFormatMessage("PLOT\n");
+    //    ModelicaFormatMessage("PLOT\n");
     
     a = (Animation*) animation;
     s = (CellSpace*) a->space;
@@ -550,7 +550,7 @@ int CS_Plot(void* animation){
 	//}
     }
     
-    ModelicaFormatMessage("END PLOT\n");
+    //    ModelicaFormatMessage("END PLOT\n");
     return 1;
 }
 
@@ -577,7 +577,7 @@ void* CS_CreateAnimation(int winWidth, int winHeight, int WX, int WY, int WZ, do
     int screenHeight;
     Animation *a;
 
-    ModelicaFormatMessage("CREATE ANIMATION\n");
+    //    ModelicaFormatMessage("CREATE ANIMATION\n");
 
     a = (Animation *)malloc(sizeof(Animation));
 
@@ -630,7 +630,7 @@ void* CS_CreateAnimation(int winWidth, int winHeight, int WX, int WY, int WZ, do
 	
 	char filename[256];
        	sprintf(filename,"%s_video_%ld.mp4",name,time(NULL));
-	ModelicaFormatMessage("VIDEO FILENAME = %s\n",filename);
+	//ModelicaFormatMessage("VIDEO FILENAME = %s\n",filename);
 	
 	/* allocate the output media context */
 	avformat_alloc_output_context2(&a->oc, NULL, NULL, filename);
@@ -673,7 +673,7 @@ void* CS_CreateAnimation(int winWidth, int winHeight, int WX, int WY, int WZ, do
 	
     }
     
-    ModelicaFormatMessage("END CREATE ANIMATION\n");
+    //    ModelicaFormatMessage("END CREATE ANIMATION\n");
     return (void *)a;
 }
 
@@ -681,13 +681,13 @@ void* CS_CreateAnimation(int winWidth, int winHeight, int WX, int WY, int WZ, do
 int CS_SetDisplay(void* anim, void* space, double (*display)(void*,int,int,int,double*,double*,double*,double*)){
     Animation *a;
 
-    ModelicaFormatMessage("SET DISPLAY\n");
+    //    ModelicaFormatMessage("SET DISPLAY\n");
     
     a = (Animation*) anim;
     a->space = space;
     a->display = display;
     
-    ModelicaFormatMessage("END SET DISPLAY\n");
+    //ModelicaFormatMessage("END SET DISPLAY\n");
 
     return 0;
 }

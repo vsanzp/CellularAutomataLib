@@ -1,12 +1,13 @@
 within CellularAutomataLib.Test;
-model Test_Row
-  Examples.CS_2D.GameOfLife.CSGol_row cSGol_row(
+model Test_Row "Test based on the GOL CA model initialized with a row"
+  extends Modelica.Icons.Example;
+  CellularAutomataLib.Examples.CS_2D.GameOfLife.CSGol_row cSGol_row(
     X=10,
     Y=20,
     init_cells=[5,5; 5,6; 5,7; 5,8; 5,9; 5,10; 5,11; 5,12; 5,13; 5,14])
     annotation (Placement(transformation(extent={{-46,-20},{-26,0}})));
 
-  Components.OutputRegionM O(
+  CellularAutomataLib.Components.Interfaces.OutputRegionM O(
     XFromRange={4,6},
     YFromRange={6,13},
     output_rate=1,
@@ -32,7 +33,8 @@ algorithm
   end when;
 equation
   connect(cSGol_row.Space, O.FROM)
-    annotation (Line(points={{-35,1},{-36,1},{-36,28}}, color={0,0,0}));
+    annotation (Line(points={{-35,1},{-42.2,1},{-42.2,28}},
+                                                        color={0,0,0}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(info="<html>

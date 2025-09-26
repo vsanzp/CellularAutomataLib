@@ -1,6 +1,6 @@
 within CellularAutomataLib.Examples.CS_2D.C19;
-function ExtInput
-  import CellularAutomataLib.Components.*;
+function ExtInput "External input function"
+  import CellularAutomataLib.Components.ExternalObj.*;
   input CS space;
   input Integer x;
   input Integer y;

@@ -1,6 +1,7 @@
 within CellularAutomataLib.Examples.CS_2D.C19;
-model Pollution
-  import CellularAutomataLib.Components.*;
+model Pollution "Pollution CA model"
+  import CellularAutomataLib.Components.Basic.*;
+  import CellularAutomataLib.Components.ExternalObj.*;
   extends CellSpace(X = 40, Y = 70, neighborhood = [-1, -1; -1, 0; -1, 1; 0, -1; 0, 1; 1, -1; 1, 0; 1, 1], n_inputs = 0, wrapped_borders = 0, Tstep = 1, initial_step = 0, init_cells = {{20, 10}}, name = "Pollution",
     redeclare function Rule = POLRule,
     redeclare function Default = POLDefault,

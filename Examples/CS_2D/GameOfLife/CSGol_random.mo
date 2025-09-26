@@ -1,13 +1,13 @@
 within CellularAutomataLib.Examples.CS_2D.GameOfLife;
 model CSGol_random "GOL model with random initalization"
-  import CellularAutomataLib.Components.*;
-  extends CellSpace(X = 100, Y = 100, neighborhood = [-1, -1; -1, 0; -1, 1; 0, -1; 0, 1; 1, -1; 1, 0; 1, 1], wrapped_borders = 11, Tstep = 1, initial_step = 0, init_cells = [X, Y], name = "Game of Life (random init)",
+  import CellularAutomataLib.Components.Basic.*;
+  extends CellSpace(X = 200, Y = 200, neighborhood = [-1, -1; -1, 0; -1, 1; 0, -1; 0, 1; 1, -1; 1, 0; 1, 1], wrapped_borders = 11, Tstep = 1, initial_step = 0, init_cells = [X, Y], name = "Game of Life (random init)",
     redeclare function Default = GOLDefault,
     redeclare function Initial = GOLInit,
     redeclare function Rule = GOLStep);
 
   function GOLDefault
-    input CS space;
+    input CellularAutomataLib.Components.ExternalObj.CS space;
     output Integer out;
 
     external "C" out = GOLDefault(space);
@@ -18,7 +18,7 @@ model CSGol_random "GOL model with random initalization"
   end GOLDefault;
 
   function GOLInit
-    input CS space;
+    input CellularAutomataLib.Components.ExternalObj.CS space;
     input Integer x;
     input Integer y;
     input Integer z;
@@ -31,7 +31,7 @@ model CSGol_random "GOL model with random initalization"
   end GOLInit;
 
   function GOLStep
-    input CS space;
+    input CellularAutomataLib.Components.ExternalObj.CS space;
     output Integer out;
 
     external "C" out = GOLStep(space);

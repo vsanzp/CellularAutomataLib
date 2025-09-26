@@ -1,7 +1,8 @@
 within CellularAutomataLib.Examples.CS_2D.LBM;
-function LBMDisplay
-  input Components.Anim animation;
-  input Components.CS space;
+function LBMDisplay "LBM display function"
+  import CellularAutomataLib.Components.ExternalObj.*;
+  input Anim animation;
+  input CS space;
 
   external "C" D2Q9SetDisplay(animation,space);
   annotation (Include = "#include <LBM.c>", Documentation(info="<html>

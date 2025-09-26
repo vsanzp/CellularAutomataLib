@@ -1,6 +1,6 @@
 within CellularAutomataLib.Examples.CS_2D.Furnace;
-function FURSetDisplay
-  import CellularAutomataLib.Components.*;
+function FURSetDisplay "Furnace model display function"
+  import CellularAutomataLib.Components.ExternalObj.*;
   input Anim animation;
   input CS space;
   external "C" FURSetDisplay(animation,space);

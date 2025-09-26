@@ -247,7 +247,7 @@ void* CS_Create(int X, int Y, int Z, int hex, int *neighborhood, size_t n1, size
     int screenWidth;
     int screenHeight;
 
-    ModelicaFormatMessage("CREATE\n");
+    //    ModelicaFormatMessage("CREATE\n");
     
     s = (CellSpace *)malloc(sizeof(CellSpace));
     s->A = (Cell**)malloc(X*Y*Z*sizeof(Cell*));

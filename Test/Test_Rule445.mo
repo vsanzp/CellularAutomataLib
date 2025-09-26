@@ -1,43 +1,44 @@
 within CellularAutomataLib.Test;
-model Test_Rule445
+model Test_Rule445 "Test based on the Rule445 CA model"
+  extends Modelica.Icons.Example;
   parameter Integer X= 14;
   parameter Integer Y= 14;
   parameter Integer Z= 14;
 
-  Examples.CS_3D.Simple.Rule445 rule445_1(
+  CellularAutomataLib.Examples.CS_3D.Simple.Rule445 rule445_1(
     X=X,
     Y=Y,
     Z=Z) annotation (Placement(transformation(extent={{-40,-20},{-20,0}})));
   constant Integer result[4] = {1,1,1,1}; // at step 4
   Boolean fail( start = false);
-  Components.OutputRegion O1(
+  CellularAutomataLib.Components.Interfaces.OutputRegion O1(
     XFromRange={1,1},
     YFromRange={1,1},
     ZFromRange={1,1},
     Output_type=4,
     output_rate=1,redeclare function ExtOutput = GOLOutput)
-    annotation (Placement(transformation(extent={{-80,20},{-60,40}})));
-  Components.OutputRegion O2(
+    annotation (Placement(transformation(extent={{-80,40},{-60,60}})));
+  CellularAutomataLib.Components.Interfaces.OutputRegion O2(
     XFromRange={2,2},
     YFromRange={2,2},
     ZFromRange={2,2},
     Output_type=4,
     output_rate=1,redeclare function ExtOutput = GOLOutput)
-    annotation (Placement(transformation(extent={{-60,20},{-40,40}})));
-  Components.OutputRegion O3(
+    annotation (Placement(transformation(extent={{-60,30},{-40,50}})));
+  CellularAutomataLib.Components.Interfaces.OutputRegion O3(
     XFromRange={3,3},
     YFromRange={3,3},
     ZFromRange={3,3},
     Output_type=4,
     output_rate=1,redeclare function ExtOutput = GOLOutput)
     annotation (Placement(transformation(extent={{-40,20},{-20,40}})));
-  Components.OutputRegion O4(
+  CellularAutomataLib.Components.Interfaces.OutputRegion O4(
     XFromRange={4,4},
     YFromRange={4,4},
     ZFromRange={4,4},
     Output_type=4,
     output_rate=1,redeclare function ExtOutput = GOLOutput)
-    annotation (Placement(transformation(extent={{-20,20},{0,40}})));
+    annotation (Placement(transformation(extent={{-20,10},{0,30}})));
 algorithm
   when terminal() then
     if integer(O1.y) <> 4 then
@@ -64,14 +65,18 @@ algorithm
     end if;
   end when;
 equation
-  connect(rule445_1.Space, O1.FROM) annotation (Line(points={{-29,1},{-30,1},{-30,
-          16},{-70,16},{-70,30}}, color={0,0,0}));
-  connect(rule445_1.Space, O2.FROM) annotation (Line(points={{-29,1},{-30,1},{-30,
-          16},{-50,16},{-50,30}}, color={0,0,0}));
+  connect(rule445_1.Space, O1.FROM) annotation (Line(points={{-29,1},{-30,1},{
+          -30,10},{-76.2,10},{-76.2,50}},
+                                  color={0,0,0}));
+  connect(rule445_1.Space, O2.FROM) annotation (Line(points={{-29,1},{-30,1},{
+          -30,10},{-56.2,10},{-56.2,40}},
+                                  color={0,0,0}));
   connect(rule445_1.Space, O3.FROM)
-    annotation (Line(points={{-29,1},{-30,1},{-30,30}}, color={0,0,0}));
-  connect(rule445_1.Space, O4.FROM) annotation (Line(points={{-29,1},{-30,1},{-30,
-          10},{4,10},{4,30},{-10,30}}, color={0,0,0}));
+    annotation (Line(points={{-29,1},{-30,1},{-30,10},{-36.2,10},{-36.2,30}},
+                                                        color={0,0,0}));
+  connect(rule445_1.Space, O4.FROM) annotation (Line(points={{-29,1},{-30,1},{
+          -30,10},{-16,10},{-16,20},{-16.2,20}},
+                                       color={0,0,0}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(info="<html>

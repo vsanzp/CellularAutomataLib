@@ -1,13 +1,13 @@
 within CellularAutomataLib.Examples.CS_1D;
 model CSR30 "Rule 30"
-  import CellularAutomataLib.Components.*;
+  import CellularAutomataLib.Components.Basic.*;
   extends CellSpace(X = 100, neighborhood = [-1; 1], wrapped_borders = 1, Tstep = 1, initial_step = 0, init_cells = [50], name = "Rule 30",
       redeclare function Initial = R30Init,
       redeclare function Default = R30Default,
       redeclare function Rule = R30Step);
 
   function R30Default "Rule 30 default state function"
-    input CS space;
+    input CellularAutomataLib.Components.ExternalObj.CS space;
     output Integer out;
 
     external "C" out = RInitDefault(space);
@@ -16,7 +16,7 @@ model CSR30 "Rule 30"
   end R30Default;
 
   function R30Init "Rule 30 initialization function"
-    input CS space;
+    input CellularAutomataLib.Components.ExternalObj.CS space;
     input Integer x;
     input Integer y;
     input Integer z;
@@ -27,7 +27,7 @@ model CSR30 "Rule 30"
   end R30Init;
 
   function R30Step "Rule 30 transition function"
-    input CS space;
+    input CellularAutomataLib.Components.ExternalObj.CS space;
     output Integer out;
 
     external "C" out = R30Step(space);

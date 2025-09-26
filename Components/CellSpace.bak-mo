@@ -67,7 +67,7 @@ equation
   Space.space = s;
 algorithm
     when sample(initial_step, Tstep) and pre(step) < max_step then
-    Modelica.Utilities.Streams.print("TIME ="+String(time));
+    //Modelica.Utilities.Streams.print("TIME ="+String(time));
     //sumactive = Rule(s);
     active := Rule(s);
     if (active == 0) then

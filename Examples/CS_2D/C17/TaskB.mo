@@ -1,6 +1,7 @@
 within CellularAutomataLib.Examples.CS_2D.C17;
-model TaskB
-  import CellularAutomataLib.Components.*;
+model TaskB "ARGESIM C17 Task B"
+  extends Modelica.Icons.Example;
+  import CellularAutomataLib.Components.Interfaces.*;
   FHPSIRfull fHPSIRfull(name = "FHPSIRfull") annotation (
     Placement(transformation(extent = {{-60, 38}, {-40, 58}})));
   OutputRegion Ifull(
@@ -26,11 +27,11 @@ model TaskB
     Placement(transformation(extent = {{68, -16}, {88, 4}})));
 equation
   connect(fHPSIRfull.Space, Ifull.FROM) annotation (
-    Line(points={{-49,59},{-49,62},{-22,62}},        color = {0, 0, 255}, smooth = Smooth.None));
+    Line(points={{-49,59},{-49,62},{-28.2,62}},      color = {0, 0, 255}, smooth = Smooth.None));
   connect(fHPSIRhalf.Space, Ihalf.FROM) annotation (
-    Line(points={{-45,-9},{-45,-6},{-22,-6}},         color = {0, 0, 255}, smooth = Smooth.None));
+    Line(points={{-45,-9},{-45,-6},{-28.2,-6}},       color = {0, 0, 255}, smooth = Smooth.None));
   connect(fHPSIRborder.Space, Iborder.FROM) annotation (
-    Line(points={{53,-7},{53,-6},{78,-6}},         color = {0, 0, 255}, smooth = Smooth.None));
+    Line(points={{53,-7},{53,-6},{71.8,-6}},       color = {0, 0, 255}, smooth = Smooth.None));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 100}}), graphics),
     experiment(StopTime=100, __Dymola_Algorithm="Dassl"),

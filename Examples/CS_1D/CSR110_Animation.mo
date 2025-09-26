@@ -1,8 +1,10 @@
 within CellularAutomataLib.Examples.CS_1D;
-model CSR110_Animation
+model CSR110_Animation "Rule 110 model with animation"
+    extends Modelica.Icons.Example;
+     import CellularAutomataLib.Components.Basic.*;
   CSR110 cSR110_1(initial_step=1)
     annotation (Placement(transformation(extent={{-60,0},{-40,20}})));
-  Components.Animation animation(
+  Animation animation(
     initial_step=0,
     WindowX=100,
     WindowY=100,

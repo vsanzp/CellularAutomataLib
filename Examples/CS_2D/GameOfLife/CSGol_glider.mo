@@ -1,13 +1,13 @@
 within CellularAutomataLib.Examples.CS_2D.GameOfLife;
 model CSGol_glider "GOL model initialized with a simple glider"
-  import CellularAutomataLib.Components.*;
-  extends CellSpace(X = 50, Y = 50, neighborhood = [-1, -1; -1, 0; -1, 1; 0, -1; 0, 1; 1, -1; 1, 0; 1, 1], wrapped_borders = 11, Tstep = 1, initial_step = 0, name = "Game of Life (glider)", init_cells = [1, 2; 2, 3; 3, 1; 3, 2; 3, 3],
+  import CellularAutomataLib.Components.Basic.*;
+  extends CellSpace(X = 100, Y = 100, neighborhood = [-1, -1; -1, 0; -1, 1; 0, -1; 0, 1; 1, -1; 1, 0; 1, 1], wrapped_borders = 11, Tstep = 1, initial_step = 0, name = "Game of Life (glider)", init_cells = [1, 2; 2, 3; 3, 1; 3, 2; 3, 3],
     redeclare function Initial = GOLInit,
     redeclare function Default = GOLDefault,
     redeclare function Rule = GOLStep);
 
   function GOLDefault
-    input CS space;
+    input CellularAutomataLib.Components.ExternalObj.CS space;
     output Integer out;
     external "C" out = GOLDefault(space);
     annotation (
@@ -17,7 +17,7 @@ model CSGol_glider "GOL model initialized with a simple glider"
   end GOLDefault;
 
   function GOLStep
-    input CS space;
+    input CellularAutomataLib.Components.ExternalObj.CS space;
     output Integer out;
     external "C" out = GOLStep(space);
     annotation (
@@ -27,7 +27,7 @@ model CSGol_glider "GOL model initialized with a simple glider"
   end GOLStep;
 
   function GOLInit
-    input CS space;
+    input CellularAutomataLib.Components.ExternalObj.CS space;
     input Integer x;
     input Integer y;
     input Integer z;

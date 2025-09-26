@@ -1,7 +1,8 @@
 within CellularAutomataLib.Examples.CS_3D.Simple;
-function CloudsDisplay
-  input Components.Anim animation;
-    input Components.CS space;
+function CloudsDisplay "Clouds display function"
+  import CellularAutomataLib.Components.ExternalObj.*;
+  input Anim animation;
+    input CS space;
 
   external "C" SetDisplayClouds(animation,space);
   annotation (Include = "#include <s3.c>", Documentation(info="<html>

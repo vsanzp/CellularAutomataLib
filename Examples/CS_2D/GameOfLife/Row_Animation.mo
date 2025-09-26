@@ -1,8 +1,9 @@
 within CellularAutomataLib.Examples.CS_2D.GameOfLife;
-model Row_Animation
+model Row_Animation "GOL model with row initialization and graphical animation"
+  extends Modelica.Icons.Example;
   CSGol_row cSGol_row
     annotation (Placement(transformation(extent={{-46,-20},{-26,0}})));
-  Components.Animation animation(
+  Components.Basic.Animation animation(
     WindowWidth=500,
     WindowHeight=500,            WindowX=20, WindowY=20,
     displayDelay=100000,                                 redeclare function

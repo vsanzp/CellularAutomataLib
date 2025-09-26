@@ -1,7 +1,6 @@
 within CellularAutomataLib.Examples.CS_2D.CHIPS;
-function CHIPExtOutput
-    import CellularAutomataLib.Components.*;
-  input CS space;
+function CHIPExtOutput "Chip output function"
+  input CellularAutomataLib.Components.ExternalObj.CS space;
   input Integer x;
   input Integer y;
   input Integer z;

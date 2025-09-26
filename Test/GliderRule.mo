@@ -1,6 +1,7 @@
 within CellularAutomataLib.Test;
-model GliderRule
- import CellularAutomataLib.Components.*;
+model GliderRule "GOL additional rule"
+ import CellularAutomataLib.Components.Basic.*;
+ import CellularAutomataLib.Components.ExternalObj.*;
 extends AdditionalRule(Tstep = 1, initial_step = 0,init_cells = fill(0, 0, 3),
   redeclare function Rule = GOLStep,
   redeclare function Initial = GOLInit);

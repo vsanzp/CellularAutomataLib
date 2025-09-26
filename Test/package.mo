@@ -1,4 +1,5 @@
 within CellularAutomataLib;
-package Test
+package Test "Test models"
+  extends Modelica.Icons.UtilitiesPackage;
 
 end Test;

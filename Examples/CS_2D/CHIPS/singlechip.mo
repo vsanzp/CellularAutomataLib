@@ -1,7 +1,9 @@
 within CellularAutomataLib.Examples.CS_2D.CHIPS;
-model singlechip
-  import CellularAutomataLib.Components.*;
-  parameter Integer X = 10;
+model singlechip "Complete Chip CA model with sources, interfaces and animation"
+  extends Modelica.Icons.Example;
+  import CellularAutomataLib.Components.Basic.*;
+  import CellularAutomataLib.Components.Interfaces.*;
+    parameter Integer X = 10;
   parameter Integer Y = 10;
   parameter Real RATE = 0.001;
   Single_chip Chip(name = "Chip", X = X, Y = Y, init_cells = fill(0, 0, 2), wrapped_borders = 0, initial_step = 0, Tstep = RATE,                                      n_inputs = 4)                     annotation (
@@ -11,13 +13,13 @@ model singlechip
     YToRange={3,3},    Input_type = 5,                                             q_t = RATE, redeclare
       function ExtInput =
         CHIPExtInput,                                                                                                                              input_id = 3) annotation (
-    Placement(transformation(extent = {{-14, -28}, {6, -8}})));
+    Placement(transformation(extent={{-16,-28},{4,-8}})));
   ExtInputRegion Pext2(
     XToRange={6,6},
     YToRange={6,6},                                                Input_type = 5, q_t = RATE, redeclare
       function ExtInput =
         CHIPExtInput,                                                                                                                              input_id = 4) annotation (
-    Placement(transformation(extent = {{-14, -48}, {6, -28}})));
+    Placement(transformation(extent={{-16,-48},{4,-28}})));
   Modelica.Blocks.Math.Gain Pg1(k = 1/100) annotation (
     Placement(transformation(extent = {{-4, -4}, {4, 4}}, rotation = 0, origin = {-20, -18})));
   SignalGenerators.Trapezoid3sin0100 lG1(ampT = 60, risingT = 1, widthT = 5, fallingT = 1, periodT = 10, offsetT = 20, ampS1 = 10, ampS2 = 5, ampS3 = 6, offsetS1 = 0, offsetS2 = 0, offsetS3 = 0, periodS1 = 4, periodS2 = 10, periodS3 = 12) annotation (
@@ -54,8 +56,8 @@ model singlechip
     YFromRange={1,Y},                       Output_type = 4, output_rate = RATE, redeclare
       function ExtOutput =
         CHIPExtOutput)                                                                                                                       annotation (
-    Placement(transformation(extent = {{0, 2}, {22, 22}})));
-  Components.Animation animation(
+    Placement(transformation(extent={{2,2},{24,22}})));
+  Animation animation(
     Tstep=RATE,
     WindowX=X,
     WindowY=Y, redeclare function SetDisplayFunction=CHIPSetDisplay)
@@ -64,29 +66,29 @@ equation
   connect(lG1.y, Pg1.u) annotation (
     Line(points = {{-31.4, -18}, {-24.8, -18}}, color = {0, 0, 127}, smooth = Smooth.None));
   connect(Pg1.y, Pext1.u) annotation (
-    Line(points = {{-15.6, -18}, {-12, -18}}, color = {0, 0, 127}, smooth = Smooth.None));
+    Line(points={{-15.6,-18},{-14,-18}},      color = {0, 0, 127}, smooth = Smooth.None));
   connect(lG2.y, Pg2.u) annotation (
     Line(points = {{-30.5, -37.5}, {-30.5, -38}, {-24.8, -38}}, color = {0, 0, 127}, smooth = Smooth.None));
   connect(Pg2.y, Pext2.u) annotation (
-    Line(points = {{-15.6, -38}, {-12, -38}}, color = {0, 0, 127}, smooth = Smooth.None));
+    Line(points={{-15.6,-38},{-14,-38}},      color = {0, 0, 127}, smooth = Smooth.None));
   connect(const.y, InitTemp.u) annotation (
     Line(points = {{-23.4, 12}, {-20, 12}}, color = {0, 0, 127}, smooth = Smooth.None));
   connect(chipI2Air.TO, Air.Space) annotation (
-    Line(points={{-42,46},{-42,52},{-6.4,52},{-6.4,47}},      color = {0, 0, 255}, smooth = Smooth.None));
+    Line(points={{-42,48},{-42,52},{-6.4,52},{-6.4,47}},      color = {0, 0, 255}, smooth = Smooth.None));
   connect(Air.Space, Air2Chip.FROM) annotation (
-    Line(points={{-6.4,47},{-6.4,52},{30,52},{30,46}},      color = {0, 0, 255}, smooth = Smooth.None));
+    Line(points={{-6.4,47},{-6.4,52},{30,52},{30,48}},      color = {0, 0, 255}, smooth = Smooth.None));
   connect(chipI2Air.FROM, Chip.Space) annotation (
-    Line(points={{-42,26},{-42,0},{30,0},{30,-8.5}},           color = {0, 0, 255}, smooth = Smooth.None));
+    Line(points={{-42,24},{-42,0},{30,0},{30,-8.5}},           color = {0, 0, 255}, smooth = Smooth.None));
   connect(Air2Chip.TO, Chip.Space) annotation (
-    Line(points={{30,26},{30,-8.5}},                         color = {0, 0, 255}, smooth = Smooth.None));
+    Line(points={{30,24},{30,-8.5}},                         color = {0, 0, 255}, smooth = Smooth.None));
   connect(InitTemp.TO, Chip.Space) annotation (
-    Line(points={{-9,12},{0,12},{0,0},{30,0},{30,-8.5}},             color = {0, 0, 255}, smooth = Smooth.None));
+    Line(points={{-6,12},{0,12},{0,0},{30,0},{30,-8.5}},             color = {0, 0, 255}, smooth = Smooth.None));
   connect(chipTEMP.FROM, Chip.Space) annotation (
-    Line(points={{11,12},{0,12},{0,0},{30,0},{30,-8.5}},             color = {0, 0, 255}, smooth = Smooth.None));
+    Line(points={{6.18,12},{0,12},{0,0},{30,0},{30,-8.5}},           color = {0, 0, 255}, smooth = Smooth.None));
   connect(Pext1.TO, Chip.Space) annotation (
-    Line(points={{-1,-18},{4,-18},{4,-6},{30,-6},{30,-8.5}},             color = {0, 0, 255}, smooth = Smooth.None));
+    Line(points={{0,-18},{4,-18},{4,-6},{30,-6},{30,-8.5}},              color = {0, 0, 255}, smooth = Smooth.None));
   connect(Pext2.TO, Chip.Space) annotation (
-    Line(points={{-1,-38},{4,-38},{4,-6},{30,-6},{30,-8.5}},             color = {0, 0, 255}, smooth = Smooth.None));
+    Line(points={{0,-38},{4,-38},{4,-6},{30,-6},{30,-8.5}},              color = {0, 0, 255}, smooth = Smooth.None));
   connect(Chip.Space, animation.Space) annotation (Line(points={{30,-8.5},
           {30,0},{64,0},{64,-9}},
                             color={0,0,0}));

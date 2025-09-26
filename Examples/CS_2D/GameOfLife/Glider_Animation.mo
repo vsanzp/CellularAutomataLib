@@ -1,8 +1,10 @@
 within CellularAutomataLib.Examples.CS_2D.GameOfLife;
-model Glider_Animation
+model Glider_Animation "GOL model with glider initialization and animation"
+  extends Modelica.Icons.Example;
+
   CSGol_glider cSGol_glider
     annotation (Placement(transformation(extent={{-58,-20},{-38,0}})));
-  Components.Animation animation(
+  Components.Basic.Animation animation(
     WindowX=50,
     WindowY=50,
     displayDelay=0,            redeclare function SetDisplayFunction =

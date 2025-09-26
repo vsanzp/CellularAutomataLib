@@ -1,6 +1,7 @@
 within CellularAutomataLib.Examples.CS_2D.LBM;
-model LBM_Unsteady
-  import CellularAutomataLib.Components.*;
+model LBM_Unsteady "LBM model of an unsteady flow (Von-Karman vortex street)"
+  import CellularAutomataLib.Components.Basic.*;
+    import CellularAutomataLib.Components.ExternalObj.*;
   extends CellSpace(X = 10, Y = 10, hex = 0, neighborhood = [-1,-1;-1,0;-1,1;0,1;1,1;1,0;1,-1;0,-1], n_inputs = 0, wrapped_borders = 0, Tstep = 1, initial_step = 0, init_cells = [X, Y], name = "Simple Diffusion",
     redeclare function Rule = LBMRule,
     redeclare function Default = LBMDefault,

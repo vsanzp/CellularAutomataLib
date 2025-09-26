@@ -1,6 +1,6 @@
 within CellularAutomataLib.Examples.CS_2D.Epidemics;
-function ExtOutputI
-  import CellularAutomataLib.Components.*;
+function ExtOutputI "Output function for I"
+  import CellularAutomataLib.Components.ExternalObj.*;
   input CS space;
   input Integer x;
   input Integer y;

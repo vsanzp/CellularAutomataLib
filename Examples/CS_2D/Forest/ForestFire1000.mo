@@ -1,8 +1,10 @@
 within CellularAutomataLib.Examples.CS_2D.Forest;
-model ForestFire1000
+model ForestFire1000 "Forest fire with animation"
+  extends Modelica.Icons.Example;
+  import CellularAutomataLib.Components.Basic.*;
   ForestCA Forest(name = "Forest", n_inputs = 0, wrapped_borders = 3, X = 1000, Y = 1000,                     init_cells = [900, 500]) annotation (
     Placement(transformation(extent = {{-20, -20}, {20, 20}})));
-  Components.Animation animation(
+  Animation animation(
     WindowX=1000,
     WindowY=1000,
     redeclare function SetDisplayFunction = SetDisplay)

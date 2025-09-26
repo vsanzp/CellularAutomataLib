@@ -1,5 +1,6 @@
 within CellularAutomataLib.Examples.CS_1D;
 model Test_Input "Simple input test"
+    extends Modelica.Icons.Example;
   CSR30 cSR30_1(
     n_inputs=0,
     wrapped_borders=0,
@@ -16,12 +17,12 @@ model Test_Input "Simple input test"
     init_cells=[20],
     initial_step=1)
     annotation (Placement(transformation(extent={{24,-10},{82,30}})));
-   CellularAutomataLib.Components.InputRegion inputRegion(
+   CellularAutomataLib.Components.Interfaces.InputRegion inputRegion(
     comm_start=0,
     redeclare function SetInput = RSetInput,
     XFromRange={3,3},
-    XTo=5) annotation (Placement(transformation(extent={{-20,22},{0,42}})));
-  Components.Animation animation(
+    XTo=5) annotation (Placement(transformation(extent={{-18,32},{2,52}})));
+  CellularAutomataLib.Components.Basic.Animation animation(
     initial_step=0.1,
     WindowX=30,
     WindowY=30,
@@ -30,10 +31,10 @@ model Test_Input "Simple input test"
     annotation (Placement(transformation(extent={{78,58},{98,78}})));
 equation
   connect(cSR30_1.Space, inputRegion.FROM) annotation (
-    Line(points={{-64.1,24},{-64.1,32},{-15,32}},
+    Line(points={{-64.1,24},{-64.1,42},{-14,42}},
                                           color = {0, 0, 255}, smooth = Smooth.None));
   connect(inputRegion.TO, cSR30_2.Space) annotation (
-    Line(points={{-5,32},{20,32},{20,42},{55.9,42},{55.9,32}},
+    Line(points={{-2,42},{55.9,42},{55.9,32}},
                                         color = {0, 0, 255}, smooth = Smooth.None));
   connect(cSR30_2.Space, animation.Space) annotation (Line(points={{55.9,32},
           {56,32},{56,79},{88,79}},

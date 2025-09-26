@@ -1,11 +1,10 @@
 within CellularAutomataLib.Examples.CS_2D.CHIPS;
-function CHIPSetInput
-    import CellularAutomataLib.Components.*;
-  input CS Fspace;
+function CHIPSetInput "Chip input function"
+  input CellularAutomataLib.Components.ExternalObj.CS Fspace;
   input Integer Fx;
   input Integer Fy;
   input Integer Fz;
-  input CS Tspace;
+  input CellularAutomataLib.Components.ExternalObj.CS Tspace;
   input Integer Tx;
   input Integer Ty;
   input Integer Tz;

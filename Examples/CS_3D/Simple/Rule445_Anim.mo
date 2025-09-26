@@ -1,11 +1,14 @@
 within CellularAutomataLib.Examples.CS_3D.Simple;
-model Rule445_Anim
+model Rule445_Anim "Rule 445 model with animation"
+  extends Modelica.Icons.Example;
+  import CellularAutomataLib.Components.Basic.*;
+
   parameter Integer X= 15;
   parameter Integer Y= 15;
   parameter Integer Z= 15;
 
   Rule445 rule445_1(X=X,Y=Y,Z=Z) annotation (Placement(transformation(extent={{-40,-20},{-20,0}})));
-  Components.Animation animation(
+  Animation animation(
     WindowWidth=1000,
     WindowHeight=1000,
     WindowX=X,

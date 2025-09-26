@@ -1,9 +1,10 @@
 within CellularAutomataLib.Examples.CS_2D.Furnace;
-model Furnace_Animation
+model Furnace_Animation "Furnace model with animation"
+  extends Modelica.Icons.Example;
   CSFurnace cSFurnace
     annotation (Placement(transformation(extent={{-60,-20},{-40,0}})));
-  Components.Animation animation(WindowX=50, WindowY=50, redeclare function
-      SetDisplayFunction =
+  CellularAutomataLib.Components.Basic.Animation animation(WindowX=50, WindowY=50, redeclare
+      function SetDisplayFunction =
         FURSetDisplay)
     annotation (Placement(transformation(extent={{-20,-20},{0,0}})));
 equation

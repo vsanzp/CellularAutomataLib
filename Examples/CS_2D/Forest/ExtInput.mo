@@ -1,6 +1,6 @@
 within CellularAutomataLib.Examples.CS_2D.Forest;
-function ExtInput
-  import CellularAutomataLib.Components.*;
+function ExtInput "external input function"
+  import CellularAutomataLib.Components.ExternalObj.*;
   input CS space;
   input Integer x;
   input Integer y;

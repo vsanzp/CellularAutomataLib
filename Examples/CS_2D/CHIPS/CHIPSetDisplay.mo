@@ -1,6 +1,6 @@
 within CellularAutomataLib.Examples.CS_2D.CHIPS;
-function CHIPSetDisplay
-    import CellularAutomataLib.Components.*;
+function CHIPSetDisplay "Chip model display function"
+    import CellularAutomataLib.Components.ExternalObj.*;
     input Anim animation;
   input CS space;
   external "C" CHIPSetDisplay(animation,space);

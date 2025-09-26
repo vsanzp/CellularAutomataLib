@@ -1,6 +1,6 @@
 within CellularAutomataLib.Examples.CS_2D.Furnace;
-model CSFurnace "Furnace model"
-  import CellularAutomataLib.Components.*;
+model CSFurnace "Furnace CA model"
+  import CellularAutomataLib.Components.Basic.*;
   extends CellSpace(X = 50, Y = 50, neighborhood = [-1, -1; -1, 0; -1, 1; 0, -1; 0, 1; 1, -1; 1, 0; 1, 1],
   wrapped_borders = 0, Tstep = 1, initial_step = 0, name = "Furnace", init_cells = {{i, 1} for i in 1:X},
      redeclare function Initial = FURInit,
@@ -8,7 +8,7 @@ model CSFurnace "Furnace model"
      redeclare function Rule = FURStep);
 
   function FURStep
-    input CS space;
+    input CellularAutomataLib.Components.ExternalObj.CS space;
     output Integer out;
 
     external "C" out = FURStep(space);
@@ -19,7 +19,7 @@ model CSFurnace "Furnace model"
   end FURStep;
 
   function FURDefault
-    input CS space;
+    input CellularAutomataLib.Components.ExternalObj.CS space;
     output Integer out;
 
     external "C" out = FURDefault(space);
@@ -30,7 +30,7 @@ model CSFurnace "Furnace model"
   end FURDefault;
 
   function FURInit
-    input CS space;
+    input CellularAutomataLib.Components.ExternalObj.CS space;
     input Integer x;
     input Integer y;
     input Integer z;

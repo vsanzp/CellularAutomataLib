@@ -1,9 +1,10 @@
 within CellularAutomataLib.Examples.CS_2D.Epidemics;
-model Epidemics500
+model Epidemics500 "Epidemic model with animation"
+  extends Modelica.Icons.Example;
   EpidemicsCA epidemicsCA(                name = "Epidemics", X = 500, Y = 500, init_cells = {{250, 250}})                    annotation (
     Placement(transformation(extent = {{-24, -4}, {20, 40}})));
-  Components.Animation animation(WindowX=500, WindowY=500, redeclare function
-      SetDisplayFunction =                                                                       SetDisplay)
+  CellularAutomataLib.Components.Basic.Animation animation(WindowX=500, WindowY=500, redeclare
+      function SetDisplayFunction =                                                              SetDisplay)
     annotation (Placement(transformation(extent={{-80,20},{-60,40}})));
 equation
   connect(epidemicsCA.Space, animation.Space) annotation (Line(points={{0.2,42.2},

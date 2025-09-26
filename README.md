@@ -34,9 +34,11 @@ You have received a copy of the GNU Lesser General Public License along with thi
 
 ## Installation:
 
-*CellularAutomataLib* is an autonomous Modelica library that has been tested under Dymola and OpenModelica. The functionality included in the library to generate graphical animations and save them as H264 videos depends on [Raylib](https://www.raylib.com) and [FFMPEG](https://www.ffmpeg.org), that need to be installed together with the library. Both are freely distributed under the *zlib/libpng* and *LGPL* licenses, respectively.
+*CellularAutomataLib* is an autonomous Modelica library that has been tested under Dymola and OpenModelica. No additional installations are required to simulate the CA models developed with the library, without including graphical animations.
 
-#### Raylib:
+The functionality included in the library to generate graphical animations and save them as H264 videos depends on [Raylib](https://www.raylib.com) and [FFMPEG](https://www.ffmpeg.org), that need to be installed together with the library only if the graphical animations are required in the simulations. Both are freely distributed under the *zlib/libpng* and *LGPL* licenses, respectively.
+
+#### Raylib (only required for graphical animations):
 
 The installation of [Raylib](https://www.raylib.com) depends on the platform you are working. Please, consult [Raylib Wiki](https://github.com/raysan5/raylib/wiki) for detailed and updated instructions.
 
@@ -46,7 +48,7 @@ Briefly:
 - Linux: follow these instructions: [https://github.com/raysan5/raylib/wiki/Working-on-GNU-Linux](https://github.com/raysan5/raylib/wiki/Working-on-GNU-Linux) to install dependencies and build the library.
 - Other OS: Raylib supports other operating systems, described in the wiki as development platforms ([https://github.com/raysan5/raylib/wiki](https://github.com/raysan5/raylib/wiki).
 
-#### FFMPEG (libav* libraries):
+#### FFMPEG (libav* libraries, only required for videos):
 
 *CellularAutomataLib* depends on the `libavformat`, `libavcodec`, `libavutil` and `libswscale`libraries (not the FFMPEG command line program). However, these libraries are distributed together with the ffmpeg program.
 
@@ -60,7 +62,7 @@ Currently, FFMPEG supports [Linux](https://ffmpeg.org/download.html#build-linux)
 The library is composed of multiple `.mo` files and directories, that contain the Modelica code, and the `Resources` directory, that contains the C code used to perform the simulations and to describe the models. 
 In order to install the library, all these files and directories need to be located inside a single directory (e.g., `CellularAutomataLib/`) in your local workspace. No further installation is required.
 
-Once installed, no further action is required since *CellularAutomataLib* includes and links Raylib and FFMPEG libraries with the developed models, during their translation, in order to execute them in the simulations.
+Once installed, no further action is required since *CellularAutomataLib* includes and links, when required, Raylib and FFMPEG libraries with the developed models, during their translation, in order to execute them in the simulations.
 
 ## Model Development and Simulation:
 

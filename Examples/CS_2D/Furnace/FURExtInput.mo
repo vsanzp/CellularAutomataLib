@@ -1,7 +1,6 @@
 within CellularAutomataLib.Examples.CS_2D.Furnace;
 function FURExtInput
-  import CellularAutomataLib.Components.*;
-  input CS space;
+  input CellularAutomataLib.Components.ExternalObj.CS space;
   input Integer x;
   input Integer y;
   input Integer z;

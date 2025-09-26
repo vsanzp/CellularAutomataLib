@@ -1,8 +1,10 @@
 within CellularAutomataLib.Examples.CS_2D.C17;
-model TaskC
+model TaskC "ARGESIM C17 Task C"
+    extends Modelica.Icons.Example;
+  import CellularAutomataLib.Components.Interfaces.*;
   FHPSIRRearrange fHPSIR(name = "FHPSIR") annotation (
     Placement(transformation(extent = {{-60, 40}, {-40, 60}})));
-  Components.OutputRegion SIRrearrangeI(XFromRange = {0,100}, YFromRange = {0,100}, Output_type = 4, output_rate = 1, redeclare
+  OutputRegion SIRrearrangeI(XFromRange = {0,100}, YFromRange = {0,100}, Output_type = 4, output_rate = 1, redeclare
       function ExtOutput =                                                                                                    FHPOutputI)
                                                                                                                                           annotation (
     Placement(transformation(extent = {{-60, 66}, {-40, 86}})));
@@ -10,7 +12,7 @@ model TaskC
     Placement(transformation(extent = {{-60, -40}, {-40, -20}})));
   FHPSIR fHPSIR1(name = "FHPSIR") annotation (
     Placement(transformation(extent={{32,40},{52,60}})));
-  Components.OutputRegion SIR(XFromRange = {0,100}, YFromRange = {0,100}, Output_type = 4, output_rate = 1, redeclare
+  OutputRegion SIR(XFromRange = {0,100}, YFromRange = {0,100}, Output_type = 4, output_rate = 1, redeclare
       function ExtOutput =                                                                                          FHPOutputI)
                                                                                                                                 annotation (
     Placement(transformation(extent = {{32, 66}, {52, 86}})));
@@ -18,10 +20,10 @@ model TaskC
     Placement(transformation(extent = {{-60, 0}, {-40, 20}})));
 equation
   connect(fHPSIR.Space, SIRrearrangeI.FROM) annotation (
-    Line(points={{-49,61},{-49,68},{-50,68},{-50,76}},
+    Line(points={{-49,61},{-49,68},{-56.2,68},{-56.2,76}},
                                           color = {0, 0, 255}, smooth = Smooth.None));
   connect(fHPSIR1.Space, SIR.FROM) annotation (
-    Line(points={{43,61},{43,68},{42,68},{42,76}},
+    Line(points={{43,61},{43,68},{35.8,68},{35.8,76}},
                                         color = {0, 0, 255}, smooth = Smooth.None));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 100}}), graphics),

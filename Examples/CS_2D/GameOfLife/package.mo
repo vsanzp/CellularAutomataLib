@@ -1,5 +1,7 @@
 within CellularAutomataLib.Examples.CS_2D;
 package GameOfLife "Conway's Game of Life"
+    extends Modelica.Icons.ExamplesPackage;
+
   import CellularAutomataLib.Components.*;
 
   annotation (Documentation(info="<html>

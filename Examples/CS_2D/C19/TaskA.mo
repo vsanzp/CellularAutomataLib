@@ -1,6 +1,7 @@
 within CellularAutomataLib.Examples.CS_2D.C19;
-model TaskA
-  import CellularAutomataLib.Components.*;
+model TaskA "ARGESIM C19 model Task A"
+  extends Modelica.Icons.Example;
+  import CellularAutomataLib.Components.Interfaces.*;
   Pollution pollution(X = 70) annotation (
     Placement(transformation(extent = {{-58, -2}, {-38, 18}})));
   OutputRegion MAXc0(
@@ -26,13 +27,13 @@ model TaskA
     Placement(transformation(extent = {{-20, -40}, {0, -20}})));
 equation
   connect(pollution.Space, MAXc0.FROM) annotation (
-    Line(points={{-47,19},{-47,30},{-28,30},{-28,50},{-10,50}},            color = {0, 0, 255}, smooth = Smooth.None));
+    Line(points={{-47,19},{-47,30},{-28,30},{-28,50},{-16.2,50}},          color = {0, 0, 255}, smooth = Smooth.None));
   connect(pollution.Space, MAXc10.FROM) annotation (
-    Line(points={{-47,19},{-47,30},{-10,30}},        color = {0, 0, 255}, smooth = Smooth.None));
+    Line(points={{-47,19},{-47,30},{-16.2,30}},      color = {0, 0, 255}, smooth = Smooth.None));
   connect(pollution.Space, MAXc20.FROM) annotation (
-    Line(points={{-47,19},{-47,30},{-28,30},{-28,12},{-10,12}},            color = {0, 0, 255}, smooth = Smooth.None));
+    Line(points={{-47,19},{-47,30},{-28,30},{-28,12},{-16.2,12}},          color = {0, 0, 255}, smooth = Smooth.None));
   connect(C50.FROM, pollution.Space) annotation (
-    Line(points={{-10,-30},{-28,-30},{-28,-28},{-47,-28},{-47,19}},            color = {0, 0, 255}, smooth = Smooth.None));
+    Line(points={{-16.2,-30},{-28,-30},{-28,-28},{-47,-28},{-47,19}},          color = {0, 0, 255}, smooth = Smooth.None));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 100}}), graphics),
     experiment(StopTime=1200, __Dymola_Algorithm="Dassl"),

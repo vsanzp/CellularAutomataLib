@@ -1,5 +1,7 @@
 within CellularAutomataLib.Examples.CS_2D.LBM;
-model LBM_SimpleWave_Animation
+model LBM_SimpleWave_Animation "Simple wave model with animation"
+  extends Modelica.Icons.Example;
+  import CellularAutomataLib.Components.Basic.*;
   parameter Integer X = 100;
   parameter Integer Y = 100;
   LBM_SimpleWave simpleDiffusion(
@@ -8,7 +10,7 @@ model LBM_SimpleWave_Animation
     hex=0,
     wrapped_borders=11)
     annotation (Placement(transformation(extent={{-40,-18},{-20,2}})));
-  Components.Animation animation(
+  Animation animation(
     WindowX=X,
     WindowY=Y,
     displayDelay=100000,

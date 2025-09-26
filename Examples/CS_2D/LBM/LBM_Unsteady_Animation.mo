@@ -1,5 +1,7 @@
 within CellularAutomataLib.Examples.CS_2D.LBM;
-model LBM_Unsteady_Animation
+model LBM_Unsteady_Animation "Unsteady flow model with animation"
+  extends Modelica.Icons.Example;
+  import CellularAutomataLib.Components.Basic.*;
   parameter Integer X = 250;
   parameter Integer Y = 50;
   LBM_Unsteady unsteady(
@@ -8,7 +10,7 @@ model LBM_Unsteady_Animation
     hex=0,
     wrapped_borders=10)
     annotation (Placement(transformation(extent={{-40,-18},{-20,2}})));
-  Components.Animation animation(
+  Animation animation(
     WindowWidth=1000,
     WindowHeight=200,
     WindowX=X,

@@ -1,8 +1,9 @@
 within CellularAutomataLib.Examples.CS_2D.GameOfLife;
-model Random_Animation
+model Random_Animation "Random GOL model with animation"
+  extends Modelica.Icons.Example;
   CSGol_random cSGol_random
     annotation (Placement(transformation(extent={{-58,-10},{-38,10}})));
-  Components.Animation animation(
+  CellularAutomataLib.Components.Basic.Animation animation(
     WindowX=100,
     WindowY=100,
     displayDelay=0,

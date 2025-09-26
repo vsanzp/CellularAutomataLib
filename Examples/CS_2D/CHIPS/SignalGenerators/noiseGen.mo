@@ -1,5 +1,5 @@
 within CellularAutomataLib.Examples.CS_2D.CHIPS.SignalGenerators;
-model noiseGen
+model noiseGen "Noise generator"
   import Modelica.Constants.*;
   constant Real m = 2^31 - 1;
   constant Real a = 7^5;

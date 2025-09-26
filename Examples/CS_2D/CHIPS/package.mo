@@ -1,5 +1,7 @@
 within CellularAutomataLib.Examples.CS_2D;
 package CHIPS "Heat transfer model of a chip"
+    extends Modelica.Icons.ExamplesPackage;
+
 
   annotation (Documentation(info="<html>
 <p>This package includes a more complex model of temperature diffusion, which is generated from different points in the surface of a chip.</p>

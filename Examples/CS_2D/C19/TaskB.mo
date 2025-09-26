@@ -1,6 +1,7 @@
 within CellularAutomataLib.Examples.CS_2D.C19;
-model TaskB
-  import CellularAutomataLib.Components.*;
+model TaskB "ARGESIM C19 model Task B"
+  extends Modelica.Icons.Example;
+  import CellularAutomataLib.Components.Interfaces.*;
   Pollution pollution(n_inputs = 2, X = 70) annotation (
     Placement(transformation(extent = {{-12, 0}, {8, 20}})));
   OutputRegion MAXc0(
@@ -38,17 +39,17 @@ model TaskB
     Placement(transformation(extent = {{-90, 18}, {-70, 38}})));
 equation
   connect(pollution.Space, MAXc0.FROM) annotation (
-    Line(points={{-1,21},{-1,32},{18,32},{18,52},{36,52}},            color = {0, 0, 255}, smooth = Smooth.None));
+    Line(points={{-1,21},{-1,32},{18,32},{18,52},{29.8,52}},          color = {0, 0, 255}, smooth = Smooth.None));
   connect(pollution.Space, MAXc10.FROM) annotation (
-    Line(points={{-1,21},{-1,34},{36,34}},        color = {0, 0, 255}, smooth = Smooth.None));
+    Line(points={{-1,21},{-1,34},{29.8,34}},      color = {0, 0, 255}, smooth = Smooth.None));
   connect(pollution.Space, MAXc20.FROM) annotation (
-    Line(points={{-1,21},{-1,32},{18,32},{18,12},{36,12}},            color = {0, 0, 255}, smooth = Smooth.None));
+    Line(points={{-1,21},{-1,32},{18,32},{18,12},{29.8,12}},          color = {0, 0, 255}, smooth = Smooth.None));
   connect(C50.FROM, pollution.Space) annotation (
-    Line(points={{36,-28},{18,-28},{18,-26},{-1,-26},{-1,21}},            color = {0, 0, 255}, smooth = Smooth.None));
+    Line(points={{29.8,-28},{18,-28},{18,-26},{-1,-26},{-1,21}},          color = {0, 0, 255}, smooth = Smooth.None));
   connect(PlantA.TO, pollution.Space) annotation (
-    Line(points={{-47,30},{-24,30},{-24,21},{-1,21}},          color = {0, 0, 255}, smooth = Smooth.None));
+    Line(points={{-44,30},{-24,30},{-24,21},{-1,21}},          color = {0, 0, 255}, smooth = Smooth.None));
   connect(PlantB.TO, pollution.Space) annotation (
-    Line(points={{-47,-10},{-24,-10},{-24,21},{-1,21}},          color = {0, 0, 255}, smooth = Smooth.None));
+    Line(points={{-44,-10},{-24,-10},{-24,21},{-1,21}},          color = {0, 0, 255}, smooth = Smooth.None));
   connect(const.y, PlantA.u) annotation (
     Line(points = {{-69, 28}, {-64, 28}, {-64, 30}, {-58, 30}}, color = {0, 0, 127}, smooth = Smooth.None));
   connect(const.y, PlantB.u) annotation (

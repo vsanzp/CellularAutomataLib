@@ -1,6 +1,8 @@
 within CellularAutomataLib.Examples.CS_2D.Furnace;
-model FurnaceExtInput
-  import CellularAutomataLib.Components.*;
+model FurnaceExtInput "Furnace model with external input"
+  extends Modelica.Icons.Example;
+  import CellularAutomataLib.Components.Basic.*;
+  import CellularAutomataLib.Components.Interfaces.*;
   CSFurnace fur(
     X=20,
     Y=20,
@@ -20,7 +22,7 @@ model FurnaceExtInput
     Placement(transformation(extent = {{-54, 48}, {-2, 86}})));
   Modelica.Blocks.Sources.Constant const(k=1)   annotation (
     Placement(transformation(extent={{-88,58},{-68,78}})));
-  Components.Animation animation(
+  Animation animation(
     initial_step=0,
     WindowX=20,
     WindowY=20,
@@ -30,7 +32,7 @@ equation
   connect(const.y, extinputRegion.u) annotation (
     Line(points={{-67,68},{-62,68},{-62,67},{-48.8,67}},          color = {0, 0, 127}, smooth = Smooth.None));
   connect(extinputRegion.TO, fur.Space) annotation (
-    Line(points={{-20.2,67},{-4.1,67},{-4.1,70},{18,70}},          color = {0, 0, 255}));
+    Line(points={{-12.4,67},{-4.1,67},{-4.1,70},{18,70}},          color = {0, 0, 255}));
   connect(fur.Space, animation.Space) annotation (Line(points={{18,70},
           {18,78},{70,78},{70,61}}, color={0,0,0}));
   annotation (

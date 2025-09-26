@@ -1,5 +1,7 @@
 within CellularAutomataLib.Examples.CS_2D;
-package LBM
+package LBM "Lattice-Boltzmann models"
+    extends Modelica.Icons.ExamplesPackage;
+
 
   annotation (Documentation(info="<html>
 <p>Package that contains the implementation of Lattice Boltzman Models.</p>

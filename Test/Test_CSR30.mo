@@ -1,8 +1,9 @@
 within CellularAutomataLib.Test;
-model Test_CSR30
-  Examples.CS_1D.CSR30 cSR30_1(initial_step=1)
+model Test_CSR30 "Test based on R30 CA model"
+  extends Modelica.Icons.Example;
+  CellularAutomataLib.Examples.CS_1D.CSR30 cSR30_1(initial_step=1)
     annotation (Placement(transformation(extent={{-60,0},{-40,20}})));
-  Components.OutputRegionM O(
+  CellularAutomataLib.Components.Interfaces.OutputRegionM O(
     XFromRange={40,60},
     output_rate=1,
     redeclare function ExtOutput = ROutput)
@@ -25,7 +26,8 @@ algorithm
   end when;
 equation
   connect(cSR30_1.Space, O.FROM)
-    annotation (Line(points={{-49,21},{-50,21},{-50,48}}, color={0,0,0}));
+    annotation (Line(points={{-49,21},{-56.2,21},{-56.2,48}},
+                                                          color={0,0,0}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(StopTime=13, __Dymola_Algorithm="Dassl"),

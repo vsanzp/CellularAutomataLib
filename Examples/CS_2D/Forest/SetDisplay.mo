@@ -1,6 +1,6 @@
 within CellularAutomataLib.Examples.CS_2D.Forest;
-function SetDisplay
-    import CellularAutomataLib.Components.*;
+function SetDisplay "Forest display function"
+    import CellularAutomataLib.Components.ExternalObj.*;
     input Anim animation;
   input CS space;
   external "C" SetDisplay(animation,space);

@@ -1,6 +1,6 @@
 within CellularAutomataLib.Examples.CS_2D.Epidemics;
-function SetDisplay
-    import CellularAutomataLib.Components.*;
+function SetDisplay "Epidemic model display function"
+    import CellularAutomataLib.Components.ExternalObj.*;
     input Anim animation;
   input CS space;
   external "C" SetDisplay(animation,space);

@@ -1,7 +1,8 @@
 within CellularAutomataLib.Examples.CS_3D.Simple;
-model Rule445
+model Rule445 "Rule 445 3D model"
   parameter Integer midpos = integer(X/2);
-  import CellularAutomataLib.Components.*;
+  import CellularAutomataLib.Components.Basic.*;
+  import CellularAutomataLib.Components.ExternalObj.*;
   extends CellSpace( X = 20, Y = 20, Z = 20,
   init_cells = [midpos,midpos,midpos; midpos-1,midpos,midpos; midpos,midpos-1,midpos; midpos-1,midpos-1,midpos;
                 midpos,midpos,midpos-1; midpos-1,midpos,midpos-1; midpos,midpos-1,midpos-1; midpos-1,midpos-1,midpos-1;

@@ -1,5 +1,5 @@
 within CellularAutomataLib.Examples.CS_2D.C17;
-model eqmodel
+model eqmodel "Differential equation SIR model"
   parameter Real r = 0.00006 "infection rate";
   parameter Real a = 0.2 "recovery rate";
   Real S(fixed = true, start = 16000) "susceptible";
@@ -14,5 +14,10 @@ equation
     __Dymola_experimentSetupOutput,
     Documentation(info="<html>
 <p>SIR differential equation model</p>
-</html>"));
+</html>"),
+    Icon(graphics={Rectangle(extent={{-80,80},{80,-80}}, lineColor={28,108,200}),
+          Text(
+          extent={{-80,40},{80,-40}},
+          textColor={28,108,200},
+          textString="%name")}));
 end eqmodel;

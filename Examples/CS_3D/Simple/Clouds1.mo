@@ -1,6 +1,7 @@
 within CellularAutomataLib.Examples.CS_3D.Simple;
-model Clouds1
-  import CellularAutomataLib.Components.*;
+model Clouds1 "Clouds model"
+  import CellularAutomataLib.Components.Basic.*;
+  import CellularAutomataLib.Components.ExternalObj.*;
   extends CellSpace(
     X=100,
     Y=100,

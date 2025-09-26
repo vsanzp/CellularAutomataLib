@@ -27,7 +27,7 @@ program. If not, see <https://www.gnu.org/licenses/>.
 #define S3
 
 #include <CellularAutomataLib.c>
-#include <CellularAutomataLib-animation.c>
+
 
 /****************************************/
 /* SIMPLE 3D CELLULAR AUTOMATA       */
@@ -95,31 +95,6 @@ void S3RandomInitial(void* space, int modx, int mody, int modz){
     return;
 }
 
-/***************************************************************************/
-/***************************************************************************/
-/***************************************************************************/
-
-
-// Function that returns the value to display in the graphical animation
-double S3DisplayClouds(void *space,int x, int y, int z, double* scalar, double* vx, double* vy, double* vz){
-    S3State *cs;
-    
-    cs = (S3State*)CS_GetState(space,x+1,y+1,z+1); // getstate receives Modelica coordinates
-    if(cs == NULL)
-	return (double)ColorToInt(BLANK); // transparent
-    else{
-	if (cs->v)
-	    return(double)ColorToInt(Fade(YELLOW,1.0));
-	else
-	    //	    return(double)ColorToInt(BLACK);
-	    return(double)ColorToInt(Fade(BLACK,0.2)); 
-    }
-}
-
-void SetDisplayClouds(void*animation,void* space){
-    CS_SetDisplay(animation,space, &S3DisplayClouds);
-    return;
-}
 
 //***********************************************************************
 // TRANSITION FUNCTION
@@ -165,33 +140,6 @@ int S3Clouds1Step(void* space){
 //***********************************************************************
 //***********************************************************************
 
-
-//***********************************************************************
-// DISPLAY FUNCTION
-double S3Display445(void *space,int x, int y, int z, double* scalar, double* vx, double* vy, double* vz){
-    S3State *cs;
-
-    cs = (S3State*)CS_GetState(space,x+1,y+1,z+1); // getstate receives Modelica coordinates
-    if(cs == NULL)
-	return (double)ColorToInt(BLANK); // transparent
-    else{
-	if (cs->v == 4)
-	    return (double)ColorToInt(YELLOW);
-	else if (cs->v == 3)
-	    return (double)ColorToInt(ORANGE);
-	else if (cs->v == 2)
-	    return (double)ColorToInt(RED);
-	else if (cs->v == 1)
-	    return (double)ColorToInt(MAGENTA);
-	else
-	    return (double)ColorToInt(BLANK);
-    }
-}
-
-void SetDisplay445(void*animation,void* space){
-    CS_SetDisplay(animation,space, &S3Display445);
-    return;
-}
 
 
 //***********************************************************************

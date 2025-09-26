@@ -1,5 +1,7 @@
 within CellularAutomataLib.Examples.CS_2D;
-package Epidemics
+package Epidemics "Epidemic spread models"
+    extends Modelica.Icons.ExamplesPackage;
+
 
   annotation (Documentation(info="<html>
 <p>This package contains models used to describe the spread of epidemics following a SIR approach.</p>

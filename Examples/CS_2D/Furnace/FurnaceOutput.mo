@@ -1,6 +1,8 @@
 within CellularAutomataLib.Examples.CS_2D.Furnace;
-model FurnaceOutput
-  import CellularAutomataLib.Components.*;
+model FurnaceOutput "Furnace model with output"
+  extends Modelica.Icons.Example;
+  import CellularAutomataLib.Components.Basic.*;
+  import CellularAutomataLib.Components.Interfaces.*;
   CSFurnace fur(X = 20, Y = 20, n_inputs = 1) annotation (
     Placement(transformation(extent = {{-38, 24}, {2, 64}})));
   ExtInputRegion inputRegion(
@@ -17,7 +19,7 @@ model FurnaceOutput
       function ExtOutput =
         FURExtOutput,                                                                                                                         Output_type = 1) annotation (
     Placement(transformation(extent = {{12, 50}, {42, 74}})));
-  Components.Animation animation(
+  Animation animation(
     WindowX=20,
     WindowY=20,
     redeclare function SetDisplayFunction = FURSetDisplay)
@@ -26,10 +28,10 @@ equation
   connect(const.y, inputRegion.u) annotation (
     Line(points = {{-67, 62}, {-64, 62}}, color = {0, 0, 127}, smooth = Smooth.None));
   connect(inputRegion.TO, fur.Space) annotation (
-    Line(points={{-53,62},{-34,62},{-34,66},{-16,66}},
+    Line(points={{-50,62},{-34,62},{-34,66},{-16,66}},
                                           color = {0, 0, 255}, smooth = Smooth.None));
   connect(outputAVG.FROM, fur.Space) annotation (
-    Line(points={{27,62},{6,62},{6,66},{-16,66}},
+    Line(points={{17.7,62},{6,62},{6,66},{-16,66}},
                                          color = {0, 0, 255}, smooth = Smooth.None));
   connect(animation.Space, fur.Space) annotation (Line(points={{26,23},
           {26,46},{8,46},{8,62},{6,62},{6,66},{-16,66}}, color={0,0,0}));

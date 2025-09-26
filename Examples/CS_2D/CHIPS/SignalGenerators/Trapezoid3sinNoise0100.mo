@@ -1,5 +1,5 @@
 within CellularAutomataLib.Examples.CS_2D.CHIPS.SignalGenerators;
-model Trapezoid3sinNoise0100
+model Trapezoid3sinNoise0100 "Heat source model 2"
   Modelica.Blocks.Sources.Trapezoid trapezoid(amplitude = ampT, rising = risingT, width = widthT, falling = fallingT, period = periodT, offset = offsetT, startTime = startTimeT) annotation (
     Placement(transformation(extent = {{-80, 50}, {-60, 70}}, rotation = 0)));
   Modelica.Blocks.Sources.Sine sine1(amplitude = ampS1, f = 1/periodS1, offset = offsetS1, startTime = startTimeS1) annotation (

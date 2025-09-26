@@ -27,7 +27,7 @@ As it can be observed, the definition and behavior of the CA are simple. CA can 
 
 **Structure of the library**
 
-The functionality of the library to construct new CA models in contained in the `Components` package. The data structures and simulation algorihtms that implement the behavior of these components is included in the `Resources/Include/CellularAutomataLib.c` file.
+The functionality of the library to construct new CA models in contained in the `Components` package. The data structures and simulation algorihtms that implement the behavior of these components is included in the `Resources/Include/CellularAutomataLib.c` file. The algorithms used to generate graphical animations and videos are included in the `Resources/Include/CellularAutomataLib-animation.c` file (please, see [README.md](README.md) for further information).
 
 The `Examples` package includes multiple examples arranged by the dimension of their cellular space. These examples demonstrate the functionality of the library and may serve to facilitate the construction of new models. The external C code required to describe new models, and the one used for the examples, is contained in the `Resources/Include/` directory of the library.
 
@@ -43,8 +43,6 @@ Please, check the [README.md](README.md) file for installation instructions.
 -----------------------------------------------------------------------------------------------------------------------------
 
 ### Development of new CA models
-
-
 
 A model in _CellularAutomataLib_ is composed of a cellular space, that represents the lattice of cells, including their state (S) and the transition function (δ), and some models, named interface models (i.e., inputs X, Ω, and outputs Y, λ), used as interface between different cellular spaces, or between cellular spaces and other models.
 
