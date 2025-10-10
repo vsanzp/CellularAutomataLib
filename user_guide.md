@@ -17,11 +17,11 @@ Cellular automata (CA) are a class of models initially proposed in the 1940s by 
 CA are dynamic, discrete-time and discrete-space models. They are represented as a grid of identical discrete volumes, named cells. The grid can be in any finite number of dimensions. The state of each single cell is finite and it is usually represented using integer numbers. The operational dynamics of the automata is described by a rule or transition function that is used to update the state of each cell at discrete time steps. This rule constitutes a function of the current state of the cell and the state of its neighbors, and defines the state of the cell for the next time step.
 
 * the Moore’s neighborhood that includes all the surrounding cells; 
-  ![](Resources/FIGS/moore.png)
+  ![](CellularAutomataLib/Resources/FIGS/moore.png)
 * the von Neumann’s neighborhood that includes the cells adjoining the four faces of one cell;
-  ![](Resources/FIGS/neumann.png)
+  ![](CellularAutomataLib/Resources/FIGS/neumann.png)
 * or the extended von Neumann’s that also includes each cell just beyond one of the four adjoining cells. 
-  ![](Resources/FIGS/neumann-ext.png)
+  ![](CellularAutomataLib/Resources/FIGS/neumann-ext.png)
 
 As it can be observed, the definition and behavior of the CA are simple. CA can provide an intuitive way of describing complex behavior using simple rules. CA may be considered as discrete idealizations in time and space of physical systems. Due to its simplicity, CA have been used to describe models of complex systems in multiple domains. CA models have been developed in areas like chemistry, economics, medicine, biology and environment, and urban architecture, among many others.
 
@@ -62,7 +62,7 @@ Following the formal specification of the automata, the user has to define the s
 
 As an example, the development of the *Rule30* model described by Wolfram is presented. The transition function for this model is shown in the next figure.
 
-![](Resources/FIGS/rule30.png)
+![](CellularAutomataLib/Resources/FIGS/rule30.png)
 
 The `draft.c` file can be used as a template to describe the behavior of the model. It has been renamed as `wolfram.c` for this example (this file can also be found in the `Resources/Include/` directory of the library).
 
@@ -96,7 +96,7 @@ The `Animation` model also supports recording the animation during the simulatio
 
 In the *Rule30* model, state 0 is displayed in black, and state 1 is displayed in yellow (cf. `RDisplay` function in `wolfram.c`). The first 10 steps of simulation are shown below (the number of step is represented in the vertical axis).
 
-![](Resources/FIGS/rule30sim.png)
+![](CellularAutomataLib/Resources/FIGS/rule30sim.png)
 
 **4\. Additional Rules.**
 
